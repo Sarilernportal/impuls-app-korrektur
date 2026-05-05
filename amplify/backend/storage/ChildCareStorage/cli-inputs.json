@@ -1,0 +1,19 @@
+{
+  "resourceName": "ChildCareStorage",
+  "policyUUID": "40124eec",
+  "bucketName": "childcare50cffddee9d8472c8a492b4c4d2c10f5",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [],
+  "groupAccess": {
+    "Admin": [
+      "CREATE_AND_UPDATE",
+      "READ",
+      "DELETE"
+    ],
+    "Guardian": [
+      "CREATE_AND_UPDATE",
+      "READ"
+    ]
+  }
+}

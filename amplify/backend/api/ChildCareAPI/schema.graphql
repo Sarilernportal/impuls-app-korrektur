@@ -1,0 +1,821 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+
+type Guardian
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"], operations: [read, update] }
+      { allow: owner, operations: [read, create] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  familyName: String!
+  email: String!
+  personalNumber: String
+  gender: String
+  qualification: String
+  phone: String
+  professional: Boolean!
+  owner: String
+  careAssignments: [CareAssignment] @hasMany
+  dailyReport: [DailyReport] @hasMany
+  timeSheets: [TimeSheets] @hasMany
+  invoices: [Invoices] @hasMany
+  timeSheetDate: AWSDateTime
+  archiveStatus: ArchiveStatus
+    @index(name: "listGuardianByState", queryField: "listGuardianByState")
+}
+
+type Carrier
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"], operations: [create, read, update] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  shortName: String
+  street: String!
+  addressExtra: String
+  houseNumber: String!
+  postalCode: String!
+  city: String!
+  poBox: String
+  phone: String
+  useBillingAddress: Boolean
+  billingName: String
+  billingStreet: String
+  billingAddressExtra: String
+  billingHouseNumber: String
+  billingPostalCode: String
+  billingCity: String
+  billingPoBox: String
+  carrierContacts: [CarrierContact] @hasMany
+  dailyReports: [DailyReport] @hasMany
+  timeSheets: [TimeSheets] @hasMany
+  invoices: [Invoices] @hasMany
+  email: AWSEmail
+  allowAutoInvoice: Boolean
+}
+
+type CarrierContact
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"], operations: [create, read, update] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  familyName: String
+  phone: String
+  email: AWSEmail
+  children: [Child] @hasMany
+  carrier: Carrier @belongsTo
+}
+
+type Child
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"], operations: [create, read, update] }
+      { allow: groups, groups: ["Guardian"], operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  familyName: String!
+  dateOfBirth: String!
+  dateOfRegistration: String!
+  weeklyHours: Float
+  weeklyHoursByPlan: Boolean
+  recordNumber: String
+  dataComplete: Boolean
+  carrierContact: CarrierContact @belongsTo
+  careAssignments: [CareAssignment] @hasMany
+  dailyReport: [DailyReport] @hasMany
+  timeSheets: [TimeSheets] @hasMany
+  invoices: [Invoices] @hasMany
+  school: String!
+  schoolLocation: String
+  mother: Parent
+  father: Parent
+  schoolContact: SchoolContact
+  archiveStatus: ArchiveStatus
+    @index(
+      name: "listChildrenByArchiveState"
+      queryField: "listChildrenByArchiveState"
+    )
+}
+
+type CareAssignment
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  guardian: Guardian @belongsTo
+  guardianCareAssignmentsId: String
+    @index(
+      name: "careAssignmentsByGuardian"
+      queryField: "careAssignmentsByGuardian"
+    )
+  child: Child @belongsTo
+  childCareAssignmentsId: String
+    @index(name: "careAssignmentsByChild", queryField: "careAssignmentsByChild")
+}
+
+type DailyReport
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+      { allow: owner, ownerField: "owner", operations: [read] }
+    ]
+  ) {
+  id: ID!
+  key: String
+  child: Child @belongsTo
+  childDailyReportId: String
+    @index(
+      name: "reportsByChild"
+      queryField: "reportsByChild"
+      sortKeyFields: ["documentStatus"]
+    )
+  guardian: Guardian @belongsTo
+  guardianDailyReportId: String
+  carrier: Carrier @belongsTo
+  timeSheets: TimeSheets @belongsTo
+  invoices: Invoices @belongsTo
+  documentDate: AWSDateTime!
+  documentEndDate: AWSDateTime
+  documentStatus: DocumentStatus
+    @index(
+      name: "reportsByDocumentStatus"
+      queryField: "reportsByDocumentStatus"
+      sortKeyFields: ["guardianDailyReportId"]
+    )
+  hourFrom: Int!
+  hourTo: Int!
+  minuteFrom: Int!
+  minuteTo: Int!
+  sick: Boolean
+  sickOnTime: Boolean
+  substitute: Boolean
+  homework: AWSJSON
+  report: String
+  exchange: String
+  parentreport: String
+  mood: Mood
+  reportActivity: ReportActivity
+  flag: ReportFlag
+    @index(
+      name: "dailyReportsByFlagStatus"
+      queryField: "dailyReportsByFlagStatus"
+      sortKeyFields: ["guardianDailyReportId"]
+    )
+  flagText: String
+  flagDaySelection: Boolean
+  retrospectively: Boolean
+  reviseDate: AWSDateTime
+  createdAt: AWSDateTime!
+  owner: String
+  reportType: ReportType
+    @index(
+      name: "dailyReportsByReportType"
+      queryField: "dailyReportsByReportType"
+      sortKeyFields: ["guardianDailyReportId"]
+    )
+  type: String!
+    @index(
+      name: "dailyReportsByType"
+      queryField: "dailyReportsByType"
+      sortKeyFields: ["documentDate"]
+    )
+}
+
+type TimeSheets
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+      { allow: owner, ownerField: "owner", operations: [read] }
+    ]
+  ) {
+  id: ID!
+  key: String
+  child: Child @belongsTo
+  guardian: Guardian @belongsTo
+  guardianTimeSheetsId: String
+    @index(
+      name: "timeSheetsByGuardian"
+      queryField: "timeSheetsByGuardian"
+      sortKeyFields: ["documentDate"]
+    )
+  carrier: Carrier @belongsTo
+  dailyReport: [DailyReport] @hasMany
+  documentDate: AWSDateTime!
+  transmitted: Boolean
+  charged: Boolean
+  reportType: ReportType
+  flag: TimSheetFlag
+    @index(
+      name: "timeSheetsByFlagStatus"
+      queryField: "timeSheetsByFlagStatus"
+      sortKeyFields: ["guardianTimeSheetsId"]
+    )
+  reviseDate: AWSDateTime
+  createdAt: AWSDateTime!
+  owner: String
+  type: String!
+    @index(
+      name: "timeSheetsByType"
+      queryField: "timeSheetsByType"
+      sortKeyFields: ["documentDate"]
+    )
+}
+
+type Invoices
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  key: String
+  internalNumber: String
+  child: Child @belongsTo
+  guardian: Guardian @belongsTo
+  carrier: Carrier @belongsTo
+  dailyReport: [DailyReport] @hasMany
+  documentDate: AWSDateTime!
+  # overwriteHours: Float
+  # overwriteSickHours: Float
+  transmitted: Boolean
+  charged: Boolean
+  reviseDate: AWSDateTime
+  createdAt: AWSDateTime!
+  type: String!
+    @index(
+      name: "invoicesByType"
+      queryField: "invoicesByType"
+      sortKeyFields: ["documentDate"]
+    )
+}
+
+type InvoiceNumber @model @auth(rules: [{ allow: private, provider: iam }]) {
+  id: ID!
+  year: Int!
+    @index(name: "invoiceNumberByYear", queryField: "invoiceNumberByYear")
+  number: Int!
+}
+
+type Calendar
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  title: String
+  description: String
+  color: String
+  events: [Event] @hasMany
+  participations: [Participation] @hasMany
+}
+
+type Event
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  title: String
+  description: String
+  link: String
+  calendarEventsId: ID
+    @index(
+      name: "eventsByCalendar"
+      queryField: "eventsByCalendar"
+      sortKeyFields: ["startDate"]
+    )
+  startDate: AWSDateTime
+  durationInHours: Float
+  active: EventStatus
+    @index(
+      name: "eventsByActive"
+      queryField: "eventsByActive"
+      sortKeyFields: ["startDate"]
+    )
+  calendar: Calendar @belongsTo
+}
+
+type Participation
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  participant: ID
+    @index(
+      name: "participationByParticipant"
+      queryField: "participationByParticipant"
+    )
+  type: ParticipantType
+  calendarParticipationsId: ID
+    @index(
+      name: "participationByCalendar"
+      queryField: "participationByCalendar"
+    )
+  calendar: Calendar @belongsTo
+}
+
+type Note
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"], operations: [create, read] }
+      {
+        allow: owner
+        ownerField: "owner"
+        operations: [create, read, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  title: String
+  description: String
+  owner: ID
+  status: NoteStatus
+    @index(
+      name: "notesByStatus"
+      queryField: "notesByStatus"
+      sortKeyFields: ["createdAt"]
+    )
+  noteTags: [NoteTag] @hasMany
+  createdAt: AWSDateTime
+}
+
+type NoteTag
+  @model
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: groups, groups: ["Admin"], operations: [read, delete] }
+      { allow: owner, ownerField: "owner", operations: [update] }
+    ]
+  ) {
+  id: ID!
+  owner: ID
+  status: NoteTagStatus
+    @index(
+      name: "noteTagsByStatus"
+      queryField: "noteTagsByStatus"
+      sortKeyFields: ["owner"]
+    )
+  note: Note @belongsTo
+  noteNoteTagsId: String
+    @index(name: "noteTagsByNote", queryField: "noteTagsByNote")
+}
+
+enum Mood {
+  happy
+  neutral
+  sad
+  sick
+}
+
+enum DocumentStatus {
+  created
+  charged
+  transmitted
+}
+
+enum ReportActivity {
+  school
+  helpPlanDiscussion
+  getToKnowInterview
+  hospitation
+  excursion
+  holiday
+  vacation
+  employeeSickness
+  other
+  supervision
+  teamMeeting
+  miscellaneous
+}
+
+enum ReportType {
+  standard
+  special
+}
+
+enum ReportFlag {
+  revise
+}
+
+enum TimSheetFlag {
+  revise
+}
+
+enum ParticipantType {
+  admin
+  guardian
+}
+
+enum EventStatus {
+  active
+  canceled
+}
+
+enum NoteStatus {
+  created
+  done
+}
+
+enum NoteTagStatus {
+  new
+  read
+}
+
+enum ArchiveStatus {
+  archived
+  unarchived
+}
+
+type Parent {
+  name: String
+  familyName: String
+  phone: String
+  email: AWSEmail
+  primaryContact: Boolean
+}
+
+type SchoolContact {
+  name: String
+  familyName: String
+  phone: String
+  email: AWSEmail
+  function: String
+  gender: String
+}
+
+input CreateReportInput {
+  childID: String
+  childname: String
+  date: String
+  dateOfRegistration: String
+  exchange: String
+  guardian: AWSJSON
+  sick: Boolean
+  sickOnTime: Boolean
+  substitute: Boolean
+  homework: AWSJSON
+  hourFrom: Int
+  hourTo: Int
+  minuteFrom: Int
+  minuteTo: Int
+  mood: String
+  parentreport: String
+  privatePath: String
+  report: String
+  school: String
+  schoolguardian: String
+  schoolguardianID: String
+  signatureImage: String
+  reportActivity: ReportActivity
+}
+
+input CreateSpecialReportInput {
+  date: String
+  endDate: String
+  hourFrom: Int
+  hourTo: Int
+  minuteFrom: Int
+  minuteTo: Int
+  privatePath: String
+  report: String
+  guardian: AWSJSON
+  schoolguardian: String
+  schoolguardianID: String
+  signatureImage: String
+  reportActivity: ReportActivity
+}
+
+input UpdateReportInput {
+  id: String
+  childID: String
+  childname: String
+  date: String
+  dateOfRegistration: String
+  exchange: String
+  guardian: AWSJSON
+  sick: Boolean
+  sickOnTime: Boolean
+  substitute: Boolean
+  homework: AWSJSON
+  hourFrom: Int
+  hourTo: Int
+  minuteFrom: Int
+  minuteTo: Int
+  mood: String
+  parentreport: String
+  privatePath: String
+  report: String
+  school: String
+  schoolguardian: String
+  schoolguardianID: String
+  signatureImage: String
+  reportActivity: ReportActivity
+}
+
+input UpdateSpecialReportInput {
+  id: String
+  date: String
+  endDate: String
+  guardian: AWSJSON
+  hourFrom: Int
+  hourTo: Int
+  minuteFrom: Int
+  minuteTo: Int
+  privatePath: String
+  report: String
+  schoolguardian: String
+  schoolguardianID: String
+  signatureImage: String
+  reportActivity: ReportActivity
+}
+
+input adminCreateEmptyReportInput {
+  child: AWSJSON
+  documentDate: String
+  guardian: AWSJSON
+  sick: Boolean
+}
+
+input adminRegenerateInvoiceInput {
+  invoiceID: String
+  invoice: AWSJSON
+  invoiceYear: String
+  invoiceMonth: String
+  invoiceNumber: String
+  extraHours: Float
+  extraHourRate: Float
+  extraDescription: String
+}
+
+input CreateTimeSheetInput {
+  documents: AWSJSON
+  privatePath: String
+  signatureImage: String
+}
+
+input createSpecialTimesheetInput {
+  documents: AWSJSON
+  privatePath: String
+  signatureImage: String
+}
+
+input UpdateTimeSheetInput {
+  signatureImage: String!
+  timeSheetsDailyReportId: String!
+  invoicesDailyReportId: String
+}
+
+input updateSpecialTimesheetInput {
+  signatureImage: String!
+  timeSheetsDailyReportId: String!
+}
+
+input CreateInvoiceInput {
+  child: AWSJSON
+  carrier: AWSJSON
+  guardian: AWSJSON
+  documents: AWSJSON
+  invoiceYear: String
+  invoiceMonth: String
+  # overwriteHours: Float
+  # overwriteHoursValidation: Boolean
+  # overwriteSickHours: Float
+  # overwriteSickHoursValidation: Boolean
+}
+
+input uploadShareboxItemInput {
+  files: AWSJSON!
+}
+
+input deleteShareboxItemInput {
+  key: String!
+}
+
+input getChildCarrierStatusInput {
+  id: String!
+}
+
+input guardianDownloadShareboxItemInput {
+  key: String!
+}
+
+input guardianDeleteDailyReportInput {
+  id: String!
+}
+
+input getDailyReportByGuardianInput {
+  id: String!
+}
+
+input getFlaggedReportsByTimesheetInput {
+  timesheetId: String!
+}
+
+input listChildrenByCarrierInput {
+  carrierCarrierContactsId: String!
+}
+
+input confirmInvoiceInput {
+  invoiceId: String!
+}
+
+input downloadTemporaryTimeSheetInput {
+  documents: AWSJSON
+}
+
+input adminDeleteCalendarInput {
+  id: String!
+}
+
+input listEventsByIdentityInput {
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+}
+
+input createNoteAndNotetagsInput {
+  noteTitle: String
+  noteDescription: String
+  participants: AWSJSON
+}
+
+input listTimeSheetsByGuardianInput {
+  nextToken: String
+}
+
+input listSpecialDailyReportsByGuardianInput {
+  nextToken: String
+}
+
+input adminCheckChildArchivePossibilityInput {
+  id: String!
+}
+
+input adminArchiveClientInput {
+  id: String!
+}
+
+type Mutation {
+  createReport(input: CreateReportInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  createSpecialReport(input: CreateSpecialReportInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  createTimesheet(input: CreateTimeSheetInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  createInvoice(input: CreateInvoiceInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  createSpecialTimesheet(input: createSpecialTimesheetInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  updateTimesheet(input: UpdateTimeSheetInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  updateSpecialTimesheet(input: updateSpecialTimesheetInput): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  uploadShareboxItem(input: uploadShareboxItemInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  deleteShareboxItem(input: deleteShareboxItemInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  confirmInvoice(input: confirmInvoiceInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  guardianDeleteDailyReport(input: guardianDeleteDailyReportInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  guardianUpdateDailyReport(input: UpdateReportInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  guardianUpdateSpecialReport(input: UpdateSpecialReportInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  adminDeleteCalendar(input: adminDeleteCalendarInput): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  createNoteAndNotetags(input: createNoteAndNotetagsInput): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  adminCreateEmptyReport(input: adminCreateEmptyReportInput): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  adminRegenerateInvoice(input: adminRegenerateInvoiceInput): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  adminArchiveClient(input: adminArchiveClientInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+}
+
+type Query {
+  listDailyReportsByGuardian: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getDailyReportByGuardian(input: getDailyReportByGuardianInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  listTimeSheetsByGuardian(input: listTimeSheetsByGuardianInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getGuardianByGuardian: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getGuardianFlagStatusByGuardian: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getFlaggedReportsByGuardian: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getFlaggedReportsByTimesheet(
+    input: getFlaggedReportsByTimesheetInput!
+  ): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getChildCarrierStatus(input: getChildCarrierStatusInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  listAdminSharebox: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  listGuardianSharebox: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin", "Guardian"] }])
+  guardianDownloadShareboxItem(
+    input: guardianDownloadShareboxItemInput!
+  ): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  listChildrenByCarrier(input: listChildrenByCarrierInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  downloadTemporaryTimeSheet(input: downloadTemporaryTimeSheetInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  listEventsByIdentity(input: listEventsByIdentityInput!): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  getNextEventByIdentity: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  checkUnreadNotesStatus: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+  listSpecialDailyReportsByGuardian(
+    input: listSpecialDailyReportsByGuardianInput!
+  ): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  checkCreatedReportsCount: String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Guardian"] }])
+  adminCheckChildArchivePossibility(
+    input: adminCheckChildArchivePossibilityInput!
+  ): String
+    @function(name: "ChildCareReportResolver-${env}")
+    @auth(rules: [{ allow: groups, groups: ["Admin"] }])
+}

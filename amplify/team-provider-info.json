@@ -1,0 +1,144 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-childcare-dev-03018-authRole",
+      "UnauthRoleArn": "arn:aws:iam::726834011639:role/amplify-childcare-dev-03018-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::726834011639:role/amplify-childcare-dev-03018-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-childcare-dev-03018-deployment",
+      "UnauthRoleName": "amplify-childcare-dev-03018-unauthRole",
+      "StackName": "amplify-childcare-dev-03018",
+      "StackId": "arn:aws:cloudformation:eu-central-1:726834011639:stack/amplify-childcare-dev-03018/ffaa48e0-2720-11ed-9fb3-0a63025762ee",
+      "AmplifyAppId": "d29kxxn6zmwvbp",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-childcare-dev-03018-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "ChildCareAuth": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "ChildCareAuthCustomMessage": {
+          "deploymentBucketName": "amplify-childcare-dev-03018-deployment",
+          "s3Key": "amplify-builds/ChildCareAuthCustomMessage-44724f6372766f5a6238-build.zip"
+        },
+        "AdminQueries8a07980f": {
+          "deploymentBucketName": "amplify-childcare-dev-03018-deployment",
+          "s3Key": "amplify-builds/AdminQueries8a07980f-58326e6d6c4f3469635a-build.zip"
+        },
+        "ChildCareDocumentCreator": {
+          "deploymentBucketName": "amplify-childcare-dev-03018-deployment",
+          "s3Key": "amplify-builds/ChildCareDocumentCreator-30786d70566832362f79-build.zip",
+          "tz": "CET"
+        },
+        "ChildCareReportResolver": {
+          "deploymentBucketName": "amplify-childcare-dev-03018-deployment",
+          "s3Key": "amplify-builds/ChildCareReportResolver-37784271533169475955-build.zip"
+        },
+        "ChildCareAuth": {},
+        "ChildCareAPI": {},
+        "ChildCareStorage": {},
+        "userPoolGroups": {}
+      },
+      "storage": {
+        "ChildCareStorage": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "ChildCareAPI": {}
+      }
+    }
+  },
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-childcare-staging-103028-authRole",
+      "UnauthRoleArn": "arn:aws:iam::726834011639:role/amplify-childcare-staging-103028-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::726834011639:role/amplify-childcare-staging-103028-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-childcare-staging-103028-deployment",
+      "UnauthRoleName": "amplify-childcare-staging-103028-unauthRole",
+      "StackName": "amplify-childcare-staging-103028",
+      "StackId": "arn:aws:cloudformation:eu-central-1:726834011639:stack/amplify-childcare-staging-103028/731d9010-5508-11ed-95eb-06dfcc922f5a",
+      "AmplifyAppId": "d29kxxn6zmwvbp",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-childcare-staging-103028-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "function": {
+        "ChildCareAuthCustomMessage": {
+          "deploymentBucketName": "amplify-childcare-staging-103028-deployment",
+          "s3Key": "amplify-builds/ChildCareAuthCustomMessage-56393345616f63744455-build.zip"
+        },
+        "AdminQueries8a07980f": {
+          "deploymentBucketName": "amplify-childcare-staging-103028-deployment",
+          "s3Key": "amplify-builds/AdminQueries8a07980f-3434412f5030654a7554-build.zip"
+        },
+        "ChildCareDocumentCreator": {
+          "deploymentBucketName": "amplify-childcare-staging-103028-deployment",
+          "s3Key": "amplify-builds/ChildCareDocumentCreator-6a48417a4c366c342f4a-build.zip",
+          "tz": "CET"
+        },
+        "ChildCareReportResolver": {
+          "deploymentBucketName": "amplify-childcare-staging-103028-deployment",
+          "s3Key": "amplify-builds/ChildCareReportResolver-35627a4f57426b585862-build.zip"
+        }
+      },
+      "auth": {
+        "userPoolGroups": {},
+        "ChildCareAuth": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "ChildCareAPI": {}
+      },
+      "storage": {
+        "ChildCareStorage": {}
+      }
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-childcare-prod-103519-authRole",
+      "UnauthRoleArn": "arn:aws:iam::726834011639:role/amplify-childcare-prod-103519-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::726834011639:role/amplify-childcare-prod-103519-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-childcare-prod-103519-deployment",
+      "UnauthRoleName": "amplify-childcare-prod-103519-unauthRole",
+      "StackName": "amplify-childcare-prod-103519",
+      "StackId": "arn:aws:cloudformation:eu-central-1:726834011639:stack/amplify-childcare-prod-103519/201028f0-5509-11ed-822f-06a96ec0273c",
+      "AmplifyAppId": "d29kxxn6zmwvbp",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-childcare-prod-103519-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "function": {
+        "ChildCareAuthCustomMessage": {
+          "deploymentBucketName": "amplify-childcare-prod-103519-deployment",
+          "s3Key": "amplify-builds/ChildCareAuthCustomMessage-56393345616f63744455-build.zip"
+        },
+        "AdminQueries8a07980f": {
+          "deploymentBucketName": "amplify-childcare-prod-103519-deployment",
+          "s3Key": "amplify-builds/AdminQueries8a07980f-3434412f5030654a7554-build.zip"
+        },
+        "ChildCareDocumentCreator": {
+          "deploymentBucketName": "amplify-childcare-prod-103519-deployment",
+          "s3Key": "amplify-builds/ChildCareDocumentCreator-6a48417a4c366c342f4a-build.zip",
+          "tz": "CET"
+        },
+        "ChildCareReportResolver": {
+          "deploymentBucketName": "amplify-childcare-prod-103519-deployment",
+          "s3Key": "amplify-builds/ChildCareReportResolver-35627a4f57426b585862-build.zip"
+        }
+      },
+      "auth": {
+        "userPoolGroups": {},
+        "ChildCareAuth": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "ChildCareAPI": {}
+      },
+      "storage": {
+        "ChildCareStorage": {}
+      }
+    }
+  }
+}

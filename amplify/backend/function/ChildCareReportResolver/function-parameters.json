@@ -1,0 +1,45 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "api": {
+      "ChildCareAPI": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "function": {
+      "ChildCareDocumentCreator": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "ChildCareStorage": [
+        "create",
+        "read",
+        "delete"
+      ],
+      "Guardian:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "Carrier:@model(appsync)": [
+        "read"
+      ],
+      "DailyReport:@model(appsync)": [
+        "create",
+        "update"
+      ],
+      "TimeSheets:@model(appsync)": [
+        "create",
+        "update"
+      ],
+      "Invoices:@model(appsync)": [
+        "create",
+        "update"
+      ]
+    }
+  }
+}

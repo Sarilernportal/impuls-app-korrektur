@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "auth": {
+      "ChildCareAuth": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "ChildCareAPI": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  }
+}

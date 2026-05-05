@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "ChildCareAPI",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/chris/Dropbox/MoebusDigitalSolutions/Impuls/childcare/amplify/backend/api/ChildCareAPI/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authChildCareAuth"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AWS_IAM"
+      }
+    ]
+  }
+}

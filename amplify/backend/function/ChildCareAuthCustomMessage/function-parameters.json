@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "ChildCareAuth",
+  "functionName": "ChildCareAuthCustomMessage",
+  "resourceName": "ChildCareAuthCustomMessage",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/Users/chris/.nvm/versions/node/v16.10.0/lib/node_modules/@aws-amplify/cli/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/CustomMessage",
+  "triggerTemplate": "CustomMessage.json.ejs",
+  "triggerEventPath": "CustomMessage.event.json",
+  "roleName": "ChildCareAuthCustomMessage",
+  "skipEdit": true,
+  "enableCors": false
+}

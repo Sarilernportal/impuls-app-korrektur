@@ -1,0 +1,39 @@
+{
+  "name": "childcare",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "updateAppsyncOperations": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/AdminQueries8a07980f/src/modules/appsync/graphql",
+    "updateResolverGraphQL": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/ChildCareReportResolver/src/modules/appsync/graphql"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^2.0.12",
+    "aws-amplify": "^4.2.0",
+    "lodash": "^4.17.21",
+    "v-calendar": "^3.0.0-alpha.8",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.5",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "@headlessui/vue": "^1.6.7",
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "autoprefixer": "^10.4.8",
+    "eslint": "^8.23.0",
+    "eslint-plugin-vue": "^9.4.0",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "vite": "^3.0.7",
+    "vite-plugin-pwa": "^0.13.1"
+  }
+}
