@@ -37,7 +37,7 @@ Children Details
           <div class="py-8">
             <div class="px-4 sm:px-6 md:px-0">
               <!-- Description list with inline editing -->
-              <div class="divide-y divide-gray-700">
+              <div class="divide-y divide-slate-200">
                 <!-- Header section -->
                 <div class="space-y-1">
                   <h3 class="text-lg leading-6 font-medium text-primaryText">
@@ -99,7 +99,7 @@ Children Details
                   @delete-care-asignment="DeleteCareAssignment" />
               </div>
               <!-- Account Information section -->
-              <div class="mt-8 divide-y divide-gray-700">
+              <div class="mt-8 divide-y divide-slate-200">
                 <children-detail-account-info :child="child" :archiveIsLoading="archiveIsLoading"
                   :userStateIsLoading="userStateIsLoading" @archive-child-tapped="archiveChildTapped" />
               </div>

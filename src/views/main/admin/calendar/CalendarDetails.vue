@@ -87,7 +87,7 @@ Calendar Details
     <!-- info -->
     <div
       v-else
-      class="flex flex-col w-full lg:w-4/5 mt-4 divide-y divide-gray-800"
+      class="flex flex-col w-full lg:w-4/5 mt-4 divide-y divide-slate-200"
     >
       <!-- title -->
       <EditableTextRow

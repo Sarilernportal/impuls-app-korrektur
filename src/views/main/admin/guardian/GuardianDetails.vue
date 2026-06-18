@@ -22,7 +22,7 @@ Guardian Details
   />
   <div class="flex flex-col w-full h-full items-center">
     <div class="w-full px-4 py-5 sm:px-6 lg:w-4/5 lg:px-8">
-      <h3 class="text-lg leading-6 font-medium text-white">Dokumente</h3>
+      <h3 class="text-lg leading-6 font-semibold text-slate-900">Dokumente</h3>
     </div>
     <div v-if="isLoading" class="flex w-full h-full justify-center">
       <LoadingSpinner size="h-12 w-12" />

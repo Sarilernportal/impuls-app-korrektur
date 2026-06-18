@@ -22,7 +22,7 @@ User Detail Account Info View
     </div>
     <!-- Data Section -->
     <div class="mt-6">
-      <dl class="divide-y divide-gray-800">
+      <dl class="divide-y divide-slate-200">
         <!-- Created Date Property -->
         <user-info-row
           title="Erstellt am"

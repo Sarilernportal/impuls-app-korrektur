@@ -58,7 +58,7 @@ Carrier Contact Details
           <div class="py-8">
             <div class="px-4 sm:px-6 md:px-0">
               <!-- Description list with inline editing -->
-              <div class="divide-y divide-gray-700">
+              <div class="divide-y divide-slate-200">
                 <!-- Header section -->
                 <div class="space-y-1">
                   <h3 class="text-lg leading-6 font-medium text-primaryText">
@@ -94,7 +94,7 @@ Carrier Contact Details
                 />
               </div>
               <!-- Account Information section -->
-              <div class="mt-8 divide-y divide-gray-700">
+              <div class="mt-8 divide-y divide-slate-200">
                 <carrier-contact-detail-account-info
                   :carrier="carrierContact"
                   :deleteIsLoading="deleteIsLoading"

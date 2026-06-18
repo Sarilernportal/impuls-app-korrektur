@@ -13,7 +13,7 @@ Notebox List Item
 
 <template>
   <div
-    class="flex flex-col gap-2 w-full p-8 lg:w-2/3 rounded-md border bg-white border-gray-500 divide-y divide-gray-500">
+    class="flex flex-col gap-2 w-full p-8 lg:w-2/3 rounded-md border bg-white border-gray-500 divide-y divide-slate-200">
     <div class="flex pb-2">
       <div class="w-full">
         <!-- owner info -->

@@ -22,7 +22,7 @@
         Informationen über verknüpfte Klienten.
       </p>
     </div>
-    <div class="border-y-2 border-gray-700 divide-y divide-gray-700">
+    <div class="border-y-2 border-gray-700 divide-y divide-slate-200">
       <div
         v-for="careAssignment in children"
         :key="careAssignment.id"

@@ -1,5 +1,5 @@
 <template>
-  <div class="divide-y divide-gray-700">
+  <div class="divide-y divide-slate-200">
     <!-- Header section -->
     <div class="space-y-1 mb-6">
       <h3 class="text-lg leading-6 font-medium text-primaryText">Verknüpfungen</h3>
@@ -8,7 +8,7 @@
       </p>
     </div>
     <!-- Data section -->
-    <div class="pt-4 divide divide-gray-700 space-y-5">
+    <div class="pt-4 divide divide-slate-200 space-y-5">
       <!-- Guardian Selection -->
       <GuardianSelection
         @guardian-selected="guardianSelected"
