@@ -84,7 +84,7 @@ export default {
     files: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     showDelete: {
       type: Boolean,

@@ -12,7 +12,7 @@ Success Window Component
 -->
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog
+    <HDialog
       :initialFocus="refDiv"
       as="div"
       static
@@ -152,7 +152,7 @@ Success Window Component
           </div>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -172,7 +172,7 @@ import { CheckBadgeIcon } from "@heroicons/vue/24/outline";
 export default {
   name: "SuccessWindow",
   components: {
-    Dialog,
+    HDialog: Dialog,
     DialogOverlay,
     DialogTitle,
     TransitionChild,

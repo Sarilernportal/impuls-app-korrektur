@@ -98,7 +98,7 @@ export default {
         // if that happens, we pull again, unless the nextToken is null, indicating no more pullable objects
         if (
           calendarResponse.items.length <= 0 &&
-          calendarNextToken.nextToken !== null
+          calendarNextToken.value !== null
         ) {
           fetchCalendars()
         }

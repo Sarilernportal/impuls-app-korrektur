@@ -80,8 +80,6 @@ export default {
 
     const userName = computed(() => {
       try {
-        // set loading state
-        isLoading.value = true
         // get participant from userlist
         const participant = props.userList[props.participation.participant]
         // check if Attributes values can be read
@@ -123,9 +121,6 @@ export default {
       } catch (error) {
         console.log(error)
         return 'Nicht angegeben'
-      } finally {
-        // reset loading state
-        isLoading.value = false
       }
     })
 

@@ -12,7 +12,7 @@ Critical Action Component
 -->
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog
+    <HDialog
       as="div"
       static
       class="fixed z-10 inset-0 overflow-y-auto"
@@ -180,7 +180,7 @@ Critical Action Component
           </div>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -199,7 +199,7 @@ import LoadingSpinnerRed from "@/components/UIComponents/Utilities/LoadingSpinne
 
 export default {
   components: {
-    Dialog,
+    HDialog: Dialog,
     DialogOverlay,
     DialogTitle,
     TransitionChild,

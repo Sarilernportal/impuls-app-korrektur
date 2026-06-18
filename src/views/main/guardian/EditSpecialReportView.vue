@@ -507,6 +507,7 @@ export default {
         return reportActivitytermsRev[inputData.value.reportActivity]
       } catch (error) {
         console.log(error)
+        return null
       }
     })
 

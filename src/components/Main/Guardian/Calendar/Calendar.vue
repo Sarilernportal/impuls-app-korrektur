@@ -27,7 +27,7 @@ export default {
     calendars: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     }
   },
   emits: ['date-selected'],

@@ -219,7 +219,7 @@ export default {
 
     // get reports from timesheet data string
     const reports = computed(() => {
-      return props.report.dailyReport.items.sort((a, b) =>
+      return [...props.report.dailyReport.items].sort((a, b) =>
         new Date(a.documentDate) < new Date(b.documentDate)
           ? 1
           : new Date(b.documentDate) < new Date(a.documentDate)

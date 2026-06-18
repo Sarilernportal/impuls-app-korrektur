@@ -5,7 +5,7 @@
     @after-leave="query = ''"
     appear
   >
-    <Dialog
+    <HDialog
       as="div"
       class="relative z-10"
       @close="closeModal"
@@ -173,7 +173,7 @@
           </DialogPanel>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -210,7 +210,7 @@ export default {
     ComboboxInput,
     ComboboxOptions,
     ComboboxOption,
-    Dialog,
+    HDialog: Dialog,
     DialogPanel,
     TransitionChild,
     TransitionRoot
@@ -219,7 +219,7 @@ export default {
     people: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     open: {
       type: Boolean,

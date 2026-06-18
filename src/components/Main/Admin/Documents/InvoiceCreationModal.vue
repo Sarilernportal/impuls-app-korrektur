@@ -199,7 +199,7 @@ export default {
     selectedTimeSheets: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     }
   },
   emits: ['close-clicked', 'create-tapped', 'overwrite-hours', 'overwrite-hours-validation', 'overwrite-sick-hours', 'overwrite-sick-hours-validation', 'year-selected', 'month-selected'],

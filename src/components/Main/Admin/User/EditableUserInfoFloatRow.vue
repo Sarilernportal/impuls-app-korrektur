@@ -113,7 +113,7 @@ export default {
     value: {
       type: Number,
       required: true,
-      default: ''
+      default: 0
     },
     buttonTitle: {
       type: String,

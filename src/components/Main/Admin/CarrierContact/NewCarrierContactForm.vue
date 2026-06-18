@@ -287,7 +287,6 @@ export default {
       setNameValidation,
       setPhone,
       setPhoneValidation,
-      setPhoneValidation,
       setEmail,
       setEmailValidation,
       setFamilyName,

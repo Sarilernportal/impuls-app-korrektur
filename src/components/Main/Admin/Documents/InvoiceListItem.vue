@@ -285,7 +285,7 @@ export default {
 
     // get sorted list of linked documents
     const sortedReports = computed(() => {
-      return props.report.dailyReport.items.sort((a, b) =>
+      return [...props.report.dailyReport.items].sort((a, b) =>
         new Date(a.documentDate) < new Date(b.documentDate)
           ? 1
           : new Date(b.documentDate) < new Date(a.documentDate)

@@ -72,24 +72,25 @@
       class="flex flex-col gap-2 px-4 py-2"
     >
       <!-- report group by timesheet -->
-      <div
-        v-if="reportList.length > 0"
-        v-for="report in reportList"
-        :key="report.id"
-        class="pt-2"
-      >
-        <ReportListItem
-          v-if="report.reportType !== 'special'"
-          :report="report"
-          @delete-report="openDeleteReportModal"
-        />
-        <SpecialReportListItem
-          v-else
-          :report="report"
-          :showSelectionInput="false"
-          @delete-report="openDeleteReportModal"
-        />
-      </div>
+      <template v-if="reportList.length > 0">
+        <div
+          v-for="report in reportList"
+          :key="report.id"
+          class="pt-2"
+        >
+          <ReportListItem
+            v-if="report.reportType !== 'special'"
+            :report="report"
+            @delete-report="openDeleteReportModal"
+          />
+          <SpecialReportListItem
+            v-else
+            :report="report"
+            :showSelectionInput="false"
+            @delete-report="openDeleteReportModal"
+          />
+        </div>
+      </template>
       <div v-else>
         <p class="text-primaryText px-4 text-center">
           Keine Dokumente vorhanden!

@@ -128,6 +128,7 @@ export default {
         return null
       } catch (error) {
         console.log(error)
+        return null
       }
     })
 

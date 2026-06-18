@@ -55,7 +55,7 @@ export default {
     tabs: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     useSmallText: {
       type: Boolean,

@@ -12,7 +12,7 @@ Error Window Component
 -->
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog
+    <HDialog
       as="div"
       static
       class="fixed z-10 inset-0 overflow-y-auto"
@@ -151,7 +151,7 @@ Error Window Component
           </div>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -169,7 +169,7 @@ import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 export default {
   name: "ErrorWindow",
   components: {
-    Dialog,
+    HDialog: Dialog,
     DialogOverlay,
     DialogTitle,
     TransitionChild,

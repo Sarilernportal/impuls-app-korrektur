@@ -409,6 +409,7 @@ export default {
         return carrier.value.email && carrier.value.allowAutoInvoice
       } catch (error) {
         console.log(error)
+        return false
       }
     })
 
@@ -424,6 +425,7 @@ export default {
         return false
       } catch (error) {
         console.log(error)
+        return false
       }
     })
 

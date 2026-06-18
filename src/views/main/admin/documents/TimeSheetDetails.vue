@@ -148,7 +148,7 @@ export default {
     }
 
     // Return the setup object
-    return { document, pdf, id, goToPrevious, goToNext }
+    return { document, pdf, goToPrevious, goToNext }
   }
 }
 </script>

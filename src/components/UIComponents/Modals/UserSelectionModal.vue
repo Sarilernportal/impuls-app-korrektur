@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot :show="open" as="template" @after-leave="query = ''" appear>
-    <Dialog as="div" class="relative z-10" @close="closeModal">
+    <HDialog as="div" class="relative z-10" @close="closeModal">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -272,7 +272,7 @@
           </DialogPanel>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -309,7 +309,7 @@ export default {
     ComboboxInput,
     ComboboxOptions,
     ComboboxOption,
-    Dialog,
+    HDialog: Dialog,
     DialogPanel,
     TransitionChild,
     TransitionRoot
@@ -318,7 +318,7 @@ export default {
     people: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     open: {
       type: Boolean,

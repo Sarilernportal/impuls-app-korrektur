@@ -150,7 +150,7 @@ export default {
     navigation: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     }
   },
   emits: ['nav-tabbed', 'nav-query-tabbed'],

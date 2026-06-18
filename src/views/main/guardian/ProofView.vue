@@ -102,24 +102,27 @@ Proof View
           </div>
           <!-- Document list -->
           <div v-else>
-            <div
+            <template
               v-if="(transmitted && !showSpecialTimes) || (!transmitted && showSpecialTimes)"
-              v-for="document in documents"
-              :key="document.id"
-              class="pt-2"
             >
-              <TimeSheetListItem
-                v-if="transmitted && !showSpecialTimes"
-                :report="document"
-              />
-              <SpecialReportListItem
-                v-if="!transmitted && showSpecialTimes"
-                :report="document"
-                :showSelectionInput="true"
-                @delete-report="openDeleteReportModal"
-                @special-report-selected="specialReportSelected"
-              />
-            </div>
+              <div
+                v-for="document in documents"
+                :key="document.id"
+                class="pt-2"
+              >
+                <TimeSheetListItem
+                  v-if="transmitted && !showSpecialTimes"
+                  :report="document"
+                />
+                <SpecialReportListItem
+                  v-if="!transmitted && showSpecialTimes"
+                  :report="document"
+                  :showSelectionInput="true"
+                  @delete-report="openDeleteReportModal"
+                  @special-report-selected="specialReportSelected"
+                />
+              </div>
+            </template>
             <div
               v-else
               v-for="month in sortedReports"
@@ -146,7 +149,7 @@ Proof View
               </div>
               <!-- reports -->
               <div
-                v-for="report in month.reports"
+                v-for="report in month.reports" :key="report.id"
                 class="pt-2"
               >
                 <ReportListItem

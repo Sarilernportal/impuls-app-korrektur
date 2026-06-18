@@ -538,7 +538,6 @@ export default {
       setAddressExtraValidation,
       setPostalcode,
       setPostalcodeValidation,
-      setPhoneValidation,
       setCity,
       setPoBox,
       setCityValidation,

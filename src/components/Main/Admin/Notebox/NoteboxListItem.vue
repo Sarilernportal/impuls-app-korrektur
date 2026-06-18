@@ -133,7 +133,7 @@ export default {
     noteTagToBeMarked: {
       type: Object,
       required: false,
-      default: {}
+      default: () => ({})
     }
   },
   emits: ['done-tapped', 'mark-note-read', 'delete-tapped'],

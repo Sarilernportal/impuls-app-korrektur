@@ -39,7 +39,7 @@ export default {
     properties: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     title: {
       type: String,

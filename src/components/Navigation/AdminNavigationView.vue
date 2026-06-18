@@ -19,7 +19,7 @@ TODO HTML DOCUMENTATION
       as="template"
       :show="sidebarOpen"
     >
-      <Dialog
+      <HDialog
         as="div"
         class="relative z-40 lg:hidden"
         @close="sidebarOpen = false"
@@ -83,7 +83,7 @@ TODO HTML DOCUMENTATION
               >
                 <div class="flex flex-col gap-2 px-2 divide-y divide-blue-200/50">
                   <div
-                    v-for="nav in navigation"
+                    v-for="(nav, navIndex) in navigation" :key="navIndex"
                     class="pt-3"
                   >
                     <AdminNavigationSidebarArea
@@ -132,7 +132,7 @@ TODO HTML DOCUMENTATION
             <!-- Dummy element to force sidebar to shrink to fit close icon -->
           </div>
         </div>
-      </Dialog>
+      </HDialog>
     </TransitionRoot>
 
     <!-- Static sidebar for desktop -->
@@ -154,7 +154,7 @@ TODO HTML DOCUMENTATION
           <!-- Navbar Sections -->
           <div class="flex flex-col gap-2 px-2 divide-y divide-blue-200/50">
             <div
-              v-for="nav in navigation"
+              v-for="(nav, navIndex) in navigation" :key="navIndex"
               class="pt-3"
             >
               <AdminNavigationSidebarArea
@@ -300,7 +300,7 @@ export default {
   name: 'NavigationBar',
   components: {
     NoteboxNotificationItem,
-    Dialog,
+    HDialog: Dialog,
     DialogPanel,
     TransitionChild,
     TransitionRoot,
