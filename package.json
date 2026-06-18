@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "demo": "node scripts/setup-demo.mjs && vite",
+    "setup:demo": "node scripts/setup-demo.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "updateAppsyncOperations": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/AdminQueries8a07980f/src/modules/appsync/graphql",
