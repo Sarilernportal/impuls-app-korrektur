@@ -11,7 +11,7 @@ Edit Report View
 -->
 
 <template>
-  <div class="px-4 py-2">
+  <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
     <div>
       <!-- Error modal -> report not found -->
       <error-window
@@ -56,7 +56,7 @@ Edit Report View
           </div>
           <div
             v-if="flagText"
-            class="flex flex-col bg-red-300 rounded-lg p-2 gap-2"
+            class="flex flex-col bg-red-50 border border-red-200 rounded-lg p-2 gap-2"
           >
             <!-- flag text -->
             <h3 class="w-full text-center font-medium text-red-700">

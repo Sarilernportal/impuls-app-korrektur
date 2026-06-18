@@ -58,7 +58,7 @@ Proof View
       @close="closeTimesheetModals"
     />
   </div>
-  <div class="px-4 py-2">
+  <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
     <div class="space-y-8 divide-y divide-gray-200">
       <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
         <div class="space-y-6 sm:space-y-5">

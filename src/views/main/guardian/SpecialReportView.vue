@@ -11,7 +11,7 @@ Special Report View
 -->
 
 <template>
-  <div class="px-4 py-2">
+  <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
     <div>
       <!-- Error modal -->
       <error-window
@@ -147,7 +147,7 @@ Special Report View
       <!-- error message if not all required fields were filled -->
       <div
         v-if="!inputValid"
-        class="flex items-center justify-center w-full h-full bg-red-300 rounded-xl p-2"
+        class="flex items-center justify-center w-full h-full bg-red-50 border border-red-200 rounded-xl p-2"
       >
         <p class="text-center text-red-600 text-sm font-medium">
           Es wurden nicht alle Pflichtfelder ausgefüllt!
