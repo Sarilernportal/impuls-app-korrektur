@@ -69,10 +69,10 @@ Calendar Details
     />
   </div>
   <!-- Main Container -->
-  <div class="flex flex-col h-full w-full px-4 pb-2 pt-4 bg-primary items-center gap-8">
+  <div class="flex min-h-screen w-full flex-col items-center gap-6 bg-slate-50 px-4 pt-6 pb-10">
     <!-- Header section -->
-    <div class="space-y-1 w-full lg:w-4/5">
-      <h3 class="text-lg leading-6 font-medium text-primaryText">Kalender Details</h3>
+    <div class="w-full space-y-1 lg:w-4/5">
+      <h3 class="text-lg leading-6 font-semibold text-slate-900">Kalender Details</h3>
       <p class="max-w-2xl text-sm text-secondaryText">
         Informationen über die Daten des Kalenders
       </p>
@@ -87,7 +87,7 @@ Calendar Details
     <!-- info -->
     <div
       v-else
-      class="flex flex-col w-full lg:w-4/5 mt-4 divide-y divide-slate-200"
+      class="flex w-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-card divide-y divide-slate-200 lg:w-4/5"
     >
       <!-- title -->
       <EditableTextRow
@@ -139,9 +139,9 @@ Calendar Details
     <!-- Header section connections -->
     <div
       v-if="!isLoading"
-      class="space-y-1 w-full lg:w-4/5"
+      class="w-full space-y-1 rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:w-4/5"
     >
-      <h3 class="text-lg leading-6 font-medium text-primaryText">Teilnehmer</h3>
+      <h3 class="text-lg leading-6 font-semibold text-slate-900">Teilnehmer</h3>
       <p class="max-w-2xl text-sm text-secondaryText">
         Liste der verbundenen Teilnehmer
       </p>
@@ -185,7 +185,7 @@ Calendar Details
       </div>
     </div>
     <!-- object info -->
-    <div class="w-full lg:w-4/5">
+    <div class="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:w-4/5">
       <CalendarDetailsObjectInfo
         class="pb-4"
         v-if="!isLoading"

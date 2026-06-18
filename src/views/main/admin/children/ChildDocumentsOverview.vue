@@ -20,7 +20,7 @@ Child Document Details
     :open="customError.isPresent"
     @close="customErrorConfirmed"
   />
-  <div class="flex flex-col w-full h-full items-center">
+  <div class="flex min-h-screen w-full flex-col items-center bg-slate-50">
     <div class="w-full px-4 py-5 sm:px-6 lg:w-4/5 lg:px-8">
       <h3 class="text-lg leading-6 font-semibold text-slate-900">Dokumente</h3>
     </div>
@@ -31,7 +31,7 @@ Child Document Details
       v-else
       class="flex w-full flex-col lg:w-4/5 divide-y divide-gray-200 p-2 gap-2"
     >
-      <div v-if="documents.length <= 0" class="text-white text-lg text-center">
+      <div v-if="documents.length <= 0" class="text-slate-500 text-lg text-center">
         <p>Keine verknüpften Dokumente gefunden</p>
       </div>
       <div v-else v-for="document in documents" :key="document.id" class="pt-2">

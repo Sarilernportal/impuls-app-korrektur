@@ -39,7 +39,7 @@ Carrier Details
     :open="customSuccess.isPresent"
     @close="customSuccessConfirmed"
   />
-  <div class="h-screen overflow-scroll-y flex">
+  <div class="min-h-screen overflow-y-auto bg-slate-50 flex">
     <!-- Content area -->
     <!-- Loading spinner -->
     <div
@@ -56,12 +56,12 @@ Carrier Details
       <main class="flex-1 focus:outline-none">
         <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:w-4/5 lg:px-8 xl:px-0">
           <div class="py-8">
-            <div class="px-4 sm:px-6 md:px-0">
+            <div class="px-4 sm:px-6 md:px-0 space-y-6">
               <!-- Description list with inline editing -->
-              <div class="divide-y divide-slate-200">
+              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
                 <!-- Header section -->
                 <div class="space-y-1">
-                  <h3 class="text-lg leading-6 font-medium text-primaryText">
+                  <h3 class="text-lg leading-6 font-semibold text-slate-900">
                     Profil
                   </h3>
                   <p class="max-w-2xl text-sm text-secondaryText">
@@ -78,7 +78,7 @@ Carrier Details
                 </div>
                 <!-- Billing Header section -->
                 <div class="space-y-1 mt-6 pt-6">
-                  <h3 class="text-lg leading-6 font-medium text-primaryText">
+                  <h3 class="text-lg leading-6 font-semibold text-slate-900">
                     Rechnungsadresse
                   </h3>
                   <p class="max-w-2xl text-sm text-secondaryText">
@@ -103,7 +103,7 @@ Carrier Details
                 </div>
               </div>
               <!-- Account Information section -->
-              <div class="mt-8 divide-y divide-slate-200">
+              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
                 <carrier-detail-account-info
                   :carrier="carrier"
                   :deleteIsLoading="deleteIsLoading"
