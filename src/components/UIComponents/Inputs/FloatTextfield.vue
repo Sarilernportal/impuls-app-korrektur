@@ -24,7 +24,7 @@ Float Textfield Component
           'border-green-500': validationStatus === 'passed',
           'border-gray-300': validationStatus === 'pending'
         }"
-        class="mt-1 appearance-none relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+        class="mt-1 appearance-none relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-brand-500 focus:border-impuls-blue focus:z-10 sm:text-sm"
         :placeholder="placeholder"
         @input="validateNumber"
         @blur="validateNumber"

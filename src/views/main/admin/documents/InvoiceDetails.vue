@@ -194,25 +194,25 @@ Invoice Details
           <input
             v-model.trim="invoiceNumber"
             type="text"
-            class="mt-1 appearance-none relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+            class="mt-1 appearance-none relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-brand-500 focus:border-impuls-blue focus:z-10 sm:text-sm"
             placeholder="Rechnungsnummer"
           />
           <input
             v-model.number="extraHours"
             type="number"
-            class="mt-1 relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+            class="mt-1 relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-brand-500 focus:border-impuls-blue focus:z-10 sm:text-sm"
             placeholder="Leistungsstunden"
           />
           <input
             v-model.number="extraHourRate"
             type="number"
-            class="mt-1 relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+            class="mt-1 relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-brand-500 focus:border-impuls-blue focus:z-10 sm:text-sm"
             placeholder="Stundensatz"
           />
           <input
             v-model.trim="extraDescription"
             type="text"
-            class="mt-1 relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+            class="mt-1 relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-brand-500 focus:border-impuls-blue focus:z-10 sm:text-sm"
             placeholder="Bezeichnung"
           />
           <!-- <h4 class="text-center font-medium leading-6" style="font-size: 14px;">

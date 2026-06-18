@@ -57,7 +57,7 @@ Password Forgot View
       <div class="flex items-center mt-2">
         <button
           type="button"
-          class="font-medium text-white hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary-500"
+          class="font-medium text-white hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-brand-500"
           @click="codeAlreadyRequestedTapped"
         >
           Ich habe bereits einen Code!

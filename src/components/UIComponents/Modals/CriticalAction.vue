@@ -42,7 +42,7 @@ Critical Action Component
           leave-to="opacity-0"
         >
           <DialogOverlay
-            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
           />
         </TransitionChild>
         <!-- This element is to trick the browser into centering the modal contents. -->

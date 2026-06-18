@@ -74,7 +74,7 @@ Login Page
       <div class="flex items-center">
         <button
           type="button"
-          class="font-medium text-white hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary-500"
+          class="font-medium text-white hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-brand-500"
           @click="passwordForgetTapped"
         >
           Passwort vergessen?

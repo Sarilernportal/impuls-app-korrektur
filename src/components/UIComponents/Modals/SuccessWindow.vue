@@ -44,7 +44,7 @@ Success Window Component
           leave-to="opacity-0"
         >
           <DialogOverlay
-            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
           />
         </TransitionChild>
 
@@ -140,7 +140,7 @@ Success Window Component
                     focus:outline-none
                     focus:ring-2
                     focus:ring-offset-2
-                    focus:ring-primary-500
+                    focus:ring-brand-500
                     sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
                   "
                   @click="$emit('close')"
