@@ -16,7 +16,7 @@ TimeSheet Details
     <!-- Header -->
     <div class="flex items-center justify-between w-full">
       <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+        class="bg-impuls-blue hover:bg-brand-700 transition rounded-full text-white p-2 shadow-sm"
         @click="goToPrevious"
       >
         <ArrowLeftIcon class="h-6 w-6" />
@@ -25,7 +25,7 @@ TimeSheet Details
         Nachweis Details
       </h2>
       <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+        class="bg-impuls-blue hover:bg-brand-700 transition rounded-full text-white p-2 shadow-sm"
         @click="goToNext"
       >
         <ArrowRightIcon class="h-6 w-6" />

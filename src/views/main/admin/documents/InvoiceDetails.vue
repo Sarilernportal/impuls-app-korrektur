@@ -70,7 +70,7 @@ Invoice Details
     <!-- Header -->
     <div class="flex items-center justify-between w-full">
       <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+        class="bg-impuls-blue hover:bg-brand-700 transition rounded-full text-white p-2 shadow-sm"
         @click="goToPrevious"
       >
         <ArrowLeftIcon class="h-6 w-6" />
@@ -79,7 +79,7 @@ Invoice Details
         Rechnung Details
       </h2>
       <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+        class="bg-impuls-blue hover:bg-brand-700 transition rounded-full text-white p-2 shadow-sm"
         @click="goToNext"
       >
         <ArrowRightIcon class="h-6 w-6" />
@@ -130,8 +130,8 @@ Invoice Details
             <div class="text-secondaryText text-sm">Automatische E-mail</div>
             <div :class="[
               carrier.allowAutoInvoice
-                ? 'bg-green-300 text-green-700'
-                : 'bg-red-300 text-red-700',
+                ? 'bg-emerald-50 text-emerald-700'
+                : 'bg-red-50 text-red-700',
               'p-1 rounded-xl text-center mt-2 '
             ]">
               {{ carrier.allowAutoInvoice ? 'Zugelassen' : 'Abgelehnt' }}
@@ -158,14 +158,14 @@ Invoice Details
           <!-- status for already confirmed -->
           <div
             v-if="document.charged"
-            class="p-1 rounded-xl text-center mt-2 bg-green-300 text-green-700"
+            class="p-1 rounded-xl text-center mt-2 bg-emerald-50 text-emerald-700"
           >
             Freigegeben
           </div>
           <!-- status for daily reports in revise state -->
           <div
             v-if="reportsFlagged && !document.charged"
-            class="p-1 rounded-xl text-center mt-2 bg-red-300 text-red-700"
+            class="p-1 rounded-xl text-center mt-2 bg-red-50 text-red-700"
           >
             Markierte Berichte gefunden
           </div>
