@@ -12,7 +12,7 @@ Invoice Creation Modal
 <template>
   <div class="absolute bottom-0 m-5 mb-10">
     <div
-      class="flex flex-col grow md:flex-row bg-white p-4 rounded-lg items-start gap-2 md:gap-6 border border-tertiaryText drop-shadow"
+      class="flex flex-col grow md:flex-row bg-white p-4 rounded-lg items-start gap-2 md:gap-6 border border-slate-200 drop-shadow"
     >
       <!-- close button -->
       <div class="self-end md:self-center">
@@ -85,7 +85,7 @@ Invoice Creation Modal
             class="flex flex-col text-sm"
           >
             <!-- overwrite hours -->
-            <div class="flex flex-col md:flex-row gap-0 md:gap-4 border-t md:border-t-0 border-tertiaryText mt-1 pt-1">
+            <div class="flex flex-col md:flex-row gap-0 md:gap-4 border-t md:border-t-0 border-slate-200 mt-1 pt-1">
               <div class="flex gap-2 items-center w-full md:w-1/2">
                 <p class="text-primaryText">Betreuungsstunden:</p>
                 <p class="text-secondaryText">{{ totalHours }}</p>
@@ -107,7 +107,7 @@ Invoice Creation Modal
               </div> -->
             </div>
             <!-- overwrite sick hours -->
-            <!-- <div class="flex flex-col md:flex-row gap-0 md:gap-4 border-t md:border-t-0 border-tertiaryText mt-1 pt-1">
+            <!-- <div class="flex flex-col md:flex-row gap-0 md:gap-4 border-t md:border-t-0 border-slate-200 mt-1 pt-1">
               <div class="flex gap-2 items-center w-full md:w-1/2">
                 <p class="text-primaryText">Krankenstunden:</p>
                 <p class="text-secondaryText">{{ totalSickHours + ' (' + billableSickHours + ')' }}</p>
@@ -132,7 +132,7 @@ Invoice Creation Modal
             class="flex flex-col text-sm"
           >
             <!-- year/month selection -->
-            <div class="flex flex-col md:flex-row gap-0 md:gap-4 border-t md:border-t-0 border-tertiaryText mt-1 pt-1">
+            <div class="flex flex-col md:flex-row gap-0 md:gap-4 border-t md:border-t-0 border-slate-200 mt-1 pt-1">
               <SimpleDropdown
                 class="w-full"
                 title="Rechnungsjahr"

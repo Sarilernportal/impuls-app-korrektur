@@ -12,7 +12,7 @@ Notebox Notification Item
 <template>
   <div class="absolute bottom-0 right-0 p-5 pb-10">
     <div
-      class="flex flex-col md:flex-row bg-white p-4 rounded-lg items-center gap-2 border border-tertiaryText animate-pulse"
+      class="flex flex-col md:flex-row bg-white p-4 rounded-lg items-center gap-2 border border-slate-200 animate-pulse"
     >
       <div class="flex gap-2">
         <!-- close button -->

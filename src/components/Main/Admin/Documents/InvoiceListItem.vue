@@ -12,7 +12,7 @@ Invoice Item
 
 <template>
   <div :class="[
-    confirmedStatus ? 'bg-green-300' : 'bg-white border border-tertiaryText',
+    confirmedStatus ? 'bg-emerald-50' : 'bg-white border border-slate-200',
     'relative  rounded-xl overflow-clip'
   ]">
     <!-- flagged reports indicator -->

@@ -11,7 +11,7 @@ Admin Timesheet List Item
 -->
 
 <template>
-  <div class="relative bg-white border border-tertiaryText rounded-xl overflow-clip">
+  <div class="relative bg-white border border-slate-200 rounded-xl overflow-clip">
     <!-- flagged reports indicator -->
     <div
       v-if="flaggedReportsNumber && flaggedReportsNumber > 0"

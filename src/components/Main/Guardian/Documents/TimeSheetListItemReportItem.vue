@@ -20,7 +20,7 @@ Guardian Report List Item
       <div class="flex items-center justify-between">
         <div class="ml-2 flex flex-wrap gap-2">
           <!-- Total worked hours  -->
-          <div class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-green-300">
+          <div class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-emerald-100 text-emerald-700">
             <p>Gesamtzeit:</p>
             <p>{{ hoursWorked }}</p>
           </div>

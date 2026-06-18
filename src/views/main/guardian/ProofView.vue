@@ -124,7 +124,7 @@ Proof View
               v-else
               v-for="month in sortedReports"
               :key="month.month"
-              class="mt-2 border-t border-tertiaryText"
+              class="mt-2 border-t border-slate-200"
             >
               <!-- month header -->
               <div class="py-2 flex flex-col items-center">
@@ -185,7 +185,7 @@ Proof View
               <div
                 v-for="doc of tempDocs"
                 :key="doc.name"
-                class="flex flex-1 items-center justify-between p-4 truncate rounded-lg border border-tertiaryText bg-white overflow-hidden"
+                class="flex flex-1 items-center justify-between p-4 truncate rounded-lg border border-slate-200 bg-white overflow-hidden"
               >
                 <p class="text-gray-600">{{ doc.name }}</p>
                 <button

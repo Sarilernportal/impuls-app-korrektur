@@ -11,7 +11,7 @@ Guardian Timesheet List Item
 -->
 
 <template>
-  <div class="bg-white border border-tertiaryText rounded-xl ">
+  <div class="bg-white border border-slate-200 rounded-xl ">
     <div class="flex">
       <!-- Button wraps the hole element due to the list entry should be tapped -->
       <button
@@ -30,7 +30,7 @@ Guardian Timesheet List Item
               </div>
               <!-- total worked hours of all reports combined -->
               <div
-                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-green-300"
+                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-emerald-100 text-emerald-700"
               >
                 <p>Gesamtzeit:</p>
                 <p>{{ hoursWorked }}</p>
@@ -38,7 +38,7 @@ Guardian Timesheet List Item
               <!-- connected child -->
               <div
                 v-if="report.reportType !== 'special'"
-                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-green-300"
+                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-emerald-100 text-emerald-700"
               >
                 <p>{{ childName }}</p>
               </div>
