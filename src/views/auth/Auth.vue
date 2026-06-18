@@ -13,42 +13,35 @@ Auth Page
 
 <template>
   <!-- Main container -->
-  <div class="relative h-screen w-full">
+  <div class="relative min-h-screen w-full overflow-hidden">
     <!-- Background Image -->
     <img
-      class="h-full w-full object-cover"
+      class="absolute inset-0 h-full w-full object-cover"
       src="@/assets/img/impuls_mainbg.jpg"
       alt="Impuls Erziehungshilfe"
     />
-    <!-- Color filter for background image -->
-    <div
-      class="absolute inset-0 bg-gradient-to-r from-blue-300 to-pink-400"
-      style="mix-blend-mode: multiply"
-    />
+    <!-- Branded color overlay for the background image -->
+    <div class="absolute inset-0 bg-gradient-to-br from-impuls-blue/95 via-brand-700/90 to-brand-900/95" />
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_transparent_55%)]" />
+
     <!-- Container for the auth router views -->
-    <div class="
-        absolute
-        top-1/2
-        left-1/2
-        transform
-        -translate-x-1/2 -translate-y-1/2
-        max-w-md
-        w-full
-        bg-gray-800 bg-opacity-70
-        rounded-xl
-      ">
-      <!-- Content area -->
-      <div class="p-5 space-y-2">
-        <auth-header />
-        <router-view />
-        <div class="flex flex-wrap justify-center pt-4 w-full gap-6 print:hidden">
+    <div class="relative flex min-h-screen w-full items-center justify-center px-4 py-10">
+      <div class="w-full max-w-md">
+        <div class="rounded-2xl border border-white/15 bg-white/10 p-6 shadow-soft backdrop-blur-md sm:p-8">
+          <!-- Content area -->
+          <div class="space-y-4">
+            <auth-header />
+            <router-view />
+          </div>
+        </div>
+        <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm print:hidden">
           <router-link
             :to="{ name: 'Imprint' }"
-            class="text-white hover:text-white"
+            class="text-white/80 transition hover:text-white"
           >Impressum</router-link>
           <router-link
             :to="{ name: 'GDPR' }"
-            class="text-white hover:text-white"
+            class="text-white/80 transition hover:text-white"
           >
             Datenschutzbestimmung
           </router-link>
