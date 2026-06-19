@@ -44,18 +44,14 @@ describe('Validierung – Passwort (min. 12, Groß/Klein, Zahl, Sonderzeichen)',
 })
 
 describe('Validierung – Telefonnummer', () => {
-  it('akzeptiert gültige Nummern (ohne führende 0 bzw. mit +49)', () => {
-    expect(phoneValidation('17612345678')).toBe(true)
+  it('akzeptiert gültige Nummern (national, international, ohne führende 0)', () => {
+    expect(phoneValidation('017612345678')).toBe(true)
     expect(phoneValidation('+4917612345678')).toBe(true)
+    expect(phoneValidation('17612345678')).toBe(true)
   })
   it('lehnt Buchstaben und Leeres ab', () => {
     expect(phoneValidation('abc')).toBe(false)
     expect(phoneValidation('')).toBe(false)
-  })
-  // Dokumentiert aktuelles Verhalten: Nummern mit führender 0 werden
-  // derzeit abgelehnt (mögliche UX-Verbesserung – siehe Hinweis im Chat).
-  it('lehnt Nummern mit führender 0 ab (aktuelles Verhalten)', () => {
-    expect(phoneValidation('017612345678')).toBe(false)
   })
 })
 

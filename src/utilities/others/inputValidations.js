@@ -105,8 +105,9 @@ export function phoneValidation(phone) {
   if (phone.search(/[a-z]/i) > 0) {
     return false
   }
-  // Between 6 aand 10 numbers
-  const regex = /^\+?[1-9]\d{6,12}$/
+  // Akzeptiert internationale (+49…), nationale (0176…) und Nummern ohne
+  // führende 0. 7–13 Ziffern insgesamt.
+  const regex = /^(\+?[1-9]\d{6,12}|0\d{6,12})$/
   const result = regex.test(String(phone))
   if (!result) {
     return false
