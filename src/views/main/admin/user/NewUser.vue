@@ -40,7 +40,7 @@ Add new user
               <p class="text-sm font-medium text-blue-100">Verwaltung</p>
               <h1 class="mt-1 text-2xl font-bold sm:text-3xl">{{ typeTitle }} hinzufügen</h1>
               <p class="mt-2 max-w-3xl text-sm text-blue-100">
-                Zugangsdaten und Rolle sauber erfassen, damit der neue Zugang direkt korrekt zugeordnet ist.
+                Stammdaten, Funktion und Nachweise erfassen, damit Einsatz und Abrechnung korrekt greifen.
               </p>
             </div>
             <div class="rounded-lg bg-white/15 px-4 py-3 text-sm font-semibold text-white">
@@ -172,7 +172,7 @@ export default {
     const customSuccess = computed(() => {
       const successObject = {
         title: 'Erfolgreich angelegt',
-        message: `${typeTitle.value} erfolgreich angelegt. Der neue Nutzer wird nun mit seinen Zugangsdaten per SMS oder E-Mail informiert.`
+        message: `${typeTitle.value} erfolgreich angelegt. Es wird eine Einladungs-E-Mail zum Setzen des eigenen Passworts gesendet.`
       }
       return successObject
     })
