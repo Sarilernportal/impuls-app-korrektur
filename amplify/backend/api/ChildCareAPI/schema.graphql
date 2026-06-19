@@ -61,6 +61,12 @@ type Carrier
   invoices: [Invoices] @hasMany
   email: AWSEmail
   allowAutoInvoice: Boolean
+  # --- SAYAS Abrechnung (§ 35a SGB VIII) – additive, alle nullable ---
+  # Standard-Stundensatz des Kostenträgers (pro Fallakte überschreibbar).
+  defaultHourlyRate: Float
+  # Schlüssel des amtsspezifischen Regelsatzes (Soll-Berechnung, Krankheit,
+  # Stundenpool). Default-Regeln, bis Detailregeln nachgeliefert werden.
+  billingRuleSet: String
 }
 
 type CarrierContact
@@ -122,6 +128,8 @@ type Child
   caseworker: String
   decisionRef: String
   approvedUntil: String
+  # Stundensatz aus Bescheid/Vereinbarung (Default kommt sonst vom Träger).
+  hourlyRate: Float
   # Datenschutz / Einwilligung
   consentGiven: Boolean
   consentDate: String
@@ -248,6 +256,9 @@ type TimeSheets
   documentDate: AWSDateTime!
   transmitted: Boolean
   charged: Boolean
+  # SAYAS: Unterschriften-Ampel + ggf. Überhang-Korrektur dieses Nachweises.
+  signatures: SignatureSet
+  overhangCorrection: OverhangCorrection
   reportType: ReportType
   flag: TimSheetFlag
     @index(
@@ -286,6 +297,10 @@ type Invoices
   # overwriteSickHours: Float
   transmitted: Boolean
   charged: Boolean
+  # SAYAS: abgerechnete Stunden, Betrag und Überhang-Korrektur (Rechnungskorrektur).
+  billableHours: Float
+  amount: Float
+  overhangCorrection: OverhangCorrection
   reviseDate: AWSDateTime
   createdAt: AWSDateTime!
   type: String!
@@ -505,6 +520,27 @@ type SchoolContact {
   email: AWSEmail
   function: String
   gender: String
+}
+
+# SAYAS: Unterschriften-Ampel eines Nachweises (Eltern/Schule/Fachkraft).
+# Eine fehlende Unterschrift blockiert den Status "abrechenbar".
+type SignatureSet {
+  parent: Boolean
+  parentAt: AWSDateTime
+  school: Boolean
+  schoolAt: AWSDateTime
+  professional: Boolean
+  professionalAt: AWSDateTime
+}
+
+# SAYAS: Überhang-Korrektur mit Protokoll (wer, wann, warum).
+# mode: cap (deckeln) | release (freigeben) | carryover (in Folgemonat).
+type OverhangCorrection {
+  mode: String
+  releasedHours: Float
+  reason: String
+  correctedBy: String
+  correctedAt: AWSDateTime
 }
 
 input CreateReportInput {
