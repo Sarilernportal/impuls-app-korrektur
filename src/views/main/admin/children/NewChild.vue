@@ -43,9 +43,10 @@ Add new carrier
       <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div class="border-b border-slate-100 pb-4">
           <h2 class="text-lg font-semibold text-slate-900">Fallakte anlegen</h2>
-          <p class="mt-1 text-sm text-slate-500">Pflichtdaten zuerst, optionale Kontakt- und Schulinfos danach.</p>
+          <p class="mt-1 text-sm text-slate-500">Schritt für Schritt: Stammdaten, Sorgeberechtigte, Schule &amp; Begleitung, Hilfe &amp; Abrechnung.</p>
         </div>
-        <new-child-form
+        <new-child-wizard
+          class="mt-5"
           :isLoading="isLoading"
           @submit-inputs="formSubmitted"
         />
@@ -60,7 +61,7 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // Component imports
-import NewChildForm from '@/components/Main/Admin/Children/NewChildForm.vue'
+import NewChildWizard from '@/components/Main/Admin/Children/NewChildWizard.vue'
 import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import ErrorWindow from '@/components/UIComponents/Modals/ErrorWindow.vue'
 
@@ -71,7 +72,7 @@ export default {
   name: 'NewChild',
   props: ['type'],
   components: {
-    NewChildForm,
+    NewChildWizard,
     SuccessWindow,
     ErrorWindow
   },
