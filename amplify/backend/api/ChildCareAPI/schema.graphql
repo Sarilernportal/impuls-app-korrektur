@@ -108,6 +108,25 @@ type Child
   mother: Parent
   father: Parent
   schoolContact: SchoolContact
+  # --- SAYAS Fallakte (§ 35a SGB VIII) – additive, alle nullable ---
+  # Stammdaten
+  gender: String
+  address: String
+  nativeLanguage: String
+  # Schule & Begleitung
+  schoolForm: String
+  schoolClass: String
+  supportNeed: String
+  # Hilfe & Abrechnung (§ 35a SGB VIII)
+  legalBasis: String
+  caseworker: String
+  decisionRef: String
+  approvedUntil: String
+  # Datenschutz / Einwilligung
+  consentGiven: Boolean
+  consentDate: String
+  # Dynamische Liste aller Sorgeberechtigten (über Mutter/Vater hinaus)
+  legalGuardians: [Parent]
   archiveStatus: ArchiveStatus
     @index(
       name: "listChildrenByArchiveState"
@@ -473,6 +492,10 @@ type Parent {
   phone: String
   email: AWSEmail
   primaryContact: Boolean
+  # SAYAS: Rolle (Mutter, Vater, Vormund, Pflegeeltern, Amtsvormund, sonstige)
+  role: String
+  # SAYAS: personensorgeberechtigt
+  custody: Boolean
 }
 
 type SchoolContact {
