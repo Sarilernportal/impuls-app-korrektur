@@ -1,7 +1,7 @@
 <template>
   <!-- main container -->
   <div
-    :class="['w-full md:w-3/4 gap-2 border border-gray-600 p-2 rounded-lg', showInPrint ? 'flex' : 'flex print:hidden bg-white']"
+    :class="['w-full md:w-3/4 gap-2 rounded-xl border border-slate-200 p-3 shadow-card', showInPrint ? 'flex' : 'flex print:hidden bg-white']"
   >
     <!-- info section -->
     <div
@@ -44,7 +44,7 @@
         </p>
       </div>
       <!-- participants -->
-      <div class="border-t border-gray-600 flex pt-2 gap-2 flex-wrap">
+      <div class="border-t border-slate-200 flex pt-2 gap-2 flex-wrap">
         <h3 class="w-full font-semibold text-primaryText hidden print:flex">Teilnehmer</h3>
         <CalendarDetailsParticipationTile
           v-for="participation in participations"
@@ -59,15 +59,17 @@
     <div class="flex flex-col gap-2 print:hidden">
       <button
         @click="deleteTapped"
-        class="bg-red-600 text-white hover:bg-red-400 hover:text-red-500 rounded-full p-1"
+        title="Termin löschen"
+        class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600"
       >
-        <XMarkIcon class="w-6 h-6" />
+        <XMarkIcon class="h-5 w-5" />
       </button>
       <button
         @click="printTapped"
-        class="bg-gray-600 text-white hover:bg-gray-400 hover:text-gray-500 rounded-full p-1"
+        title="Drucken"
+        class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
       >
-        <PrinterIcon class="w-6 h-6" />
+        <PrinterIcon class="h-5 w-5" />
       </button>
     </div>
   </div>
