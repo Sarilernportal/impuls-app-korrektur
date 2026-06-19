@@ -61,7 +61,7 @@
             <DocumentChildSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="child"
+              :selectedChild="child"
               @child-selected="childSelected"
             />
             <button
@@ -69,14 +69,14 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearChild"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <div class="flex items-center gap-2">
             <DocumentGuardianSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="guardian"
+              :selectedGuardian="guardian"
               @guardian-selected="guardianSelected"
             />
             <button
@@ -84,7 +84,7 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearGuardian"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <DocumentTimespanFilter @time-filter="setDateFilter" />
@@ -242,7 +242,7 @@ import DocumentGuardianSelection from '@/components/Main/Admin/Documents/Documen
 import DocumentTimespanFilter from '@/components/Main/Admin/Documents/DocumentTimespanFilter.vue'
 import PaginationBar from '@/components/Navigation/PaginationBar.vue'
 import {
-  ArrowLeftIcon,
+  XMarkIcon,
   ArrowRightIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -255,7 +255,7 @@ import {
 export default {
   name: 'ReportsOverview',
   components: {
-    ArrowLeftIcon,
+    XMarkIcon,
     ArrowRightIcon,
     CheckCircleIcon,
     ClockIcon,

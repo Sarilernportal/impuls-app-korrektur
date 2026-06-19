@@ -1,20 +1,20 @@
 <template>
   <Popover
-    class="relative"
+    class="relative w-full"
     v-slot="{ open }"
   >
-    <PopoverButton :class="[
-      open ? 'text-gray-900' : 'text-gray-500',
-      'group inline-flex px-4 py-2 items-center rounded-lg bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-    ]">
-      <span>Zeitraum</span>
-      <ChevronDownIcon
-        :class="[
-          open ? 'text-gray-600' : 'text-gray-400',
-          'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-gray-500'
-        ]"
-        aria-hidden="true"
-      />
+    <PopoverButton
+      :class="[
+        open ? 'border-impuls-blue/50 ring-2 ring-brand-100' : 'border-slate-300',
+        'group flex w-full items-center gap-2.5 rounded-xl border bg-white px-3.5 py-2.5 text-left transition hover:border-impuls-blue/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-100'
+      ]"
+    >
+      <CalendarDaysIcon class="h-5 w-5 flex-shrink-0 text-slate-400" aria-hidden="true" />
+      <span class="min-w-0 flex-1">
+        <span class="block text-[11px] font-semibold uppercase tracking-wide text-slate-400">Zeitraum</span>
+        <span class="block truncate text-sm font-semibold text-slate-400">Alle Zeiträume</span>
+      </span>
+      <ChevronUpDownIcon class="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-slate-500" aria-hidden="true" />
     </PopoverButton>
     <transition
       enter-active-class="transition ease-out duration-200"
@@ -100,6 +100,7 @@ import SidewaySelection from '@/components/UIComponents/Selections/SidewaySelect
 import StandardButton from '@/components/UIComponents/Buttons/StandardButton.vue'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { CalendarDaysIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline'
 import {
   ArrowPathIcon,
   ChartBarIcon,
@@ -118,6 +119,8 @@ export default {
     PopoverButton,
     PopoverPanel,
     ChevronDownIcon,
+    CalendarDaysIcon,
+    ChevronUpDownIcon,
     ArrowPathIcon,
     ChartBarIcon,
     CursorArrowRaysIcon,

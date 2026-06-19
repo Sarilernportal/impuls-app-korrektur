@@ -78,7 +78,7 @@
             <DocumentChildSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="child"
+              :selectedChild="child"
               @child-selected="childSelected"
             />
             <button
@@ -86,14 +86,14 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearChild"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <div class="flex items-center gap-2">
             <DocumentGuardianSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="guardian"
+              :selectedGuardian="guardian"
               @guardian-selected="guardianSelected"
             />
             <button
@@ -101,7 +101,7 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearGuardian"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <DocumentTimespanFilter @time-filter="setDateFilter" />
@@ -292,7 +292,7 @@ import PaginationBar from '@/components/Navigation/PaginationBar.vue'
 import ErrorWindow from '@/components/UIComponents/Modals/ErrorWindow.vue'
 import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import {
-  ArrowLeftIcon,
+  XMarkIcon,
   BanknotesIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -307,7 +307,7 @@ const blacklistActivities = ['holiday', 'vacation', 'employeeSickness', 'other']
 export default {
   name: 'TimesheetOverview',
   components: {
-    ArrowLeftIcon,
+    XMarkIcon,
     BanknotesIcon,
     CheckCircleIcon,
     ClockIcon,
