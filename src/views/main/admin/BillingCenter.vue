@@ -223,6 +223,10 @@
             Ablauf: <span class="font-medium">Doku offen → Nachweis prüfen → Abrechenbar → Rechnung erstellt → Offen/unbezahlt → Bezahlt</span>.
             <span class="ml-1">* Soll vorläufig (Schul-/Ferienkalender wird nachgeliefert).</span>
           </p>
+          <p class="mt-2">
+            <span class="font-semibold text-slate-700">Sammelabrechnung:</span> eine Rechnung bündelt nur Nachweise desselben
+            <span class="font-medium">Klienten und Kostenträgers</span>; nur freigegebene Nachweise (aus der Nachweiszentrale) sind abrechenbar.
+          </p>
         </div>
       </section>
 

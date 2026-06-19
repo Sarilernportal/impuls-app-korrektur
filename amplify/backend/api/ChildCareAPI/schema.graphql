@@ -290,6 +290,10 @@ type TimeSheets
   # SAYAS: Unterschriften-Ampel + ggf. Überhang-Korrektur dieses Nachweises.
   signatures: SignatureSet
   overhangCorrection: OverhangCorrection
+  # SAYAS: Prüf-Status der Nachweiszentrale (eingegangen | in_pruefung |
+  # rueckfrage | doku_fehlt | freigegeben). "freigegeben" macht den Nachweis
+  # in der Abrechnungszentrale abrechenbar.
+  reviewStatus: String
   reportType: ReportType
   flag: TimSheetFlag
     @index(
