@@ -28,7 +28,7 @@ New Password Page
       @submit.prevent="submitForm"
     >
       <!-- header -->
-      <h3 class="font-medium text-center text-white">
+      <h3 class="font-medium text-center text-slate-900">
         Bitte geben Sie Ihr neues Passwort ein.
       </h3>
       <div class="rounded-md shadow-sm">
@@ -37,7 +37,6 @@ New Password Page
           <input-label
             elementID="new-password"
             labelText="Neues Passwort"
-            :useLightText="true"
           />
           <password-textfield
             ref="newPasswordTextfield"
@@ -53,7 +52,6 @@ New Password Page
           <input-label
             elementID="new-password-repeat"
             labelText="Neues Passwort wiederholen"
-            :useLightText="true"
           />
           <password-textfield
             ref="newPasswordRepeatTextfield"

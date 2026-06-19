@@ -25,23 +25,22 @@ Login Page
     </div>
     <!-- Submit form for login -->
     <form
-      class="mt-8 space-y-6"
+      class="space-y-6"
       @submit.prevent="submitForm"
     >
       <div
         v-if="localAuthMode"
-        class="rounded-lg bg-white/10 px-4 py-3 text-sm text-white"
+        class="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800"
       >
         Lokaler Testmodus aktiv. Du kannst die App ohne AWS-Backend als Demo öffnen.
       </div>
-      <div class="rounded-md shadow-sm space-y-6">
+      <div class="space-y-5">
         <div>
           <!-- E-Mail Label and Textfield-->
           <div>
             <input-label
               elementID="email"
               labelText="E-Mail-Adresse"
-              :useLightText="true"
             />
             <email-textfield
               ref="emailTextfield"
@@ -58,7 +57,6 @@ Login Page
           <input-label
             elementID="password"
             labelText="Passwort"
-            :useLightText="true"
           />
           <password-textfield
             ref="passwordTextfield"
@@ -74,7 +72,7 @@ Login Page
       <div class="flex items-center">
         <button
           type="button"
-          class="font-medium text-white hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-brand-500"
+          class="text-sm font-semibold text-impuls-blue transition hover:text-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded"
           @click="passwordForgetTapped"
         >
           Passwort vergessen?
@@ -92,7 +90,7 @@ Login Page
       <div v-if="localAuthMode">
         <button
           type="button"
-          class="relative flex w-full justify-center rounded-xl border border-white/40 px-4 py-2 text-sm font-medium text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
+          class="relative flex w-full justify-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
           @click="demoLoginTapped"
         >
           Demo-App öffnen

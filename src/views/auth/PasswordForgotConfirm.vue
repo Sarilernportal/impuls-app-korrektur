@@ -34,7 +34,7 @@ Password Forgot Confirm View
     <!-- Form for the password forgot data -->
     <form @submit.prevent="submitForm">
       <!-- Header -->
-      <h3 class="font-medium text-center text-white">
+      <h3 class="font-medium text-center text-slate-900">
         Bitte geben Sie Ihre Email, Ihren zugesendeten Code und ein neues Passwort ein.
       </h3>
       <!-- email label and textfield -->
@@ -42,7 +42,6 @@ Password Forgot Confirm View
         class="mt-4"
         elementID="email"
         labelText="Email"
-        :useLightText="true"
       />
       <email-textfield
         elementID="email"
@@ -57,7 +56,6 @@ Password Forgot Confirm View
         class="mt-4"
         elementID="code"
         labelText="Code"
-        :useLightText="true"
       />
       <number-textfield
         elementID="code"
@@ -71,7 +69,6 @@ Password Forgot Confirm View
         class="mt-4"
         elementID="password"
         labelText="Passwort"
-        :useLightText="true"
       />
       <password-textfield
         elementID="password"
@@ -86,7 +83,6 @@ Password Forgot Confirm View
         class="mt-4"
         elementID="passwordconfirm"
         labelText="Passwort bestätigen"
-        :useLightText="true"
       />
       <password-textfield
         elementID="passwordconfirm"
