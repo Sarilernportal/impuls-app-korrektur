@@ -9,32 +9,24 @@
       @close-modal="childrenOpen = false"
       @load-more="fetchChildren(false)"
     />
-    <div class="flex flex-col sm:flex-row gap-4">
-      <div class="flex w-full rounded-xl border border-primaryText justify-center place-items-center order-2 sm:order-1">
-        <div v-if="selectedChildName !== null">
-          <p class="text-primaryText text-lg text-center">
-            {{ selectedChildName }}
-          </p>
-        </div>
-      </div>
-      <!-- selection -->
-      <div class="w-full flex gap-8 order-1 sm:order-2">
-        <!-- add button-->
-        <div class="w-full text-white flex justify-center">
-          <div
-            @click="openChildren"
-            :class="[
-              enableAddButton
-                ? 'bg-indigo-600 hover:bg-indigo-700 cursor-pointer'
-                : 'bg-gray-600 hover:bg-gray-700 cursor-not-allowed',
-              'w-full text-sm text-center flex justify-center font-medium text-white rounded-xl  py-2 px-4'
-            ]"
-          >
-            <div class="self-center">Klient auswählen</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <button
+      type="button"
+      @click="openChildren"
+      :disabled="!enableAddButton"
+      class="group flex w-full items-center gap-2.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-left transition hover:border-impuls-blue/50 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-100 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      <UserIcon class="h-5 w-5 flex-shrink-0 text-slate-400" aria-hidden="true" />
+      <span class="min-w-0 flex-1">
+        <span class="block text-[11px] font-semibold uppercase tracking-wide text-slate-400">Klient</span>
+        <span
+          class="block truncate text-sm font-semibold"
+          :class="selectedChildName ? 'text-slate-900' : 'text-slate-400'"
+        >
+          {{ selectedChildName || 'Klient auswählen' }}
+        </span>
+      </span>
+      <ChevronUpDownIcon class="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-slate-500" aria-hidden="true" />
+    </button>
   </div>
 </template>
 
@@ -45,10 +37,13 @@ import { useStore } from 'vuex'
 
 // component imports
 import UserSelectionModal from '@/components/UIComponents/Modals/UserSelectionModal.vue'
+import { UserIcon, ChevronUpDownIcon } from '@heroicons/vue/24/outline'
 
 export default {
   components: {
-    UserSelectionModal
+    UserSelectionModal,
+    UserIcon,
+    ChevronUpDownIcon
   },
   props: {
     preSelected: {
@@ -81,10 +76,10 @@ export default {
 
     // compute selected child name
     const selectedChildName = computed(() => {
-      if (props.selectedChild !== null) {
+      if (props.selectedChild) {
         return `${props.selectedChild.name} ${props.selectedChild.familyName}`
       }
-      return 'Nicht ausgewählt'
+      return null
     })
 
     // get list of guardians
