@@ -42,6 +42,7 @@
         <button
           v-for="card in statusCards"
           :key="card.status"
+          :data-testid="'filter-' + card.status"
           @click="setFilter(card.status)"
           :class="[
             'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover',
@@ -75,6 +76,7 @@
               Filter zurücksetzen
             </button>
             <button
+              data-testid="batch-invoice-btn"
               class="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
               :disabled="selectedRows.length === 0"
               @click="openBatch"
@@ -106,11 +108,11 @@
 
         <!-- Tabelle -->
         <div v-else class="overflow-x-auto">
-          <table class="w-full min-w-[1080px] border-collapse text-sm">
+          <table data-testid="billing-table" class="w-full min-w-[1080px] border-collapse text-sm">
             <thead>
               <tr class="border-b border-slate-200 text-left text-[11px] font-medium uppercase tracking-wide text-slate-400">
                 <th class="px-4 py-3">
-                  <input type="checkbox" :checked="allSelected" @change="toggleSelectAll" class="h-4 w-4 rounded border-slate-300 text-impuls-blue focus:ring-brand-200" />
+                  <input type="checkbox" data-testid="select-all" :checked="allSelected" @change="toggleSelectAll" class="h-4 w-4 rounded border-slate-300 text-impuls-blue focus:ring-brand-200" />
                 </th>
                 <th class="px-3 py-3">Klient / Fachkraft</th>
                 <th class="px-3 py-3">Jugendamt</th>
@@ -183,7 +185,7 @@
                   <td class="px-3 py-3 align-top text-right font-medium tabular-nums">{{ row.display.billable }}</td>
                   <td class="px-3 py-3 align-top text-right font-semibold tabular-nums">{{ row.display.amount }}</td>
                   <td class="px-3 py-3 align-top">
-                    <SignatureTrafficLight :signatures="row.signatures" />
+                    <SignatureTrafficLight data-testid="signatures" :signatures="row.signatures" />
                   </td>
                   <td class="px-3 py-3 align-top">
                     <div class="flex flex-wrap items-center gap-2">
@@ -192,6 +194,7 @@
                       </span>
                       <button
                         v-if="row.hasOverhang"
+                        data-testid="overhang-correct"
                         class="inline-flex items-center gap-1 rounded-md border border-amber-300 px-2 py-1 text-xs font-semibold text-amber-700 hover:bg-amber-50"
                         @click="openCorrection(row)"
                       >
