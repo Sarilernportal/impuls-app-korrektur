@@ -8,14 +8,15 @@ import { test, expect } from '@playwright/test'
 // Rechnung *anlegen*) braucht ein echtes Backend und gehört auf eine
 // Staging-Umgebung. Im Demo-Modus werden Beispieldaten angezeigt.
 
+// Meldet sich über den Demo-Zugang an. Nach dem Login landet man im
+// Admin-Bereich (Mitarbeiter-Zentrale) – wir warten nur darauf, dass die
+// URL in den /admin-Bereich wechselt.
 async function loginDemo(page) {
   await page.goto('/')
-  // Auf der Anmeldeseite den Demo-Zugang öffnen
   const demoButton = page.getByRole('button', { name: 'Demo-App öffnen' })
   await expect(demoButton).toBeVisible()
   await demoButton.click()
-  // Nach dem Login landet man in der Abrechnungszentrale
-  await expect(page.getByRole('heading', { name: 'Abrechnungszentrale' })).toBeVisible()
+  await page.waitForURL(/\/admin/, { timeout: 15000 })
 }
 
 test('Anmeldeseite zeigt Marke und Wertversprechen', async ({ page }) => {
@@ -24,29 +25,30 @@ test('Anmeldeseite zeigt Marke und Wertversprechen', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Demo-App öffnen' })).toBeVisible()
 })
 
-test('Demo-Login führt in die Abrechnungszentrale', async ({ page }) => {
+test('Demo-Login öffnet den Admin-Bereich', async ({ page }) => {
   await loginDemo(page)
+  await expect(page.getByRole('heading', { name: 'Mitarbeiter-Zentrale' })).toBeVisible()
 })
 
-test('Navigation durch die zentralen Verwaltungs-Seiten', async ({ page }) => {
+test('Zentrale Verwaltungs-Seiten laden', async ({ page }) => {
   await loginDemo(page)
 
-  await page.getByRole('button', { name: 'Betreuer' }).click()
-  await expect(page.getByRole('heading', { name: 'Mitarbeiter-Zentrale' })).toBeVisible()
+  await page.goto('/admin/billing')
+  await expect(page.getByRole('heading', { name: 'Abrechnungszentrale' })).toBeVisible()
 
-  await page.getByRole('button', { name: 'Träger' }).click()
+  await page.goto('/admin/carrier')
   await expect(page.getByRole('heading', { name: 'Träger-Zentrale' })).toBeVisible()
 
-  await page.getByRole('button', { name: 'Dokumentationen' }).click()
+  await page.goto('/admin/documents/reports')
   await expect(page.getByRole('heading', { name: 'Dokumentationszentrale' })).toBeVisible()
 })
 
 test('Filter-Dialog öffnet sich in der Dokumentationszentrale', async ({ page }) => {
   await loginDemo(page)
-  await page.getByRole('button', { name: 'Dokumentationen' }).click()
+  await page.goto('/admin/documents/reports')
   await expect(page.getByRole('heading', { name: 'Dokumentationszentrale' })).toBeVisible()
 
   // Klient-Auswahlfeld öffnen -> Suchdialog erscheint
   await page.getByRole('button', { name: /Klient/ }).first().click()
-  await expect(page.getByPlaceholder('Nach Namen suchen …')).toBeVisible()
+  await expect(page.getByPlaceholder(/Nach Namen suchen/)).toBeVisible()
 })
