@@ -31,7 +31,7 @@ Add new carrier
       />
     </div>
 
-    <div class="mx-auto flex max-w-6xl flex-col gap-5">
+    <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Verwaltung</p>
         <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Klient hinzufügen</h1>

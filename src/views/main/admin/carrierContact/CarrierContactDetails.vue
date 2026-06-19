@@ -54,7 +54,7 @@ Carrier Contact Details
       class="flex-1 flex flex-col"
     >
       <main class="flex-1 focus:outline-none">
-        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:w-4/5 lg:px-8 xl:px-0">
+        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:px-8 xl:px-0">
           <div class="py-8">
             <div class="px-4 sm:px-6 md:px-0 space-y-6">
               <!-- Description list with inline editing -->

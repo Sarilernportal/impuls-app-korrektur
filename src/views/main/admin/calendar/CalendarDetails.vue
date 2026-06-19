@@ -71,7 +71,7 @@ Calendar Details
   <!-- Main Container -->
   <div class="flex min-h-screen w-full flex-col items-center gap-6 bg-slate-50 px-4 pt-6 pb-10">
     <!-- Header section -->
-    <div class="w-full space-y-1 lg:w-4/5">
+    <div class="w-full space-y-1">
       <h3 class="text-lg leading-6 font-semibold text-slate-900">Kalender Details</h3>
       <p class="max-w-2xl text-sm text-secondaryText">
         Informationen über die Daten des Kalenders
@@ -87,7 +87,7 @@ Calendar Details
     <!-- info -->
     <div
       v-else
-      class="flex w-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-card divide-y divide-slate-200 lg:w-4/5"
+      class="flex w-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-card divide-y divide-slate-200"
     >
       <!-- title -->
       <EditableTextRow
@@ -139,7 +139,7 @@ Calendar Details
     <!-- Header section connections -->
     <div
       v-if="!isLoading"
-      class="w-full space-y-1 rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:w-4/5"
+      class="w-full space-y-1 rounded-xl border border-slate-200 bg-white p-6 shadow-card"
     >
       <h3 class="text-lg leading-6 font-semibold text-slate-900">Teilnehmer</h3>
       <p class="max-w-2xl text-sm text-secondaryText">
@@ -185,7 +185,7 @@ Calendar Details
       </div>
     </div>
     <!-- object info -->
-    <div class="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:w-4/5">
+    <div class="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-card">
       <CalendarDetailsObjectInfo
         class="pb-4"
         v-if="!isLoading"
