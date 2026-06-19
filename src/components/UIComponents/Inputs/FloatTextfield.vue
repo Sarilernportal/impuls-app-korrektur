@@ -20,11 +20,11 @@ Float Textfield Component
         :name="name"
         type="number"
         :class="{
-          'border-red-600': validationStatus === 'failed',
-          'border-green-500': validationStatus === 'passed',
-          'border-gray-300': validationStatus === 'pending'
+          'border-red-500 bg-red-50/50 focus:border-red-500 focus:ring-red-100': validationStatus === 'failed',
+          'border-green-500 bg-green-50/40 focus:border-green-500 focus:ring-green-100': validationStatus === 'passed',
+          'border-slate-300 bg-white focus:border-impuls-blue focus:ring-blue-100': validationStatus === 'pending'
         }"
-        class="mt-1 appearance-none relative block w-full px-2 py-2 border-2 placeholder-gray-500 text-gray-900 rounded-sm focus:outline-none focus:ring-brand-500 focus:border-impuls-blue focus:z-10 sm:text-sm"
+        class="mt-1 relative block w-full rounded-lg border px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 shadow-sm transition focus:outline-none focus:ring-2 focus:z-10"
         :placeholder="placeholder"
         @input="validateNumber"
         @blur="validateNumber"

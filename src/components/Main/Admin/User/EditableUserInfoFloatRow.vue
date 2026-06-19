@@ -42,7 +42,7 @@ Editable User Float Row
           v-if="!editModeActive"
           type="button"
           @click="editModeActive = true"
-          class="bg-indigo-600 py-0.5 px-2 rounded-md font-medium text-gray-100 hover:text-gray-400 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-gray-800"
+          class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-100"
         >
           {{ buttonTitle }}
         </button>
@@ -55,7 +55,7 @@ Editable User Float Row
           <button
             type="button"
             @click="editModeActive = false"
-            class="w-5 h-5 bg-indigo-600 font-medium text-gray-100 hover:text-gray-400 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-gray-800 rounded-full"
+            class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-100"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ Editable User Float Row
             type="button"
             :disabled="!inputIsValid"
             @click="submitChange"
-            class="bg-green-500 py-0.5 px-2 rounded-md font-medium text-white hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-gray-600 disabled:opacity-30 disabled:cursor-not-allowed"
+            class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Aktualisieren
           </button>
