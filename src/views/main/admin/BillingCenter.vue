@@ -192,6 +192,15 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { isLocalAuthMode } from '@/services/authService.js'
 import {
+  dailyReportItems,
+  hasReviseReport,
+  hasInvoicedReport,
+  canInvoiceTimeSheet,
+  timeSheetStatus,
+  invoiceStatus,
+  hoursWorked
+} from '@/utilities/billing/billing.js'
+import {
   ArrowRightIcon,
   BanknotesIcon,
   CheckCircleIcon,
@@ -482,71 +491,6 @@ export default {
       }
     }
 
-    function canInvoiceTimeSheet(timeSheet) {
-      return timeSheet.reportType !== 'special' &&
-        dailyReportItems(timeSheet).length > 0 &&
-        !hasReviseReport(timeSheet) &&
-        !hasInvoicedReport(timeSheet)
-    }
-
-    function timeSheetStatus(timeSheet) {
-      if (hasInvoicedReport(timeSheet)) {
-        return {
-          label: 'abgerechnet',
-          badgeClass: 'bg-orange-100 text-orange-700'
-        }
-      }
-      if (hasReviseReport(timeSheet)) {
-        return {
-          label: 'in Prüfung',
-          badgeClass: 'bg-sky-100 text-sky-700'
-        }
-      }
-      if (dailyReportItems(timeSheet).length === 0) {
-        return {
-          label: 'Doku fehlt',
-          badgeClass: 'bg-orange-100 text-orange-700'
-        }
-      }
-
-      return {
-        label: 'bereit',
-        badgeClass: 'bg-emerald-100 text-emerald-700'
-      }
-    }
-
-    function invoiceStatus(invoice) {
-      if (invoice.charged) {
-        return {
-          label: 'bezahlt',
-          badgeClass: 'bg-orange-100 text-orange-700'
-        }
-      }
-      if (hasReviseReport(invoice)) {
-        return {
-          label: 'Rückfrage',
-          badgeClass: 'bg-amber-100 text-amber-700'
-        }
-      }
-
-      return {
-        label: invoice.internalNumber ? 'versandbereit' : 'GF-Prüfung',
-        badgeClass: invoice.internalNumber ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700'
-      }
-    }
-
-    function dailyReportItems(document) {
-      return document.dailyReport?.items || []
-    }
-
-    function hasReviseReport(document) {
-      return dailyReportItems(document).some((report) => report.flag === 'revise')
-    }
-
-    function hasInvoicedReport(document) {
-      return dailyReportItems(document).some((report) => report.charged)
-    }
-
     function childName(document) {
       const name = [document.child?.name, document.child?.familyName].filter(Boolean).join(' ')
       return name || 'Nicht angegeben'
@@ -573,24 +517,6 @@ export default {
         month: 'long',
         year: 'numeric'
       })
-    }
-
-    function hoursWorked(reports) {
-      const workedHours = reports.reduce((total, report) => {
-        if (typeof report.hourFrom !== 'number' || typeof report.hourTo !== 'number') {
-          return total
-        }
-
-        const minuteFrom = report.minuteFrom || 0
-        const minuteTo = report.minuteTo || 0
-        const timeFrom = report.hourFrom + minuteFrom / 60
-        const timeTo = report.hourTo + minuteTo / 60
-        return total + Math.max(timeTo - timeFrom, 0)
-      }, 0)
-
-      const hours = Math.floor(workedHours)
-      const minutes = Math.round((workedHours % 1) * 60)
-      return `${hours}h ${minutes}m`
     }
 
     function createDemoReport(options) {

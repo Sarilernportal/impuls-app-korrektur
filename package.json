@@ -9,6 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.vue\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "updateAppsyncOperations": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/AdminQueries8a07980f/src/modules/appsync/graphql",
     "updateResolverGraphQL": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/ChildCareReportResolver/src/modules/appsync/graphql"
   },
@@ -37,6 +39,7 @@
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "vite": "^3.0.7",
-    "vite-plugin-pwa": "^0.13.1"
+    "vite-plugin-pwa": "^0.13.1",
+    "vitest": "^0.34.6"
   }
 }

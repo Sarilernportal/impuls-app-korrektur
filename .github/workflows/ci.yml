@@ -26,6 +26,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Tests
+        run: npm test
+
       - name: Demo-Konfiguration anlegen (für den Build)
         run: npm run setup:demo
 
