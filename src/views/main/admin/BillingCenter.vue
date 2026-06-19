@@ -59,7 +59,7 @@
         </button>
       </section>
 
-      <div class="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(340px,0.6fr)]">
+      <div class="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
         <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
           <div class="border-b border-slate-200 px-5 py-4">
             <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
