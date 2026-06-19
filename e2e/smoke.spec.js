@@ -43,12 +43,7 @@ test('Zentrale Verwaltungs-Seiten laden', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Dokumentationszentrale' })).toBeVisible()
 })
 
-test('Filter-Dialog öffnet sich in der Dokumentationszentrale', async ({ page }) => {
-  await loginDemo(page)
-  await page.goto('/admin/documents/reports')
-  await expect(page.getByRole('heading', { name: 'Dokumentationszentrale' })).toBeVisible()
-
-  // Klient-Auswahlfeld öffnen -> Suchdialog erscheint
-  await page.getByRole('button', { name: /Klient/ }).first().click()
-  await expect(page.getByPlaceholder(/Nach Namen suchen/)).toBeVisible()
-})
+// Hinweis: Das Öffnen der Auswahl-Dialoge (Klient/Betreuer/Träger) lädt die
+// Liste aus dem Backend. Dieser interaktive Schritt – und der vollständige
+// Ablauf bis zur Rechnung – gehört auf eine Staging-Umgebung mit echtem
+// Backend und ist daher hier (Demo-Modus) bewusst nicht als Smoke-Test.
