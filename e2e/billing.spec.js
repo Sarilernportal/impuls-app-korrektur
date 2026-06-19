@@ -44,7 +44,8 @@ test.describe('Abrechnungszentrale', () => {
 
     // Klient/Fachkraft je Zeile + korrekter Betrag (Lina: 52 h × 45,50 €)
     await expect(table.getByText('Lina Beispiel')).toBeVisible()
-    await expect(table.getByText('Mira Demir')).toBeVisible()
+    // "Mira Demir" ist in den Demo-Daten mehrfach Fachkraft -> erstes Vorkommen
+    await expect(table.getByText('Mira Demir').first()).toBeVisible()
     await expect(table.getByText('2.366,00', { exact: false }).first()).toBeVisible()
   })
 
