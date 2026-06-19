@@ -19,7 +19,7 @@
   </div>
   <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div class="mx-auto flex max-w-5xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white shadow-sm sm:p-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Dokumentation</p>
         <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Doku erstellen</h1>
         <p class="mt-2 max-w-2xl text-sm text-blue-50">

@@ -13,7 +13,7 @@
           >
             <img
               class="h-9 w-auto"
-              src="@/assets/img/impuls_logo.png"
+              src="@/assets/img/logo_main.png"
               alt="Impuls"
             />
             <div>

@@ -24,7 +24,7 @@ Auth Page – split-screen layout (brand panel + form panel)
         <span class="inline-flex items-center gap-3 rounded-2xl bg-white/95 px-4 py-2.5 shadow-soft">
           <img
             class="h-9 w-auto"
-            src="@/assets/img/impuls_logo.png"
+            src="@/assets/img/logo_main.png"
             alt="Impuls Erziehungshilfen"
           />
           <span class="text-lg font-bold tracking-tight text-impuls-blue">Impuls</span>

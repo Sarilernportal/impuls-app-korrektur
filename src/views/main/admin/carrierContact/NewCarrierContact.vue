@@ -32,7 +32,7 @@ Add new carrier
     </div>
 
     <div class="mx-auto flex max-w-6xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:p-5 shadow-sm">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Verwaltung</p>
         <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Trägerkontakt hinzufügen</h1>
         <p class="mt-2 max-w-3xl text-sm text-blue-50">

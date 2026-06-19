@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-4 sm:px-6 lg:px-8">
-    <section class="rounded-lg bg-impuls-blue px-4 py-5 text-white shadow-sm sm:px-6">
+    <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 px-5 py-6 text-white shadow-soft sm:px-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p class="text-sm font-medium text-blue-100">{{ todayLabel }}</p>

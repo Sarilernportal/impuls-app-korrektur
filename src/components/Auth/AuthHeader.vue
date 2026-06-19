@@ -10,7 +10,7 @@ Auth Header (light form panel)
   <div>
     <img
       class="h-12 w-auto"
-      src="@/assets/img/impuls_logo.png"
+      src="@/assets/img/logo_main.png"
       alt="Impuls Erziehungshilfen"
     />
     <h2 class="mt-6 text-2xl font-bold tracking-tight text-slate-900">

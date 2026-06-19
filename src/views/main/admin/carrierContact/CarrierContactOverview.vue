@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:px-5 sm:py-6 shadow-sm">
+    <div class="flex w-full flex-col gap-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Träger</p>
