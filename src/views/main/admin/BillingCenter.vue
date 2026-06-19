@@ -328,7 +328,6 @@ export default {
     // Filter, Auswahl, Aufklapp- und Korrektur-Status
     const activeFilter = ref(null)
     const selectedIds = reactive({})
-    const expanded = reactive({})
     const corrections = reactive({})
     const collapsedKeys = reactive({})
 
@@ -344,38 +343,57 @@ export default {
     const fullSignatures = { parent: true, school: true, professional: true }
 
     const demoTimeSheets = [
+      // Abrechenbar: Soll 60 h (15 h/Wo × 4 Schulwo.), 52 h geleistet → 52 h × 45,50 € = 2.366,00 €
       makeDemoTimeSheet({
         id: 'demo-ts-lina', child: 'Lina Beispiel', employee: 'Mira Demir',
         carrier: 'JA Groß-Gerau', weeklyHours: 15, hourlyRate: 45.5,
-        days: 20, hoursPerDay: 3, signatures: fullSignatures
+        totalHours: 52, schoolDays: 20, hoursPerSchoolDay: 3, signatures: fullSignatures
       }),
+      // Überhang: Soll 40 h (10 h/Wo × 4 Schulwo.), 46 h geleistet → +6 h, abrechenbar 40 h × 45,50 € = 1.820,00 €
       makeDemoTimeSheet({
         id: 'demo-ts-sara', child: 'Sara Yıldız', employee: 'Anna Koch',
         carrier: 'JA Mitte', weeklyHours: 10, hourlyRate: 45.5,
-        days: 16, hoursPerDay: 3, signatures: fullSignatures
+        totalHours: 46, schoolDays: 20, hoursPerSchoolDay: 2, signatures: fullSignatures
       }),
+      // Abrechenbar: Soll 36 h (12 h/Wo × 3 Schulwo.), 33 h geleistet → 33 h × 45,50 € = 1.501,50 €
       makeDemoTimeSheet({
         id: 'demo-ts-max', child: 'Max Muster', employee: 'Jonas Keller',
         carrier: 'JA Mitte', weeklyHours: 12, hourlyRate: 45.5,
-        days: 17, hoursPerDay: 3, signatures: { parent: true, school: false, professional: true }
+        totalHours: 33, schoolDays: 15, hoursPerSchoolDay: 2.4, signatures: fullSignatures
       }),
+      // Nachweis prüfen: Unterschrift der Schule fehlt
+      makeDemoTimeSheet({
+        id: 'demo-ts-ben', child: 'Ben Roth', employee: 'Sven Bauer',
+        carrier: 'JA Groß-Gerau', weeklyHours: 10, hourlyRate: 45.5,
+        totalHours: 40, schoolDays: 20, hoursPerSchoolDay: 2,
+        signatures: { parent: true, school: false, professional: true }
+      }),
+      // Nachweis prüfen: Doku zur Überarbeitung markiert
+      makeDemoTimeSheet({
+        id: 'demo-ts-mia', child: 'Mia Schulz', employee: 'Anna Koch',
+        carrier: 'JA Mitte', weeklyHours: 8, hourlyRate: 45.5,
+        totalHours: 28, schoolDays: 14, hoursPerSchoolDay: 2, flag: 'revise', signatures: fullSignatures
+      }),
+      // Doku offen: noch keine Tages-Dokus vorhanden
       makeDemoTimeSheet({
         id: 'demo-ts-tom', child: 'Tom Klein', employee: 'Sven Bauer',
         carrier: 'JA Groß-Gerau', weeklyHours: 8, hourlyRate: 45.5,
-        days: 0, hoursPerDay: 0, signatures: fullSignatures
+        totalHours: 0, signatures: fullSignatures
       })
     ]
 
     const demoInvoices = [
+      // Rechnung erstellt (noch nicht versendet)
       makeDemoInvoice({
         id: 'demo-inv-1', internalNumber: 'RE-2026-0501', child: 'Nora Sahin',
         employee: 'Mira Demir', carrier: 'JA Groß-Gerau', weeklyHours: 12,
-        hourlyRate: 45.5, days: 18, hoursPerDay: 3, transmitted: false, charged: false
+        hourlyRate: 45.5, totalHours: 54, transmitted: false, charged: false
       }),
+      // Offen / unbezahlt (versendet, noch nicht bezahlt)
       makeDemoInvoice({
         id: 'demo-inv-2', internalNumber: 'RE-2026-0488', child: 'Erik Wolf',
         employee: 'Anna Koch', carrier: 'JA Mitte', weeklyHours: 10,
-        hourlyRate: 45.5, days: 15, hoursPerDay: 3, transmitted: true, charged: false
+        hourlyRate: 45.5, totalHours: 45, transmitted: true, charged: false
       })
     ]
 
@@ -395,7 +413,12 @@ export default {
     const allRows = computed(() => {
       const timeSheetRows = sourceTimeSheets.value
         .filter((ts) => ts.reportType !== 'special')
-        .map((ts) => buildTimeSheetRow(ts, { monthContext, correction: corrections[ts.id] || null }))
+        .map((ts) =>
+          buildTimeSheetRow(ts, {
+            monthContext: ts.demoContext ? { ...monthContext, ...ts.demoContext } : monthContext,
+            correction: corrections[ts.id] || null
+          })
+        )
       const invoiceRows = sourceInvoices.value.map((inv) => buildInvoiceRow(inv))
       return [...timeSheetRows, ...invoiceRows]
     })
@@ -582,9 +605,14 @@ export default {
     ]
 
     // ── Demo-Helfer ──
-    function makeDayReports(prefix, days, hoursPerDay, flag) {
+    // Erzeugt Tages-Dokus mit exakt der gewünschten Gesamtstundenzahl
+    // (volle 4-h-Tage + ggf. ein Resttag), damit "Geleistet" planbar ist.
+    function makeDayReports(prefix, totalHours, flag) {
       const items = []
-      for (let i = 0; i < days; i++) {
+      let remaining = totalHours
+      let i = 0
+      while (remaining > 0) {
+        const h = Math.min(4, remaining)
         items.push({
           id: `${prefix}-day-${i}`,
           type: 'dailyReport',
@@ -593,9 +621,11 @@ export default {
           charged: false,
           hourFrom: 9,
           minuteFrom: 0,
-          hourTo: 9 + hoursPerDay,
-          minuteTo: 0
+          hourTo: 9 + Math.floor(h),
+          minuteTo: Math.round((h % 1) * 60)
         })
+        remaining -= h
+        i++
       }
       return items
     }
@@ -609,10 +639,14 @@ export default {
         documentDate: new Date(monthContext.year, monthContext.month, 15).toISOString(),
         signatures: o.signatures,
         key: o.signatures?.professional ? 'sig-key' : undefined,
+        // Demo: Schultage/Stunden je Tag, damit das Soll exakt aufgeht.
+        demoContext: o.schoolDays
+          ? { schoolDays: o.schoolDays, hoursPerSchoolDay: o.hoursPerSchoolDay }
+          : null,
         child: { id: `${o.id}-child`, name, familyName, weeklyHours: o.weeklyHours, hourlyRate: o.hourlyRate },
         guardian: { id: `${o.id}-guardian`, name: gName, familyName: gFamily },
         carrier: { id: `${o.id}-carrier`, name: o.carrier, defaultHourlyRate: o.hourlyRate },
-        dailyReport: { items: makeDayReports(o.id, o.days, o.hoursPerDay) }
+        dailyReport: { items: makeDayReports(o.id, o.totalHours || 0, o.flag) }
       }
     }
     function makeDemoInvoice(o) {
@@ -630,7 +664,7 @@ export default {
         child: { id: `${o.id}-child`, name, familyName, weeklyHours: o.weeklyHours, hourlyRate: o.hourlyRate },
         guardian: { id: `${o.id}-guardian`, name: gName, familyName: gFamily },
         carrier: { id: `${o.id}-carrier`, name: o.carrier, defaultHourlyRate: o.hourlyRate },
-        dailyReport: { items: makeDayReports(o.id, o.days, o.hoursPerDay) }
+        dailyReport: { items: makeDayReports(o.id, o.totalHours || 0) }
       }
     }
 
