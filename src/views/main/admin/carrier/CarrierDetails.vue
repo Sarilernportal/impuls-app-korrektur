@@ -54,64 +54,52 @@ Carrier Details
       class="flex-1 flex flex-col"
     >
       <main class="flex-1 focus:outline-none">
-        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:px-8 xl:px-0">
-          <div class="py-8">
-            <div class="px-4 sm:px-6 md:px-0 space-y-6">
-              <!-- Description list with inline editing -->
-              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
-                <!-- Header section -->
-                <div class="space-y-1">
-                  <h3 class="text-lg leading-6 font-semibold text-slate-900">
-                    Profil
-                  </h3>
-                  <p class="max-w-2xl text-sm text-secondaryText">
-                    Informationen über persönliche Daten des Trägers.
-                  </p>
-                </div>
-                <!-- carrier Data section -->
-                <div class="mt-6">
-                  <carrier-detail-data-info
-                    :carrier="carrier"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
-                <!-- Billing Header section -->
-                <div class="space-y-1 mt-6 pt-6">
-                  <h3 class="text-lg leading-6 font-semibold text-slate-900">
-                    Rechnungsadresse
-                  </h3>
-                  <p class="max-w-2xl text-sm text-secondaryText">
-                    Informationen über die Rechnungsadresse des Trägers.
-                  </p>
-                </div>
-                <!-- carrier billing information section -->
-                <div class="mt-6">
-                  <CarrierBillingInfo
-                    :carrier="carrier"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
-                <!-- carrier contacts -->
-                <div class="mt-6 pt-6">
-                  <CarrierDetailContactList
-                    @contact-selected="addContact"
-                    @remove-contact="removeContact"
-                    :carrier="carrier"
-                  />
-                </div>
-              </div>
-              <!-- Account Information section -->
-              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
-                <carrier-detail-account-info
+        <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <div class="grid gap-6 lg:grid-cols-2">
+            <!-- Profil -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Trägers.</p>
+              <div class="mt-5">
+                <carrier-detail-data-info
                   :carrier="carrier"
-                  :deleteIsLoading="deleteIsLoading"
-                  :userStateIsLoading="userStateIsLoading"
-                  @delete-carrier-tapped="deleteCarrierTapped"
+                  :isLoading="propertyIsLoading"
+                  @change-submit="changeSubmitted"
                 />
               </div>
-            </div>
+            </section>
+
+            <!-- Rechnungsadresse -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">Rechnungsadresse</h3>
+              <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Trägers.</p>
+              <div class="mt-5">
+                <CarrierBillingInfo
+                  :carrier="carrier"
+                  :isLoading="propertyIsLoading"
+                  @change-submit="changeSubmitted"
+                />
+              </div>
+            </section>
+
+            <!-- Trägerkontakte (volle Breite) -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <CarrierDetailContactList
+                @contact-selected="addContact"
+                @remove-contact="removeContact"
+                :carrier="carrier"
+              />
+            </section>
+
+            <!-- Konto (volle Breite) -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <carrier-detail-account-info
+                :carrier="carrier"
+                :deleteIsLoading="deleteIsLoading"
+                :userStateIsLoading="userStateIsLoading"
+                @delete-carrier-tapped="deleteCarrierTapped"
+              />
+            </section>
           </div>
         </div>
       </main>

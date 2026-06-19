@@ -54,54 +54,45 @@ User Details
       class="flex-1 flex flex-col"
     >
       <main class="flex-1 focus:outline-none">
-        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:px-8 xl:px-0">
-          <div class="py-8">
-            <div class="px-4 sm:px-6 md:px-0 space-y-6">
-              <!-- Description list with inline editing -->
-              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
-                <!-- Header section -->
-                <div class="space-y-1">
-                  <h3 class="text-lg leading-6 font-semibold text-slate-900">
-                    Profil
-                  </h3>
-                  <p class="max-w-2xl text-sm text-secondaryText">
-                    Informationen über persönliche Daten des Nutzers.
-                  </p>
-                </div>
-                <!-- Data section -->
-                <div class="mt-6">
-                  <!-- Data section for users -->
-                  <user-detail-data-info
-                    :user="user"
-                    :userObject="userObject"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                    @change-profession="updateUserObject"
-                  />
-                </div>
-              </div>
-              <!-- children list -->
-              <div
-                v-if="user.Group.GroupName === 'Guardian'"
-                class="mt-6"
-              >
-                <GuardianDetailChildrenList
-                  @child-selected="addChild"
-                  @remove-child="removeChild"
-                  :children="children"
-                />
-              </div>
-              <!-- Account Information section -->
-              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
-                <user-detail-account-info
+        <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <div class="grid gap-6 lg:grid-cols-2">
+            <!-- Profil -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Nutzers.</p>
+              <div class="mt-5">
+                <user-detail-data-info
                   :user="user"
-                  :deleteIsLoading="deleteIsLoading"
-                  :userStateIsLoading="userStateIsLoading"
-                  @active-button-toggled="activeButtonToggled"
-                  @delete-user-tapped="deleteUserTapped"
+                  :userObject="userObject"
+                  :isLoading="propertyIsLoading"
+                  @change-submit="changeSubmitted"
+                  @change-profession="updateUserObject"
                 />
               </div>
-            </div>
+            </section>
+
+            <!-- Konto -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+              <user-detail-account-info
+                :user="user"
+                :deleteIsLoading="deleteIsLoading"
+                :userStateIsLoading="userStateIsLoading"
+                @active-button-toggled="activeButtonToggled"
+                @delete-user-tapped="deleteUserTapped"
+              />
+            </section>
+
+            <!-- Verknüpfte Klienten (volle Breite, nur Betreuer) -->
+            <section
+              v-if="user.Group.GroupName === 'Guardian'"
+              class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2"
+            >
+              <GuardianDetailChildrenList
+                @child-selected="addChild"
+                @remove-child="removeChild"
+                :children="children"
+              />
+            </section>
           </div>
         </div>
       </main>

@@ -54,55 +54,52 @@ Carrier Contact Details
       class="flex-1 flex flex-col"
     >
       <main class="flex-1 focus:outline-none">
-        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:px-8 xl:px-0">
-          <div class="py-8">
-            <div class="px-4 sm:px-6 md:px-0 space-y-6">
-              <!-- Description list with inline editing -->
-              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
-                <!-- Header section -->
-                <div class="space-y-1">
-                  <h3 class="text-lg leading-6 font-semibold text-slate-900">
-                    Profil
-                  </h3>
-                  <p class="max-w-2xl text-sm text-secondaryText">
-                    Informationen über persönliche Daten des Trägerkontaktes.
-                  </p>
-                </div>
-                <!-- carrier contact data section -->
-                <div class="mt-6">
-                  <carrier-contact-data-info
-                    :carrierContact="carrierContact"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
+        <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <div class="grid gap-6 lg:grid-cols-2">
+            <!-- Profil -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Trägerkontaktes.</p>
+              <div class="mt-5">
+                <carrier-contact-data-info
+                  :carrierContact="carrierContact"
+                  :isLoading="propertyIsLoading"
+                  @change-submit="changeSubmitted"
+                />
               </div>
-              <!-- carrier selection -->
-              <div class="mt-6 pt-6 border-t border-gray-700">
+            </section>
+
+            <!-- Träger-Zuordnung -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="text-lg font-semibold text-slate-900">Träger</h3>
+              <p class="mt-1 text-sm text-slate-500">Zugeordneter Träger dieses Kontaktes.</p>
+              <div class="mt-5">
                 <CarrierSelection
                   :preSelected="carrierContact.carrier"
                   @carrier-selected="setCarrier"
                   @carrier-removed="removeCarrier"
                 />
               </div>
-              <!-- children list -->
-              <div class="mt-6">
-                <CarrierContactDetailChildrenList
-                  @child-selected="addChild"
-                  @remove-child="removeChild"
-                  :carrierContact="carrierContact"
-                />
-              </div>
-              <!-- Account Information section -->
-              <div class="rounded-xl border border-slate-200 bg-white shadow-card p-6 divide-y divide-slate-200">
-                <carrier-contact-detail-account-info
-                  :carrier="carrierContact"
-                  :deleteIsLoading="deleteIsLoading"
-                  :userStateIsLoading="userStateIsLoading"
-                  @delete-carrier-contact-tapped="deleteCarrierContactTapped"
-                />
-              </div>
-            </div>
+            </section>
+
+            <!-- Verknüpfte Klienten (volle Breite) -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <CarrierContactDetailChildrenList
+                @child-selected="addChild"
+                @remove-child="removeChild"
+                :carrierContact="carrierContact"
+              />
+            </section>
+
+            <!-- Konto (volle Breite) -->
+            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <carrier-contact-detail-account-info
+                :carrier="carrierContact"
+                :deleteIsLoading="deleteIsLoading"
+                :userStateIsLoading="userStateIsLoading"
+                @delete-carrier-contact-tapped="deleteCarrierContactTapped"
+              />
+            </section>
           </div>
         </div>
       </main>
