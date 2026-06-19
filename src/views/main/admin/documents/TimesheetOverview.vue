@@ -56,22 +56,18 @@
           v-for="metric in metrics"
           :key="metric.title"
           :class="[
-            'rounded-lg border bg-white p-4 text-left shadow-sm hover:border-blue-200 hover:bg-blue-50',
+            'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-card-hover',
             activeFilter === metric.filter ? 'border-blue-300 ring-2 ring-blue-100' : 'border-slate-200'
           ]"
           @click="activeFilter = metric.filter"
         >
           <div class="flex items-center justify-between">
-            <component
-              :is="metric.icon"
-              :class="['h-6 w-6', metric.iconClass]"
-              aria-hidden="true"
-            />
+            <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', metric.badgeClass]"><component :is="metric.icon" class="h-5 w-5" aria-hidden="true" /></span>
             <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', metric.badgeClass]">
               {{ metric.badge }}
             </span>
           </div>
-          <p class="mt-4 text-3xl font-bold text-slate-900">{{ metric.value }}</p>
+          <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ metric.value }}</p>
           <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
         </button>
       </section>

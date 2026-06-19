@@ -31,10 +31,10 @@
         <div
           v-for="metric in metrics"
           :key="metric.title"
-          class="rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm"
+          class="rounded-xl border border-slate-200 bg-white p-4 text-left shadow-card"
         >
-          <component :is="metric.icon" :class="['h-6 w-6', metric.iconClass]" aria-hidden="true" />
-          <p class="mt-4 text-3xl font-bold text-slate-900">{{ metric.value }}</p>
+          <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', metric.badgeClass]"><component :is="metric.icon" class="h-5 w-5" aria-hidden="true" /></span>
+          <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ metric.value }}</p>
           <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
         </div>
       </section>
