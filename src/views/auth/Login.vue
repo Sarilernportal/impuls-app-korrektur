@@ -32,7 +32,7 @@ Login Page
         v-if="localAuthMode"
         class="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800"
       >
-        Lokaler Testmodus aktiv. Du kannst die App ohne AWS-Backend als Demo öffnen.
+        Lokaler Testmodus aktiv. Sie können die App ohne AWS-Backend als Demo öffnen.
       </div>
       <div class="space-y-5">
         <div>

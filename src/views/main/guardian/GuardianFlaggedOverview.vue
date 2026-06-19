@@ -4,7 +4,7 @@
       <p class="text-sm font-medium text-impuls-blue">Rückläufer</p>
       <h2 class="mt-1 text-2xl font-bold text-slate-900">Markierte Dokumentationen</h2>
       <p class="mt-2 text-sm text-slate-600">
-        Die folgenden Einträge wurden zur Überarbeitung zurückgegeben. Bitte korrigiere sie, damit die Abrechnung weiterlaufen kann.
+        Die folgenden Einträge wurden zur Überarbeitung zurückgegeben. Bitte korrigieren Sie sie, damit die Abrechnung weiterlaufen kann.
       </p>
     </section>
 
@@ -42,7 +42,7 @@
       <div class="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
         <CheckCircleIcon class="h-6 w-6 flex-shrink-0 text-emerald-600" aria-hidden="true" />
         <p class="text-sm font-semibold text-emerald-800">
-          Alles erledigt – du hast alle Dokumentationen überarbeitet.
+          Alles erledigt – Sie haben alle Dokumentationen überarbeitet.
         </p>
       </div>
     </div>

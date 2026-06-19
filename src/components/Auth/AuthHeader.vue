@@ -17,7 +17,7 @@ Auth Header (light form panel)
       Willkommen bei Impuls
     </h2>
     <p class="mt-1 text-sm text-slate-500">
-      Melde dich an, um fortzufahren.
+      Melden Sie sich an, um fortzufahren.
     </p>
   </div>
 </template>

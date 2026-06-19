@@ -6,7 +6,7 @@
           <p class="text-sm font-medium text-blue-100">{{ todayLabel }}</p>
           <h2 class="mt-1 text-2xl font-bold sm:text-3xl">Hallo, Mira</h2>
           <p class="mt-2 max-w-2xl text-sm text-blue-100">
-            Deine wichtigsten Aufgaben, Termine und Klienten auf einen Blick.
+            Ihre wichtigsten Aufgaben, Termine und Klienten auf einen Blick.
           </p>
         </div>
         <button

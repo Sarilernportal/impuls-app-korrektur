@@ -4,7 +4,7 @@
       <p class="text-sm font-medium text-impuls-blue">Kalender</p>
       <h2 class="mt-1 text-2xl font-bold text-slate-900">Termine und Kalendergruppen</h2>
       <p class="mt-2 text-sm text-slate-600">
-        Wähle einen Tag aus, um die zugehörigen Termine zu sehen.
+        Wählen Sie einen Tag, um die zugehörigen Termine zu sehen.
       </p>
     </section>
 

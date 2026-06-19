@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-4xl px-4 py-4 sm:px-6">
     <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <p class="text-sm font-medium text-impuls-blue">Dokumentation</p>
-      <h2 class="mt-1 text-2xl font-bold text-slate-900">Was möchtest du erfassen?</h2>
+      <h2 class="mt-1 text-2xl font-bold text-slate-900">Was möchten Sie erfassen?</h2>
       <p class="mt-2 text-sm text-slate-600">
-        Wähle den passenden Eintrag. Die App führt dich danach Schritt für Schritt durch die Eingabe.
+        Wählen Sie den passenden Eintrag. Die App führt Sie danach Schritt für Schritt durch die Eingabe.
       </p>
     </section>
 

@@ -4,7 +4,7 @@
       <p class="text-sm font-medium text-impuls-blue">Dateien</p>
       <h2 class="mt-1 text-2xl font-bold text-slate-900">Sharebox</h2>
       <p class="mt-2 text-sm text-slate-600">
-        Hier findest du freigegebene Dokumente und Unterlagen für deine Arbeit.
+        Hier finden Sie freigegebene Dokumente und Unterlagen für Ihre Arbeit.
       </p>
     </section>
 

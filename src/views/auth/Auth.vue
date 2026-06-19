@@ -37,7 +37,7 @@ Auth Page – split-screen layout (brand panel + form panel)
           Teilhabeassistenz · §35a SGB VIII
         </p>
         <h1 class="mt-4 max-w-md text-4xl font-bold leading-tight text-white xl:text-[2.75rem]">
-          Dokumentation, Nachweise und Abrechnung – mobil für dein Team.
+          Dokumentation, Nachweise und Abrechnung – mobil für Ihr Team.
         </h1>
         <ul class="mt-10 space-y-5">
           <li
