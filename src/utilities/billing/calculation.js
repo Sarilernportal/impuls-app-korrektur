@@ -46,12 +46,31 @@ export function workedHoursDecimal(reports) {
 // Stundensatz: Fallakte (Bescheid) zuerst, sonst Default vom Jugendamt/Träger
 // ──────────────────────────────────────────────────────────────────────────
 
-export function hourlyRateFor(child, carrier) {
-  const fromChild = Number(child?.hourlyRate)
-  if (Number.isFinite(fromChild) && fromChild > 0) return fromChild
-  const fromCarrier = Number(carrier?.defaultHourlyRate)
-  if (Number.isFinite(fromCarrier) && fromCarrier > 0) return fromCarrier
-  return null
+/*
+Liefert den anzuwendenden Stundensatz. Quellen: Fallakte (Bescheid),
+Betreuer (Vergütung) und Träger-Default. Welche Quelle Vorrang hat, ist je
+Jugendamt konfigurierbar über den Regelsatz (rules.rateSource):
+  'case'     → Fallakte > Betreuer > Träger   (Default)
+  'guardian' → Betreuer > Fallakte > Träger
+Es wird jeweils der erste positive, gültige Satz genommen.
+*/
+export function hourlyRateFor(child, carrier, guardian = null, rules = null) {
+  const caseRate = positiveOrNull(child?.hourlyRate)
+  const guardianRate = positiveOrNull(guardian?.hourlyRate)
+  const carrierRate = positiveOrNull(carrier?.defaultHourlyRate)
+
+  const source = (rules && rules.rateSource) || 'case'
+  const order =
+    source === 'guardian'
+      ? [guardianRate, caseRate, carrierRate]
+      : [caseRate, guardianRate, carrierRate]
+
+  return order.find((rate) => rate !== null) ?? null
+}
+
+function positiveOrNull(value) {
+  const n = Number(value)
+  return Number.isFinite(n) && n > 0 ? n : null
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -66,6 +85,10 @@ Default-Implementierungen bewusst konservativ und kennzeichnen Schätzungen.
 export const defaultBillingRules = Object.freeze({
   key: 'default',
   label: 'Standard (vorläufig – Detailregeln folgen)',
+
+  // Quelle des Abrechnungs-Stundensatzes: 'case' (Fallakte zuerst) oder
+  // 'guardian' (Betreuer-Vergütung zuerst). Je Jugendamt überschreibbar.
+  rateSource: 'case',
 
   // Soll-Monatsdeckel. ctx: { weeklyHours, hoursPerSchoolDay, schoolDays,
   // monthWeeks }. Liefert { hours, provisional, basis }.

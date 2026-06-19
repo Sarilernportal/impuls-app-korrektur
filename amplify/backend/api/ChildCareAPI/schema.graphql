@@ -20,6 +20,20 @@ type Guardian
   phone: String
   professional: Boolean!
   owner: String
+  # --- SAYAS Betreuer (THA, § 35a SGB VIII) – additive, alle nullable ---
+  # Funktion/Tätigkeit (Schulbegleiter:in, Päd. Fachkraft, Vertretung …)
+  jobFunction: String
+  # Vergütung/Stundensatz des Betreuers (Personalkosten; kann je Jugendamt
+  # auch als Abrechnungssatz herangezogen werden – siehe billingRuleSet).
+  hourlyRate: Float
+  employmentType: String
+  startDate: String
+  # Einsatzbereit? Ohne vorgelegtes § 72a-Führungszeugnis = false.
+  active: Boolean
+  # Erweitertes Führungszeugnis (§ 72a SGB VIII)
+  certificateSubmitted: Boolean
+  certificateSubmittedDate: String
+  certificateRenewalDate: String
   careAssignments: [CareAssignment] @hasMany
   dailyReport: [DailyReport] @hasMany
   timeSheets: [TimeSheets] @hasMany

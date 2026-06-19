@@ -59,7 +59,7 @@ export function buildTimeSheetRow(timeSheet, options = {}) {
   const overhangHours = computeOverhang(worked, soll.hours)
   const hasOverhang = overhangHours > 0
   const billableHours = computeBillableHours(worked, soll.hours, correction)
-  const rate = hourlyRateFor(child, carrier)
+  const rate = hourlyRateFor(child, carrier, timeSheet.guardian, rules)
   const amount = computeAmount(billableHours, rate)
   const signatures = signatureStatus(timeSheet)
   const status = timeSheetBillingStatus(timeSheet, { hasOverhang })
@@ -99,7 +99,7 @@ export function buildInvoiceRow(invoice) {
   const child = invoice.child || {}
   const carrier = invoice.carrier || {}
   const worked = workedHoursDecimal(reports)
-  const rate = hourlyRateFor(child, carrier)
+  const rate = hourlyRateFor(child, carrier, invoice.guardian, billingRulesFor(carrier))
   const amount = computeAmount(worked, rate)
   const status = invoiceBillingStatus(invoice)
 

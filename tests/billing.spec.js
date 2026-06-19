@@ -131,6 +131,18 @@ describe('Berechnung – Stundensatz', () => {
   it('liefert null ohne Satz', () => {
     expect(hourlyRateFor({}, {})).toBe(null)
   })
+  it('nutzt den Betreuersatz als Fallback (Default: Fallakte zuerst)', () => {
+    // Fallakte leer -> Betreuer vor Träger
+    expect(hourlyRateFor({}, { defaultHourlyRate: 50 }, { hourlyRate: 42 })).toBe(42)
+  })
+  it('priorisiert den Betreuersatz bei rateSource "guardian"', () => {
+    const rules = { rateSource: 'guardian' }
+    expect(hourlyRateFor({ hourlyRate: 47 }, { defaultHourlyRate: 50 }, { hourlyRate: 42 }, rules)).toBe(42)
+  })
+  it('priorisiert die Fallakte bei rateSource "case"', () => {
+    const rules = { rateSource: 'case' }
+    expect(hourlyRateFor({ hourlyRate: 47 }, { defaultHourlyRate: 50 }, { hourlyRate: 42 }, rules)).toBe(47)
+  })
 })
 
 describe('Berechnung – Überhang / Abrechenbar / Betrag', () => {
