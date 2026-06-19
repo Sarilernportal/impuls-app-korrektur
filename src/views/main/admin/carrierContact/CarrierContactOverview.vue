@@ -4,10 +4,10 @@
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p class="text-sm font-medium text-blue-100">Träger</p>
+            <p class="text-sm font-medium text-blue-100">Kostenträger</p>
             <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Kontakt-Zentrale</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
-              Ansprechpartner für Träger, Klienten und Rechnungsklärung übersichtlich verbinden.
+              Ansprechpartner für Kostenträger, Klienten und Rechnungsklärung übersichtlich verbinden.
             </p>
           </div>
           <button
@@ -35,7 +35,7 @@
         <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
           <div class="border-b border-slate-200 px-5 py-4">
             <h2 class="text-lg font-semibold text-slate-900">Ansprechpartner</h2>
-            <p class="text-sm text-slate-500">Schnell sehen, welcher Kontakt zu welchem Träger und Klient gehört.</p>
+            <p class="text-sm text-slate-500">Schnell sehen, welcher Kontakt zu welchem Kostenträger und Klient gehört.</p>
           </div>
           <div class="divide-y divide-slate-100">
             <article
@@ -53,7 +53,7 @@
                 <p class="mt-1 text-sm text-slate-600">{{ contact.email }}</p>
               </div>
               <div>
-                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Träger</p>
+                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Kostenträger</p>
                 <p class="mt-1 text-sm font-semibold text-slate-800">{{ contact.carrier }}</p>
               </div>
               <div>
@@ -65,7 +65,7 @@
                   class="rounded-lg px-3 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-50"
                   @click="navigate('CarrierOverview')"
                 >
-                  Träger
+                  Kostenträger
                 </button>
               </div>
             </article>
@@ -123,7 +123,7 @@ export default {
         iconClass: 'text-blue-500'
       },
       {
-        title: 'Mit Träger',
+        title: 'Mit Kostenträger',
         value: 7,
         icon: BuildingOfficeIcon,
         iconClass: 'text-emerald-500'
@@ -147,7 +147,7 @@ export default {
         id: 'contact-1',
         name: 'Samira Yilmaz',
         email: 'samira.yilmaz@example.test',
-        carrier: 'Impuls Demo Träger',
+        carrier: 'Impuls Demo Kostenträger',
         children: 'Lina Beispiel',
         status: 'aktiv',
         badgeClass: 'bg-emerald-100 text-emerald-700'
@@ -181,12 +181,12 @@ export default {
       },
       {
         title: 'Klient',
-        description: 'Kontakt muss zum Klient und zum Träger sichtbar sein.',
+        description: 'Kontakt muss zum Klient und zum Kostenträger sichtbar sein.',
         icon: LinkIcon,
         bgClass: 'bg-emerald-100 text-emerald-700'
       },
       {
-        title: 'Träger',
+        title: 'Kostenträger',
         description: 'Adress- und Kommunikationsdaten hängen an diesem Kontakt.',
         icon: BuildingOfficeIcon,
         bgClass: 'bg-sky-100 text-sky-700'

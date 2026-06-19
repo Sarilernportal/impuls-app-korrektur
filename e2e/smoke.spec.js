@@ -37,7 +37,7 @@ test('Zentrale Verwaltungs-Seiten laden', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Abrechnungszentrale' })).toBeVisible()
 
   await page.goto('/admin/carrier')
-  await expect(page.getByRole('heading', { name: 'Träger-Zentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Kostenträger-Zentrale' })).toBeVisible()
 
   await page.goto('/admin/documents/reports')
   await expect(page.getByRole('heading', { name: 'Dokumentationszentrale' })).toBeVisible()

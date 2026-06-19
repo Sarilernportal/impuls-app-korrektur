@@ -17,12 +17,6 @@
             >
               Doku nachtragen
             </button>
-            <button
-              class="rounded-lg bg-white/15 px-4 py-2 text-sm font-semibold text-white hover:bg-white/25"
-              @click="navigate('BillingCenter')"
-            >
-              Abrechnung prüfen
-            </button>
           </div>
         </div>
       </section>

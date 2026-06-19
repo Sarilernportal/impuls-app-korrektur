@@ -100,7 +100,7 @@ Invoice Details
       <div class="w-full md:w-1/3 mt-4 md:mt-0">
         <!-- Carrier section -->
         <h2 class="text-center font-medium leading-6 text-primaryText">
-          Trägerinformation
+          Kostenträgerinformation
         </h2>
         <!-- carrier information -->
         <div
@@ -151,9 +151,9 @@ Invoice Details
             v-if="!document.charged"
             class="text-secondaryText text-xs"
           >
-            Sonfern der Träger das automatische Versenden von E-mails erlaubt
+            Sonfern der Kostenträger das automatische Versenden von E-mails erlaubt
             und eine gültige E-mail hinterlegt ist, wird durch die Bestätigung
-            die Rechnung an den Träger verschickt.
+            die Rechnung an den Kostenträger verschickt.
           </div>
           <!-- status for already confirmed -->
           <div

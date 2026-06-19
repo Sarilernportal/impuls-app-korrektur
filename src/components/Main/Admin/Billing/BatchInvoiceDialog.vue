@@ -4,7 +4,7 @@ Scope: Sammelabrechnung – Bestätigung
 
 Bündelt die ausgewählten abrechenbaren Nachweise zu Rechnung(en), gruppiert
 pro Kostenträger / Jugendamt. Zeigt vor dem Erstellen eine Zusammenfassung
-(je Träger: Anzahl Nachweise, Summe Betrag).
+(je Kostenträger: Anzahl Nachweise, Summe Betrag).
 -->
 <template>
   <TransitionRoot as="template" :show="open">

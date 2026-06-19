@@ -15,10 +15,10 @@ Carrier Details
   <!-- Critical action modal for carrier delete operation -->
   <critical-action
     :open="deleteSelected"
-    title="Träger löschen"
-    message="Möchten Sie den Träger wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
+    title="Kostenträger löschen"
+    message="Möchten Sie den Kostenträger wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
     buttonCancelTitle="Abbrechen"
-    buttonConfirmTitle="Träger löschen"
+    buttonConfirmTitle="Kostenträger löschen"
     @close="deleteSelected = false"
     @confirmed="confirmedDelete"
   >
@@ -59,7 +59,7 @@ Carrier Details
             <!-- Profil -->
             <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
               <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
-              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Trägers.</p>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträgers.</p>
               <div class="mt-5">
                 <carrier-detail-data-info
                   :carrier="carrier"
@@ -72,7 +72,7 @@ Carrier Details
             <!-- Rechnungsadresse -->
             <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
               <h3 class="text-lg font-semibold text-slate-900">Rechnungsadresse</h3>
-              <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Trägers.</p>
+              <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Kostenträgers.</p>
               <div class="mt-5">
                 <CarrierBillingInfo
                   :carrier="carrier"
@@ -82,7 +82,7 @@ Carrier Details
               </div>
             </section>
 
-            <!-- Trägerkontakte (volle Breite) -->
+            <!-- Kostenträger-Kontakte (volle Breite) -->
             <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
               <CarrierDetailContactList
                 @contact-selected="addContact"
@@ -211,7 +211,7 @@ export default {
         // Show success window when user was successfully removed
         customSuccess.isPresent = true
         customSuccess.title = 'Erfolgreich gelöscht'
-        customSuccess.message = 'Sie haben den Träger erfolgreich gelöscht!'
+        customSuccess.message = 'Sie haben den Kostenträger erfolgreich gelöscht!'
       } catch (err) {
         console.log(err)
         // Show error window when user couldn't be removed

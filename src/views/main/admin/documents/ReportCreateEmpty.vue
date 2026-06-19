@@ -69,7 +69,7 @@
               </p>
               <div v-if="carrierErrorStatus">
                 <p class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
-                  Klient ist mit keinem Trägerkontakt verbunden oder der verbundene Trägerkontakt ist keinem Träger zugewiesen.
+                  Klient ist mit keinem Kostenträger-Kontakt verbunden oder der verbundene Kostenträger-Kontakt ist keinem Kostenträger zugewiesen.
                 </p>
               </div>
             </div>
@@ -125,8 +125,8 @@
               Betreuer und Klient müssen zusammengehören.
             </p>
             <p>
-              <span class="font-semibold text-slate-900">2. Trägerdaten</span><br />
-              Ohne Trägerkontakt kann die Abrechnung später nicht sauber laufen.
+              <span class="font-semibold text-slate-900">2. Kostenträgerdaten</span><br />
+              Ohne Kostenträger-Kontakt kann die Abrechnung später nicht sauber laufen.
             </p>
             <p>
               <span class="font-semibold text-slate-900">3. Datum</span><br />

@@ -125,7 +125,7 @@
                   v-model="searchValue"
                   type="search"
                   class="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
-                  placeholder="Klient, Mitarbeiter, Träger oder Status suchen"
+                  placeholder="Klient, Mitarbeiter, Kostenträger oder Status suchen"
                 />
               </label>
             </div>
@@ -355,7 +355,7 @@ export default {
         childFamilyName: 'Beispiel',
         guardianName: 'Mira',
         guardianFamilyName: 'Demir',
-        carrierName: 'Impuls Demo Träger',
+        carrierName: 'Impuls Demo Kostenträger',
         reportDate: new Date().toISOString(),
         hourFrom: 9,
         hourTo: 12,
@@ -464,7 +464,7 @@ export default {
 
     const workflow = [
       {
-        title: '1. Gleicher Klient und Träger',
+        title: '1. Gleicher Klient und Kostenträger',
         description: 'Eine Rechnung kann nur passende Nachweise bündeln.',
         icon: DocumentCheckIcon,
         bgClass: 'bg-blue-100 text-blue-700'

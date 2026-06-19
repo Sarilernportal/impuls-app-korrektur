@@ -13,9 +13,9 @@ Carrier Contact Data Info View
 <template>
   <div>
     <dl class="divide-y divide-slate-200">
-      <!-- Name property -->
+      <!-- Vorname property -->
       <editable-user-info-text-row
-        title="Name"
+        title="Vorname"
         propertyKey="name"
         :isLoading="contactNameIsLoading"
         :value="name"

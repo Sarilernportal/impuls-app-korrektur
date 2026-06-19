@@ -136,7 +136,7 @@
                   v-model="searchValue"
                   type="search"
                   class="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
-                  placeholder="Klient, Träger oder Status suchen"
+                  placeholder="Klient, Kostenträger oder Status suchen"
                 />
               </label>
             </div>
@@ -314,7 +314,7 @@ export default {
         childFamilyName: 'Beispiel',
         guardianName: 'Mira',
         guardianFamilyName: 'Demir',
-        carrierName: 'Impuls Demo Träger',
+        carrierName: 'Impuls Demo Kostenträger',
         charged: false,
         flag: null,
         hourFrom: 9,

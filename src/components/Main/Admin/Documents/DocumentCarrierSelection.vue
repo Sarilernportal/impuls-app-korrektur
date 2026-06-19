@@ -18,12 +18,12 @@
     >
       <BuildingOfficeIcon class="h-5 w-5 flex-shrink-0 text-slate-400" aria-hidden="true" />
       <span class="min-w-0 flex-1">
-        <span class="block text-[11px] font-semibold uppercase tracking-wide text-slate-400">Träger</span>
+        <span class="block text-[11px] font-semibold uppercase tracking-wide text-slate-400">Kostenträger</span>
         <span
           class="block truncate text-sm font-semibold"
           :class="selectedCarrierName ? 'text-slate-900' : 'text-slate-400'"
         >
-          {{ selectedCarrierName || 'Alle Träger' }}
+          {{ selectedCarrierName || 'Alle Kostenträger' }}
         </span>
       </span>
       <ChevronUpDownIcon class="h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-slate-500" aria-hidden="true" />

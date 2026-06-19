@@ -90,8 +90,8 @@ Report View
                 Bitte an Admin wenden!
               </h2>
               <p class="text-red-700 p-2">
-                Der ausgewählte Klient ist mit keinem Trägerkontakt oder der
-                Trägerkontakt ist mit keinem Träger verbunden!
+                Der ausgewählte Klient ist mit keinem Kostenträger-Kontakt oder der
+                Kostenträger-Kontakt ist mit keinem Kostenträger verbunden!
               </p>
             </div>
           </div>

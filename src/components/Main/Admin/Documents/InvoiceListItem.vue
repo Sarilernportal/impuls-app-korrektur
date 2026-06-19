@@ -71,7 +71,7 @@ Invoice Item
                 class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
                 @click="goToCarrier"
               >
-                <p>{{ 'Träger: ' + carrierName }}</p>
+                <p>{{ 'Kostenträger: ' + carrierName }}</p>
               </button>
             </div>
           </div>

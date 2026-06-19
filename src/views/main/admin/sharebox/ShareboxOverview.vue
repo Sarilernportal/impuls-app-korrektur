@@ -172,7 +172,7 @@ export default {
       },
       {
         id: 'file-3',
-        name: 'Trägerkontakt Übersicht.pdf',
+        name: 'Kostenträger-Kontakt Übersicht.pdf',
         description: 'Kontakte und Zuständigkeiten',
         owner: 'Verwaltung',
         updated: 'neu',

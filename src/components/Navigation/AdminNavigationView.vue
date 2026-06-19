@@ -352,7 +352,7 @@ export default {
         current: false
       },
       {
-        name: 'Träger',
+        name: 'Kostenträger',
         route: 'CarrierOverview',
         icon: BuildingOfficeIcon,
         current: false
@@ -428,11 +428,11 @@ export default {
         UserOverview: 'Administratoren',
         NewUser: route.params.type === 'admin' ? 'Admin hinzufügen' : 'Betreuer hinzufügen',
         UserDetails: 'Benutzerprofil',
-        CarrierOverview: 'Träger',
-        NewCarrier: 'Träger hinzufügen',
-        CarrierDetails: 'Trägerdetails',
-        CarrierContactOverview: 'Trägerkontakte',
-        NewCarrierContact: 'Trägerkontakt hinzufügen',
+        CarrierOverview: 'Kostenträger',
+        NewCarrier: 'Kostenträger hinzufügen',
+        CarrierDetails: 'Kostenträgerdetails',
+        CarrierContactOverview: 'Kostenträger-Kontakte',
+        NewCarrierContact: 'Kostenträger-Kontakt hinzufügen',
         CarrierContactDetails: 'Kontaktdetails',
         ChildrenOverview: 'Klienten',
         NewChild: 'Klient hinzufügen',

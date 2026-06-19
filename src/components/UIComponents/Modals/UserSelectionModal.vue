@@ -123,7 +123,7 @@
                           <span v-else>Nicht angegeben</span>
                         </dd>
                         <template v-if="activeOption.carrier">
-                          <dt class="col-end-1 font-semibold text-slate-900">Träger</dt>
+                          <dt class="col-end-1 font-semibold text-slate-900">Kostenträger</dt>
                           <dd>{{ activeOption.carrier.name ? activeOption.carrier.name : 'Nicht angegeben' }}</dd>
                         </template>
                         <template v-if="activeOption.mother">

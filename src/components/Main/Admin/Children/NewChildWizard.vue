@@ -247,9 +247,9 @@ sobald das Datenmodell erweitert ist (siehe Info-Banner).
         </div>
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="sm:col-span-2">
-            <input-label elementID="carrierContact" labelText="Zuständiges Jugendamt / Träger*" />
+            <input-label elementID="carrierContact" labelText="Zuständiges Jugendamt / Kostenträger*" />
             <CarrierContactSelection @carrier-contact-selected="setCarrierContact" />
-            <p class="mt-1 text-xs text-slate-400">Auswahl aus den Träger-Stammdaten statt Freitext.</p>
+            <p class="mt-1 text-xs text-slate-400">Auswahl aus den Kostenträger-Stammdaten statt Freitext.</p>
           </div>
           <div>
             <input-label elementID="caseworker" labelText="Sachbearbeiter:in (Jugendamt)" />

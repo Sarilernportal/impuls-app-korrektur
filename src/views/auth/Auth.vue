@@ -92,7 +92,7 @@ export default {
     const valuePoints = [
       'Dokumentation in Minuten erfasst – direkt vom Einsatz',
       'Nachweise und Unterschriften vollständig digital',
-      'Rechnungen für die Träger auf Knopfdruck'
+      'Rechnungen für die Kostenträger auf Knopfdruck'
     ]
     return { valuePoints, year: new Date().getFullYear() }
   }

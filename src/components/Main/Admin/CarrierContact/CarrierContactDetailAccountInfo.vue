@@ -17,7 +17,7 @@ User Detail Account Info View
     <div class="space-y-1">
       <h3 class="text-lg leading-6 font-medium text-primaryText">Account</h3>
       <p class="max-w-2xl text-sm text-secondaryText">
-        Informationen über die Accountdaten des Trägerkontaktes.
+        Informationen über die Accountdaten des Kostenträger-Kontaktes.
       </p>
     </div>
     <!-- Data Section -->
@@ -36,7 +36,7 @@ User Detail Account Info View
         <!-- Delete Button -->
         <!-- <delete-button
           @button-tapped="deleteCarrierContactTapped"
-          title="Trägerkontakt löschen"
+          title="Kostenträger-Kontakt löschen"
           :isLoading="deleteIsLoading"
           :enabled="true"
         /> -->

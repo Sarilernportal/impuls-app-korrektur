@@ -350,7 +350,7 @@ export default {
         'Status',
         'Bearbeiten',
         'Angemeldet',
-        'Trägerkontakt',
+        'Kostenträger-Kontakt',
         'Betreuer'
       ]
       const contentProp = props.content.menuItems

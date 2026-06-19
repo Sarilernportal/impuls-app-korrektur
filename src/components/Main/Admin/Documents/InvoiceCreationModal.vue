@@ -51,7 +51,7 @@ Invoice Creation Modal
               </div>
               <!-- carrier info -->
               <div class="flex md:hidden gap-2">
-                <p class="text-primaryText">Träger:</p>
+                <p class="text-primaryText">Kostenträger:</p>
                 <p class="text-secondaryText">{{ carrierName }}</p>
               </div>
               <!-- carrier invoice address usage -->
@@ -68,7 +68,7 @@ Invoice Creation Modal
           >
             <!-- carrier info -->
             <div class="flex gap-2">
-              <p class="text-primaryText">Träger:</p>
+              <p class="text-primaryText">Kostenträger:</p>
               <p class="text-secondaryText">{{ carrierName }}</p>
             </div>
             <!-- carrier invoice address usage -->

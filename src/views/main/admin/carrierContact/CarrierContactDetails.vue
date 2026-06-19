@@ -15,10 +15,10 @@ Carrier Contact Details
   <!-- Critical action modal for carrier delete operation -->
   <critical-action
     :open="deleteSelected"
-    title="Trägerkontakt löschen"
-    message="Möchten Sie den Trägerkontakt wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
+    title="Kostenträger-Kontakt löschen"
+    message="Möchten Sie den Kostenträger-Kontakt wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
     buttonCancelTitle="Abbrechen"
-    buttonConfirmTitle="Trägerkontakt löschen"
+    buttonConfirmTitle="Kostenträger-Kontakt löschen"
     @close="deleteSelected = false"
     @confirmed="confirmedDelete"
   >
@@ -59,7 +59,7 @@ Carrier Contact Details
             <!-- Profil -->
             <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
               <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
-              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Trägerkontaktes.</p>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
               <div class="mt-5">
                 <carrier-contact-data-info
                   :carrierContact="carrierContact"
@@ -69,10 +69,10 @@ Carrier Contact Details
               </div>
             </section>
 
-            <!-- Träger-Zuordnung -->
+            <!-- Kostenträger-Zuordnung -->
             <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Träger</h3>
-              <p class="mt-1 text-sm text-slate-500">Zugeordneter Träger dieses Kontaktes.</p>
+              <h3 class="text-lg font-semibold text-slate-900">Kostenträger</h3>
+              <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
               <div class="mt-5">
                 <CarrierSelection
                   :preSelected="carrierContact.carrier"
@@ -219,7 +219,7 @@ export default {
         customSuccess.isPresent = true
         customSuccess.title = 'Erfolgreich gelöscht'
         customSuccess.message =
-          'Sie haben den Trägerkontakt erfolgreich gelöscht!'
+          'Sie haben den Kostenträger-Kontakt erfolgreich gelöscht!'
       } catch (err) {
         console.log(err)
         // Show error window when user couldn't be removed

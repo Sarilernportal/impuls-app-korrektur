@@ -56,7 +56,7 @@
                   v-model="searchValue"
                   type="search"
                   class="min-w-0 flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
-                  placeholder="Klient, Träger oder Betreuer suchen"
+                  placeholder="Klient, Kostenträger oder Betreuer suchen"
                 />
               </label>
             </div>
@@ -93,7 +93,7 @@
                 <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ guardianNames(child) }}</p>
               </div>
               <div class="min-w-0">
-                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Trägerkontakt</p>
+                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Kostenträger-Kontakt</p>
                 <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ carrierLine(child) }}</p>
               </div>
               <div class="flex items-center justify-start gap-2 md:justify-end 2xl:justify-end">
@@ -298,7 +298,7 @@ export default {
     const workflow = [
       {
         title: '1. Stammdaten prüfen',
-        description: 'Adresse, Trägerkontakt, Aktenzeichen und Wochenstunden komplett halten.',
+        description: 'Adresse, Kostenträger-Kontakt, Aktenzeichen und Wochenstunden komplett halten.',
         icon: UserIcon,
         bgClass: 'bg-blue-100 text-blue-700'
       },
@@ -333,7 +333,7 @@ export default {
         route: 'GuardianAdminOverview'
       },
       {
-        title: 'Träger',
+        title: 'Kostenträger',
         description: 'Kostenstellen und Kontakte öffnen',
         route: 'CarrierOverview'
       }
@@ -357,9 +357,9 @@ export default {
       const contact = child.carrierContact
       const carrier = child.carrier
       if (contact) {
-        return `${[contact.name, contact.familyName].filter(Boolean).join(' ')} · ${carrier?.shortName || carrier?.name || 'Träger'}`
+        return `${[contact.name, contact.familyName].filter(Boolean).join(' ')} · ${carrier?.shortName || carrier?.name || 'Kostenträger'}`
       }
-      return carrier?.name || 'kein Trägerkontakt'
+      return carrier?.name || 'kein Kostenträger-Kontakt'
     }
 
     function childStatus(child) {
@@ -394,8 +394,8 @@ export default {
 
     function openDocuments(child) {
       router.push({
-        name: 'Reports',
-        query: { clientID: child.id }
+        name: 'ChildDocumentsOverview',
+        params: { id: child.id }
       })
     }
 
