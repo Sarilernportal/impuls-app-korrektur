@@ -8,6 +8,7 @@
     "setup:demo": "node scripts/setup-demo.mjs",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint \"src/**/*.vue\"",
     "updateAppsyncOperations": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/AdminQueries8a07980f/src/modules/appsync/graphql",
     "updateResolverGraphQL": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/ChildCareReportResolver/src/modules/appsync/graphql"
   },

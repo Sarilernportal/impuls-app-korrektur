@@ -1,0 +1,33 @@
+name: CI
+
+# Qualitätsnetz: prüft bei jedem Pull Request (und auf main) Lint und Build.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Demo-Konfiguration anlegen (für den Build)
+        run: npm run setup:demo
+
+      - name: Build
+        run: npm run build
