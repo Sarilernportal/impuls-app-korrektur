@@ -17,12 +17,6 @@
             >
               Neuer Klient
             </button>
-            <button
-              class="rounded-lg bg-white/15 px-4 py-2 text-sm font-semibold text-white hover:bg-white/25"
-              @click="navigate('BillingCenter')"
-            >
-              Abrechnung öffnen
-            </button>
           </div>
         </div>
       </section>
