@@ -33,9 +33,9 @@ Special Report View
     <!-- Form wrapper -->
     <form :class="[
       isLoading ? 'hidden' : 'block',
-      'space-y-8 divide-y divide-gray-200'
+      'space-y-8 divide-y divide-slate-200'
     ]">
-      <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+      <div class="space-y-8 divide-y divide-slate-200 sm:space-y-5">
         <div class="space-y-6 sm:space-y-5">
           <!-- Header -->
           <div>
@@ -76,7 +76,7 @@ Special Report View
               />
             </div>
             <!-- calendar | date + time selection -->
-            <div class="flex flex-col gap-2 sm:border-t sm:border-gray-200">
+            <div class="flex flex-col gap-2 sm:border-t sm:border-slate-200">
               <p class="text-base font-medium text-primaryText sm:text-sm">
                 Zeitraum auswählen*
               </p>
@@ -94,7 +94,7 @@ Special Report View
               />
             </div>
             <!-- Daily report input -->
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 pt-2 sm:pt-5">
+            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 pt-2 sm:pt-5">
               <label
                 for="report"
                 class="block text-sm font-medium text-primaryText sm:mt-px sm:pt-2"
@@ -105,13 +105,13 @@ Special Report View
                   id="report"
                   name="report"
                   rows="3"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
             </div>
             <!-- Signature field for the school guardian -->
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
               <div class="col-span-1 sm:col-span-2 md:col-span-1">
                 <SignatureField
                   ref="signatureField"
@@ -126,7 +126,7 @@ Special Report View
               <div class="flex my-2 text-primaryText gap-2 items-center">
                 <input
                   @click="thruthfullButtonTapped"
-                  class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                  class="w-4 h-4 text-impuls-blue bg-white border-gray-300 rounded focus:ring-brand-200 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
                   type="checkbox"
                   id="truthfull"
                   value="truthfull"
@@ -165,7 +165,7 @@ Special Report View
     <!-- required fields reminder -->
     <div
       v-if="!isLoading && errorState === 'none'"
-      class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+      class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
     >
       <p class="text-base font-medium text-secondaryText sm:text-sm">*Pflichtfeld</p>
     </div>

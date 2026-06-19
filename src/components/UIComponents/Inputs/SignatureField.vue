@@ -14,13 +14,14 @@ Signature Field
     id="canvasContainer"
     class="w-full h-auto"
   >
-    <div class="flex w-full items-center mb-2">
-      <label class="w-full block text-sm font-medium text-primaryText sm:mt-px sm:pt-2">Unterschrift</label>
+    <div class="mb-2 flex w-full items-center justify-between gap-3">
+      <label class="block text-sm font-semibold text-slate-700">Unterschrift</label>
       <button
         @click.prevent="clearPad"
-        class="bg-indigo-600 rounded-full text-white p-1"
+        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-2.5 py-1 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
       >
-        <ArrowPathIcon class="h-6 w-6" />
+        <ArrowPathIcon class="h-4 w-4" />
+        Löschen
       </button>
     </div>
     <!-- Pad canvas -->
@@ -32,10 +33,11 @@ Signature Field
       @pointerdown.passive="handlePointerDown"
       @pointerup.passive="handlePointerUp"
       @pointermove.passive="handlePointerMove"
-      class="bg-white rounded-md border border-gray-200"
+      class="touch-none rounded-xl border border-slate-300 bg-white shadow-inner"
       :height="height"
       :width="width"
     />
+    <p class="mt-1.5 text-xs text-slate-400">Bitte mit dem Finger oder Stift im Feld unterschreiben.</p>
   </div>
 </template>
 
