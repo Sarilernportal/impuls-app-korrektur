@@ -19,7 +19,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-gray-800 bg-opacity-80 transition-opacity" />
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" />
       </TransitionChild>
       <div class="fixed ml-0 md:ml-52 inset-0 z-10 overflow-y-auto p-6 sm:p-6 md:p-20 grid place-items-center">
         <TransitionChild
@@ -33,29 +33,26 @@
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto max-w-3xl h-full sm:h-1/2 transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
+            class="mx-auto flex max-h-[80vh] w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 transition-all"
           >
             <Combobox v-slot="{ activeOption }">
               <div class="flex flex-col h-full grow">
-                <div class="flex mt-2 items-center px-2 pb-1">
+                <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3">
                   <MagnifyingGlassIcon
-                    class="pointer-events-none h-5 w-5 text-gray-400"
+                    class="pointer-events-none h-5 w-5 text-slate-400"
                     aria-hidden="true"
                   />
                   <ComboboxInput
-                    class="h-12 w-full border-0 bg-transparent pr-4 text-gray-800 placeholder-gray-400 sm:text-sm"
-                    placeholder="Suche nach Namen"
+                    class="h-10 w-full border-0 bg-transparent text-slate-800 placeholder-slate-400 focus:ring-0 sm:text-sm"
+                    placeholder="Nach Namen suchen …"
                     @change="query = $event.target.value"
                   />
-                  <!-- close icon -->
-                  <div class="flex items-center mr-2">
-                    <button
-                      class="h-7 w-7 text-gray-400 hover:text-gray-300 cursor-pointer"
-                      @click="closeModal"
-                    >
-                      <XMarkIcon />
-                    </button>
-                  </div>
+                  <button
+                    class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                    @click="closeModal"
+                  >
+                    <XMarkIcon class="h-5 w-5" />
+                  </button>
                 </div>
                 <ComboboxOptions
                   v-if="query === '' || filteredPeople.length > 0"
@@ -65,13 +62,8 @@
                   hold
                 >
                   <!-- left side -->
-                  <div :class="[
-                    ' min-w-0 flex-auto scroll-py-4 overflow-y-auto px-6 py-4'
-                  ]">
-                    <div
-                      hold
-                      class="-mx-2 text-sm text-gray-700"
-                    >
+                  <div class="min-w-0 flex-auto scroll-py-4 overflow-y-auto p-3">
+                    <div hold class="space-y-1">
                       <ComboboxOption
                         v-for="person in filteredPeople"
                         :key="person.Username"
@@ -79,16 +71,17 @@
                         as="template"
                         v-slot="{ active }"
                       >
-                        <div :class="[
-                          'group flex cursor-default select-none items-center rounded-md p-2',
-                          active && 'bg-gray-100 text-gray-900'
-                        ]">
-                          <span class="ml-3 flex-auto truncate">{{
-                            getName(person)
-                          }}</span>
+                        <div
+                          @click="onSelect(person)"
+                          :class="[
+                            'group flex cursor-pointer select-none items-center gap-3 rounded-xl p-2',
+                            active ? 'bg-brand-50' : 'hover:bg-slate-50'
+                          ]"
+                        >
+                          <InitialsAvatar :name="getName(person)" size-class="h-9 w-9 text-xs" />
+                          <span class="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{{ getName(person) }}</span>
                           <ChevronRightIcon
-                            v-if="active"
-                            class="ml-3 h-5 w-5 flex-none text-gray-400"
+                            :class="['h-5 w-5 flex-none', active ? 'text-impuls-blue' : 'text-slate-300 group-hover:text-slate-400']"
                             aria-hidden="true"
                           />
                         </div>
@@ -96,14 +89,15 @@
                     </div>
                     <div
                       v-if="showLoadMore"
-                      class="w-full flex justify-center mt-5"
+                      class="mt-4 flex justify-center"
                     >
-                      <div
-                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"
+                      <button
+                        class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
                         @click="loadMore"
                       >
-                        <ChevronDoubleDownIcon class="h-5 w-5 text-gray-400" />
-                      </div>
+                        <ChevronDoubleDownIcon class="h-4 w-4" />
+                        Mehr laden
+                      </button>
                     </div>
                   </div>
                   <!-- right side -> user viewer -->
@@ -142,10 +136,10 @@
                           <p v-else>Nicht angegeben</p>
                         </dd>
                       </dl>
-                      <div class="flex flex-auto flex-col justify-between items-center p-6">
+                      <div class="mt-6 flex justify-center">
                         <button
                           @click="onSelect(activeOption)"
-                          class="px-5 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-900 text-white"
+                          class="w-full rounded-xl bg-impuls-blue px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
                         >
                           Auswählen
                         </button>
@@ -181,6 +175,8 @@
 // vue imports
 import { computed, ref, watch } from 'vue'
 
+// component imports
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 // heroicon imports
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/20/solid'
 import {
@@ -201,6 +197,7 @@ import {
 
 export default {
   components: {
+    InitialsAvatar,
     MagnifyingGlassIcon,
     XMarkIcon,
     ChevronRightIcon,
