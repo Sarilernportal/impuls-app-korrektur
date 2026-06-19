@@ -210,7 +210,7 @@ Proof View
             v-if="!isLoading && !transmitted && documents.length > 0"
           >
             <!-- signature field -->
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
               <div class="col-span-1 sm:col-span-2 md:col-span-1">
                 <SignatureField
                   ref="signatureField"
@@ -245,7 +245,7 @@ Proof View
                 <div class="flex my-2 text-primaryText gap-2 items-center">
                   <input
                     @click="thruthfullButtonTapped"
-                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                    class="w-4 h-4 text-impuls-blue bg-white border-slate-300 rounded focus:ring-2 focus:ring-brand-200"
                     type="checkbox"
                     id="truthfull"
                     value="truthfull"
@@ -257,14 +257,14 @@ Proof View
                 <div class="flex my-2 text-primaryText gap-2 items-center">
                   <input
                     @click="gdprConfirmButtonTapped"
-                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                    class="w-4 h-4 text-impuls-blue bg-white border-slate-300 rounded focus:ring-2 focus:ring-brand-200"
                     type="checkbox"
                     id="gdprConfirm"
                     value="gdprConfirm"
                   />
                   <label for="gdprConfirm">Ich habe die <router-link
                       :to="{ name: 'GuardianGDPR' }"
-                      class="text-blue-500"
+                      class="text-impuls-blue underline"
                     >Datenschutzbestimmungen</router-link> gelesen und erkläre mich mit
                     Ihnen
                     einverstanden</label>
