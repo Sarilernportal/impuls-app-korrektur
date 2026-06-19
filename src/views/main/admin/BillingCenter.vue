@@ -40,19 +40,21 @@
           v-for="metric in metrics"
           :key="metric.title"
           @click="navigate(metric.route)"
-          class="rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm hover:border-blue-200 hover:bg-blue-50"
+          class="group rounded-xl border border-slate-200 bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-card-hover"
         >
           <div class="flex items-center justify-between">
-            <component
-              :is="metric.icon"
-              :class="['h-6 w-6', metric.iconClass]"
-              aria-hidden="true"
-            />
+            <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', metric.badgeClass]">
+              <component
+                :is="metric.icon"
+                class="h-5 w-5"
+                aria-hidden="true"
+              />
+            </span>
             <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', metric.badgeClass]">
               {{ metric.badge }}
             </span>
           </div>
-          <p class="mt-4 text-3xl font-bold text-slate-900">{{ metric.value }}</p>
+          <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ metric.value }}</p>
           <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
         </button>
       </section>
@@ -74,17 +76,27 @@
             </div>
           </div>
           <div class="divide-y divide-slate-100">
-            <div
-              v-if="isLoading"
-              class="px-5 py-10 text-center text-sm font-semibold text-slate-500"
-            >
-              Abrechnungsdaten werden geladen...
-            </div>
+            <template v-if="isLoading">
+              <div
+                v-for="n in 4"
+                :key="n"
+                class="flex items-center gap-3 px-5 py-4"
+              >
+                <div class="h-10 w-10 flex-shrink-0 animate-pulse rounded-full bg-slate-200"></div>
+                <div class="flex-1 space-y-2">
+                  <div class="h-3.5 w-1/3 animate-pulse rounded bg-slate-200"></div>
+                  <div class="h-3 w-1/2 animate-pulse rounded bg-slate-100"></div>
+                </div>
+              </div>
+            </template>
             <div
               v-else-if="billingRows.length === 0"
-              class="px-5 py-10 text-center"
+              class="flex flex-col items-center px-5 py-12 text-center"
             >
-              <p class="text-sm font-semibold text-slate-900">Keine Abrechnungsdaten gefunden</p>
+              <span class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                <BanknotesIcon class="h-6 w-6 text-slate-400" aria-hidden="true" />
+              </span>
+              <p class="mt-3 text-sm font-semibold text-slate-900">Keine Abrechnungsdaten gefunden</p>
               <p class="mt-1 text-sm text-slate-500">Dokus, Nachweise oder Rechnungen liegen für die aktuelle Ansicht noch nicht vor.</p>
             </div>
             <div
@@ -93,9 +105,12 @@
               :key="row.id"
               class="grid gap-3 px-5 py-4 2xl:grid-cols-[minmax(0,1fr)_140px_150px_180px]"
             >
-              <div>
-                <p class="font-semibold text-slate-900">{{ row.client }}</p>
-                <p class="text-sm text-slate-600">{{ row.employee }} · {{ row.carrier }}</p>
+              <div class="flex items-start gap-3">
+                <InitialsAvatar :name="row.client" size-class="h-10 w-10 text-sm" />
+                <div class="min-w-0">
+                  <p class="font-semibold text-slate-900">{{ row.client }}</p>
+                  <p class="truncate text-sm text-slate-600">{{ row.employee }} · {{ row.carrier }}</p>
+                </div>
               </div>
               <div>
                 <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Zeitraum</p>
@@ -106,7 +121,8 @@
                 <p class="text-sm font-semibold text-slate-800">{{ row.amount }}</p>
               </div>
               <div class="flex items-center justify-between gap-3">
-                <span :class="['rounded-full px-2.5 py-1 text-xs font-semibold', row.badgeClass]">
+                <span :class="['inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold', row.badgeClass]">
+                  <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-current opacity-70"></span>
                   {{ row.status }}
                 </span>
                 <button
@@ -184,6 +200,7 @@ import {
   DocumentTextIcon,
   ExclamationTriangleIcon
 } from '@heroicons/vue/24/outline'
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 
 export default {
   name: 'BillingCenter',
@@ -194,7 +211,8 @@ export default {
     ClockIcon,
     DocumentCheckIcon,
     DocumentTextIcon,
-    ExclamationTriangleIcon
+    ExclamationTriangleIcon,
+    InitialsAvatar
   },
   setup() {
     const router = useRouter()
