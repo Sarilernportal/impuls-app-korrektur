@@ -75,12 +75,29 @@ type Carrier
   invoices: [Invoices] @hasMany
   email: AWSEmail
   allowAutoInvoice: Boolean
-  # --- SAYAS Abrechnung (§ 35a SGB VIII) – additive, alle nullable ---
-  # Standard-Stundensatz des Kostenträgers (pro Fallakte überschreibbar).
+  # --- SAYAS Kostenträger / Jugendamt (§ 35a SGB VIII) – additive, nullable ---
+  # Art des Kostenträgers (Jugendamt, Sozialamt/EGH-Träger, Sonstiger).
+  carrierType: String
+  # Allgemeiner Rechnungs-/Buchhaltungskontakt (Name). Der fallbezogene
+  # Sachbearbeiter wird am Klienten gepflegt, NICHT hier.
+  billingContactName: String
+  # E-Rechnung / Behörde
+  leitwegId: String
+  debtorNumber: String
+  paymentTermDays: Int
+  vatId: String
+  # Abrechnungsregeln je Amt (Felder konfigurierbar; konkrete Rechen-Logik
+  # folgt – die Abrechnungszentrale liest sie vom zugeordneten Kostenträger).
+  # Standard-Stundensatz (pro Fallakte überschreibbar).
   defaultHourlyRate: Float
-  # Schlüssel des amtsspezifischen Regelsatzes (Soll-Berechnung, Krankheit,
-  # Stundenpool). Default-Regeln, bis Detailregeln nachgeliefert werden.
+  # Schlüssel des amtsspezifischen Regelsatzes (Strategie-Pattern).
   billingRuleSet: String
+  # Krankheit des Kindes: none | partial | full
+  sicknessRule: String
+  # Stundenpool: none | carryover
+  poolRule: String
+  # Soll-Berechnung: schooldays (Schultage/Ferienkalender)
+  sollRule: String
 }
 
 type CarrierContact
