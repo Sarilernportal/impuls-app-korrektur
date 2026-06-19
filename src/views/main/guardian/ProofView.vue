@@ -276,7 +276,7 @@ Proof View
               <StandardButton
                 @button-tapped="confirmButtonTapped"
                 title="Bestätigen"
-                :enabled="signature !== null && truthfull && gdprConfirm && allValid"
+                :enabled="canSubmit"
                 :isLoading="isLoading"
               />
             </div>
@@ -321,6 +321,7 @@ Proof View
 // Vue imports
 import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { reportsReadyForProof, canSubmitProof } from '@/utilities/forms/submitGuards.js'
 
 // component imports
 import TabSelection from '@/components/UIComponents/Selections/TabSelection.vue'
@@ -928,24 +929,28 @@ export default {
     // calculate overall validation
     const allValid = computed(() => {
       try {
-        for (const report of documents.value) {
-          if (report.retrospectively) {
-            return false
-          }
-        }
-        if (!showSpecialTimes.value && selectedReports.value.length < 1) {
-          return false
-        }
-        if (showSpecialTimes.value && selectedSpecialReports.value.length < 1) {
-          return false
-        }
-        return true
+        return reportsReadyForProof({
+          documents: documents.value,
+          showSpecialTimes: showSpecialTimes.value,
+          selectedReports: selectedReports.value,
+          selectedSpecialReports: selectedSpecialReports.value
+        })
       } catch (error) {
         console.log(error)
         // fallback
         return false
       }
     })
+
+    // Nachweis nur absendbar mit Unterschrift + beiden Bestätigungen + gültiger Auswahl
+    const canSubmit = computed(() =>
+      canSubmitProof({
+        signature: signature.value,
+        truthfull: truthfull.value,
+        gdprConfirm: gdprConfirm.value,
+        ready: allValid.value
+      })
+    )
 
     onMounted(async () => {
       await getDailyReports()
@@ -966,6 +971,7 @@ export default {
       tempDocs,
       tempIsLoading,
       allValid,
+      canSubmit,
       showSpecialTimes,
       nextToken,
       gdprConfirm,

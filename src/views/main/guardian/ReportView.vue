@@ -554,6 +554,7 @@ Report View
 <script>
 // Vue imports
 import { ref, computed, onMounted } from 'vue'
+import { careTimeIsPositive } from '@/utilities/forms/submitGuards.js'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -947,10 +948,12 @@ export default {
       // check if selected time is more than 0 hours and 0 minutes
       if (
         allowTimeSelection.value &&
-        inputData.value.hourTo +
-        inputData.value.minuteTo / 60 -
-        (inputData.value.hourFrom + inputData.value.minuteFrom / 60) <=
-        0
+        !careTimeIsPositive({
+          hourFrom: inputData.value.hourFrom,
+          minuteFrom: inputData.value.minuteFrom,
+          hourTo: inputData.value.hourTo,
+          minuteTo: inputData.value.minuteTo
+        })
       ) {
         return false
       }
