@@ -660,5 +660,32 @@ router.beforeResolve((to, _, next) => {
   }
 })
 
+// Veraltete Lazy-Chunks nach einem Deploy (PWA / Service-Worker-Cache) führen
+// beim Navigieren zu "Failed to fetch dynamically imported module". In dem Fall
+// einmalig hart neu laden, damit der aktualisierte Service Worker die neuen
+// Chunks ausliefert. Der sessionStorage-Schutz verhindert eine Reload-Schleife.
+router.onError((error, to) => {
+  const message = error?.message || ''
+  const isChunkError =
+    /dynamically imported module|Importing a module script failed|Failed to fetch|error loading dynamically imported module/i.test(
+      message
+    )
+  if (!isChunkError) return
+
+  const reloadKey = 'sayas-chunk-reload'
+  if (sessionStorage.getItem(reloadKey)) return
+  sessionStorage.setItem(reloadKey, '1')
+  if (to?.fullPath) {
+    window.location.assign(to.fullPath)
+  } else {
+    window.location.reload()
+  }
+})
+
+// Erfolgreiche Navigation -> Reload-Schutz wieder freigeben.
+router.afterEach(() => {
+  sessionStorage.removeItem('sayas-chunk-reload')
+})
+
 // Export the router
 export default router
