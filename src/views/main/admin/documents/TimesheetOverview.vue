@@ -13,6 +13,7 @@
           </div>
           <div class="flex flex-wrap gap-2">
             <button
+              data-testid="release-all-btn"
               class="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-60"
               :disabled="releasableCount === 0"
               @click="releaseAll"
@@ -36,6 +37,7 @@
         <button
           v-for="card in statusCards"
           :key="card.status"
+          :data-testid="'review-filter-' + card.status"
           @click="setFilter(card.status)"
           :class="[
             'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover',
@@ -97,7 +99,7 @@
         </div>
 
         <div v-else class="overflow-x-auto">
-          <table class="w-full min-w-[920px] border-collapse text-sm">
+          <table data-testid="review-table" class="w-full min-w-[920px] border-collapse text-sm">
             <thead>
               <tr class="border-b border-slate-200 text-left text-[11px] font-medium uppercase tracking-wide text-slate-400">
                 <th class="px-5 py-3">Klient / Fachkraft</th>
@@ -117,7 +119,7 @@
                 <td class="px-3 py-4 align-top">{{ timeSheetPeriod(timeSheet) }}</td>
                 <td class="px-3 py-4 align-top text-right tabular-nums">{{ hoursWorked(timeSheet) }}</td>
                 <td class="px-3 py-4 align-top">
-                  <SignatureTrafficLight :signatures="signaturesFor(timeSheet)" />
+                  <SignatureTrafficLight data-testid="review-signatures" :signatures="signaturesFor(timeSheet)" />
                 </td>
                 <td class="px-3 py-4 align-top">
                   <span :class="['inline-flex items-center gap-1 text-xs font-semibold', docMatchFor(timeSheet).ok ? 'text-emerald-700' : 'text-amber-700']">
@@ -135,6 +137,7 @@
                     </button>
                     <button
                       v-if="canReleaseRow(timeSheet)"
+                      data-testid="release-btn"
                       class="inline-flex items-center gap-1 rounded-md border border-emerald-300 px-2 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-50"
                       @click="release(timeSheet)"
                     >
