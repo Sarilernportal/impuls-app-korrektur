@@ -27,10 +27,6 @@ function context(overrides = {}) {
       { label: 'Kürzung nach Prüfung', quantity: 1, unitAmount: -36.5, amount: -36.5, reason: 'Absprache Sachbearbeitung' }
     ],
     total: 160,
-    basis: [
-      { label: 'Stundensatz', value: '45,50 € / Std. (aus Bescheid/Fallakte)' },
-      { label: 'Krankheit des Kindes', value: 'Kurzfristige Terminabsage: 30 % des Stundensatzes (THA-Vorlage)' }
-    ],
     logoUrl: '/assets/logo_main.png',
     formatEuro,
     formatHours,
@@ -84,10 +80,9 @@ describe('Rechnungsvordruck nach IMPULS-Vorlage', () => {
     expect(html).toContain('DE61 5105 0015 0107 0942 52')
     expect(html).toContain(INVOICE_SENDER.managingDirector)
   })
-  it('enthält die Berechnungsgrundlage als Anlage', () => {
+  it('enthält KEINE Berechnungsgrundlage-Anlage (PDF = eine Seite)', () => {
     const html = buildInvoiceHtml(context())
-    expect(html).toContain('Anlage: Berechnungsgrundlage')
-    expect(html).toContain('30 % des Stundensatzes')
+    expect(html).not.toContain('Berechnungsgrundlage')
   })
   it('escaped HTML in Nutzereingaben (kein Einschleusen möglich)', () => {
     const html = buildInvoiceHtml(

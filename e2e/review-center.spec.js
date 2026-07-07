@@ -55,6 +55,20 @@ test.describe('Nachweiszentrale', () => {
     await expect(page.getByText(/erscheint nun in der Abrechnungszentrale/)).toBeVisible()
   })
 
+  test('„Öffnen" zeigt die Prüfansicht mit Tages-Dokus', async ({ page }) => {
+    await openReviewCenter(page)
+
+    await page.getByRole('button', { name: 'Öffnen' }).first().click()
+    const dialog = page.getByTestId('review-dialog')
+    await expect(dialog).toBeVisible()
+    await expect(dialog.getByText('Nachweis prüfen')).toBeVisible()
+    // Tages-Doku mit Zeit und Tätigkeit sichtbar
+    await expect(page.getByTestId('review-reports')).toBeVisible()
+    await expect(dialog.getByText('Schulbegleitung').first()).toBeVisible()
+    // Freigabe direkt aus dem Dialog (Lina ist freigebbar)
+    await expect(page.getByTestId('dialog-release-btn')).toBeVisible()
+  })
+
   test('Unterschriften-Ampel zeigt E/S/F je Zeile', async ({ page }) => {
     await openReviewCenter(page)
     const ampel = page.getByTestId('review-signatures').first()

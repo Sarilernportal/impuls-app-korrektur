@@ -5,8 +5,8 @@ Scope: Druckfertiger Rechnungsvordruck nach der IMPULS-Rechnungsvorlage
 Layout und Texte folgen der Word-Vorlage der Verwaltung (Briefkopf, Betreff
 „Rechnung für den Zeitraum … gemäß § 35a SGB VIII", Tabelle
 Menge × Satz = Betrag | Bezeichnung, Umsatzsteuer-Befreiung nach
-§ 4 Nr. 25 UStG, Fußzeile mit GF/Handelsregister/Bank). Zusätzlich wird die
-Berechnungsgrundlage des Kostenträgers als Anlage angehängt.
+§ 4 Nr. 25 UStG, Fußzeile mit GF/Handelsregister/Bank). Das PDF ist bewusst
+EINE Seite – die Berechnungsgrundlage bleibt in der Bildschirm-Ansicht.
 
 „PDF" entsteht über Drucken → „Als PDF speichern" – funktioniert im Demo-
 UND Live-Betrieb; das serverseitige Lambda-PDF bleibt unberührt.
@@ -46,7 +46,7 @@ context: {
   childName, guardianName,
   positions: [{ label, hours, rate, amount, note? }],
   corrections: [{ label, quantity?, unitAmount?, amount, reason? }],
-  total, basis: [{ label, value }],
+  total,
   logoUrl, formatEuro, formatHours
 }
 */
@@ -64,7 +64,6 @@ export function buildInvoiceHtml(context) {
     positions,
     corrections,
     total,
-    basis,
     logoUrl,
     formatEuro,
     formatHours
@@ -96,16 +95,6 @@ export function buildInvoiceHtml(context) {
         correction.label,
         correction.reason
       )
-    )
-    .join('')
-
-  const basisRows = (basis || [])
-    .map(
-      (rowItem) => `
-        <tr>
-          <td class="basis-label">${escapeHtml(rowItem.label)}</td>
-          <td>${escapeHtml(rowItem.value)}</td>
-        </tr>`
     )
     .join('')
 
@@ -147,12 +136,6 @@ export function buildInvoiceHtml(context) {
   .note { font-size: 8.5pt; color: #854f0b; margin-top: 0.5mm; font-weight: 400; }
   .vat { margin-top: 6mm; font-size: 9.5pt; }
   .signer { margin-top: 10mm; }
-  .basis { margin-top: 8mm; padding: 4mm; border: 1px solid #b5d4f4; background: #f2f8fe; border-radius: 2mm; page-break-inside: avoid; }
-  .basis h2 { font-size: 10.5pt; margin: 0 0 2mm; color: #0c447c; }
-  .basis p.intro { font-size: 8.5pt; color: #0c447c; margin: 0 0 3mm; }
-  .basis table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
-  .basis td { padding: 1mm 2mm 1mm 0; vertical-align: top; }
-  .basis .basis-label { color: #0c447c; font-weight: 600; width: 48mm; }
   .foot { position: fixed; bottom: 0; left: 0; right: 0; border-top: 0.5px solid #999; padding-top: 2mm; font-size: 7.5pt; color: #666; display: flex; justify-content: space-between; gap: 6mm; }
   .foot div { line-height: 1.5; }
 </style>
@@ -215,12 +198,6 @@ ${escapeHtml(recipient.addressLine2 || '')}</div>
   <p class="signer">Mit freundlichen Grüßen<br /><br />${escapeHtml(INVOICE_SENDER.signer)}</p>
   <p class="vat">${escapeHtml(INVOICE_SENDER.vatNote)}</p>
   <p style="font-size:9pt; color:#666;">Fachkraft: ${escapeHtml(guardianName)}</p>
-
-  <div class="basis">
-    <h2>Anlage: Berechnungsgrundlage</h2>
-    <p class="intro">Regeln dieses Kostenträgers, mit denen die Rechnung berechnet wurde – zur Prüfbarkeit durch die Behörde.</p>
-    <table>${basisRows}</table>
-  </div>
 
   <div class="foot">
     <div>${escapeHtml(INVOICE_SENDER.managingDirector)}<br />${escapeHtml(INVOICE_SENDER.register)}</div>

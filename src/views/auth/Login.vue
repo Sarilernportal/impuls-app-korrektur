@@ -87,13 +87,20 @@ Login Page
           :enabled="allInputsValidated"
         />
       </div>
-      <div v-if="localAuthMode">
+      <div v-if="localAuthMode" class="grid gap-2">
         <button
           type="button"
           class="relative flex w-full justify-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
           @click="demoLoginTapped"
         >
           Demo-App öffnen
+        </button>
+        <button
+          type="button"
+          class="relative flex w-full justify-center rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-impuls-blue transition hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+          @click="demoGuardianLoginTapped"
+        >
+          Demo als Mitarbeiter öffnen
         </button>
       </div>
     </form>
@@ -195,6 +202,13 @@ export default {
         password: 'demo'
       })
     }
+    // Demo-Zugang aus Mitarbeiter-Sicht (Doku, Nachweise, eigene Termine).
+    function demoGuardianLoginTapped() {
+      signIn({
+        email: 'mitarbeiter@impuls.local',
+        password: 'demo'
+      })
+    }
     function clearTextFields() {
       emailTextfield.value.clear()
       passwordTextfield.value.clear()
@@ -263,6 +277,7 @@ export default {
       passwordForgetTapped,
       submitForm,
       demoLoginTapped,
+      demoGuardianLoginTapped,
       clearTextFields,
       errorWindowClosed,
       allInputsValidated

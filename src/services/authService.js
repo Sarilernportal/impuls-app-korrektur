@@ -71,7 +71,10 @@ export async function signIn(email, password) {
     throw error
   }
 
-  const user = createSessionUser(email)
+  // Demo-Rolle aus der E-Mail ableiten: mitarbeiter@… -> Mitarbeiter-Sicht,
+  // alles andere -> Admin (wie bisher).
+  const group = /mitarbeiter|guardian/i.test(email) ? 'Guardian' : 'Admin'
+  const user = createSessionUser(email, group)
   sessionStorage.setItem(LOCAL_USER_KEY, JSON.stringify(user))
   return user
 }

@@ -393,7 +393,6 @@ export default {
         positions: positions.value,
         corrections: props.corrections,
         total: total.value,
-        basis: basis.value,
         logoUrl,
         formatEuro,
         formatHours

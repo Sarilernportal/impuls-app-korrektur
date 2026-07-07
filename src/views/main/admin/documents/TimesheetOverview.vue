@@ -174,6 +174,19 @@
       </section>
     </div>
 
+    <!-- Nachweis-Prüfansicht -->
+    <time-sheet-review-dialog
+      :open="reviewDialogOpen"
+      :time-sheet="reviewTimeSheet"
+      :status="reviewTimeSheet ? statusFor(reviewTimeSheet) : ''"
+      :releasable="reviewTimeSheet ? canReleaseRow(reviewTimeSheet) : false"
+      :show-details-link="reviewTimeSheet ? !reviewTimeSheet.id?.startsWith('demo-') : false"
+      @close="reviewDialogOpen = false"
+      @release="releaseFromDialog"
+      @query="queryFromDialog"
+      @open-details="openDetailsFromDialog"
+    />
+
     <success-window
       v-if="successMessage"
       title="Freigabe"
@@ -195,6 +208,7 @@ import DocumentTimespanFilter from '@/components/Main/Admin/Documents/DocumentTi
 import PaginationBar from '@/components/Navigation/PaginationBar.vue'
 import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import SignatureTrafficLight from '@/components/Main/Admin/Billing/SignatureTrafficLight.vue'
+import TimeSheetReviewDialog from '@/components/Main/Admin/Documents/TimeSheetReviewDialog.vue'
 import {
   XMarkIcon,
   CheckCircleIcon,
@@ -231,7 +245,8 @@ export default {
     DocumentTimespanFilter,
     PaginationBar,
     SuccessWindow,
-    SignatureTrafficLight
+    SignatureTrafficLight,
+    TimeSheetReviewDialog
   },
   setup() {
     const router = useRouter()
@@ -249,6 +264,23 @@ export default {
     const searchValue = ref('')
     const timesheets = ref([])
     const successMessage = ref('')
+
+    // Nachweis-Prüfansicht (funktioniert auch im Demo – kein Route-Wechsel nötig)
+    const reviewDialogOpen = ref(false)
+    const reviewTimeSheet = ref(null)
+
+    function releaseFromDialog() {
+      if (reviewTimeSheet.value) release(reviewTimeSheet.value)
+      reviewDialogOpen.value = false
+    }
+    function queryFromDialog() {
+      if (reviewTimeSheet.value) query(reviewTimeSheet.value)
+      reviewDialogOpen.value = false
+    }
+    function openDetailsFromDialog() {
+      reviewDialogOpen.value = false
+      if (reviewTimeSheet.value) openTimeSheetDetails(reviewTimeSheet.value)
+    }
 
     // Freigabe-/Rückfrage-Overrides (frontend-first, bis reviewStatus persistiert)
     const releasedIds = reactive({})
@@ -422,6 +454,11 @@ export default {
     }
 
     function openTimeSheet(timeSheet) {
+      reviewTimeSheet.value = timeSheet
+      reviewDialogOpen.value = true
+    }
+
+    function openTimeSheetDetails(timeSheet) {
       if (timeSheet.id?.startsWith('demo-')) return
       router.push({
         name: 'TimeSheetDetails',
@@ -494,6 +531,7 @@ export default {
       REVIEW_STATUS, CheckCircleIcon, ExclamationTriangleIcon,
       setFilter, statusFor, metaFor, signaturesFor, docMatchFor, canReleaseRow,
       release, releaseAll, query,
+      reviewDialogOpen, reviewTimeSheet, releaseFromDialog, queryFromDialog, openDetailsFromDialog,
       childName, guardianName, carrierName, hoursWorked, timeSheetPeriod,
       childSelected, guardianSelected, clearChild, clearGuardian, setDateFilter,
       nextPageTapped, previousPageTapped, openTimeSheet

@@ -57,7 +57,24 @@ Auth Page – split-screen layout (brand panel + form panel)
     </aside>
 
     <!-- Right: form panel -->
-    <main class="flex min-h-screen flex-col px-6 py-10 sm:px-10">
+    <main class="flex min-h-screen flex-col px-6 pb-10 pt-6 sm:px-10 lg:py-10">
+      <!-- Mobiler Hero (Mitarbeiter nutzen die App am Handy – der große
+           Hellblau-Bereich links ist dort ausgeblendet) -->
+      <section class="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 px-5 py-6 text-white shadow-soft lg:hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_55%)]" aria-hidden="true"></div>
+        <div class="relative">
+          <span class="inline-flex items-center gap-2 rounded-xl bg-white/95 px-3 py-1.5 shadow-soft">
+            <img class="h-7 w-auto" src="@/assets/img/logo_main.png" alt="Impuls Logo" />
+          </span>
+          <p class="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-blue-200">
+            Teilhabeassistenz · §35a SGB VIII
+          </p>
+          <h1 class="mt-1.5 text-2xl font-bold leading-tight">
+            Dokumentieren, nachweisen, abrechnen – an einem Ort.
+          </h1>
+        </div>
+      </section>
+
       <div class="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
         <auth-header />
         <div class="mt-8">

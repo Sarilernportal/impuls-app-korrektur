@@ -30,6 +30,15 @@ test('Demo-Login öffnet den Admin-Bereich', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Mitarbeiter-Zentrale' })).toBeVisible()
 })
 
+test('Demo als Mitarbeiter öffnet die Mitarbeiter-Startseite', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Demo als Mitarbeiter öffnen' }).click()
+  await page.waitForURL(/\/guardian/, { timeout: 15000 })
+  // Moderner Hellblau-Hero der Mitarbeiter-Startseite
+  await expect(page.getByRole('heading', { name: /Hallo/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Dokumentation starten' })).toBeVisible()
+})
+
 test('Zentrale Verwaltungs-Seiten laden', async ({ page }) => {
   await loginDemo(page)
 
