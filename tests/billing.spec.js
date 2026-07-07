@@ -11,6 +11,7 @@ import { BILLING_STATUS } from '@/utilities/billing/status.js'
 import {
   workedHoursDecimal,
   hourlyRateFor,
+  carrierRateFor,
   billingRulesFor,
   defaultBillingRules,
   computeOverhang,
@@ -142,6 +143,32 @@ describe('Berechnung – Stundensatz', () => {
   it('priorisiert die Fallakte bei rateSource "case"', () => {
     const rules = { rateSource: 'case' }
     expect(hourlyRateFor({ hourlyRate: 47 }, { defaultHourlyRate: 50 }, { hourlyRate: 42 }, rules)).toBe(47)
+  })
+})
+
+describe('Berechnung – zwei Behörden-Sätze (mit/ohne Fachkraft)', () => {
+  const carrier = {
+    hourlyRateSpecialist: 45.5,
+    hourlyRateAssistant: 38,
+    defaultHourlyRate: 40
+  }
+  it('Fachkraft → Satz "mit Fachkraft"', () => {
+    expect(carrierRateFor(carrier, { professional: true })).toBe(45.5)
+  })
+  it('ohne Fachkraft-Angabe → Satz "mit Fachkraft" (Default)', () => {
+    expect(carrierRateFor(carrier, null)).toBe(45.5)
+  })
+  it('Hilfskraft → Satz "ohne Fachkraft"', () => {
+    expect(carrierRateFor(carrier, { professional: false })).toBe(38)
+  })
+  it('fällt auf den Alt-Einzelsatz zurück, wenn der passende Satz fehlt', () => {
+    expect(carrierRateFor({ defaultHourlyRate: 40 }, { professional: false })).toBe(40)
+    expect(carrierRateFor({ hourlyRateSpecialist: 45.5, defaultHourlyRate: 40 }, { professional: false })).toBe(40)
+  })
+  it('Übernahme in die Abrechnung: hourlyRateFor zieht den passenden Behörden-Satz', () => {
+    // Keine Fallakte, keine Betreuer-Vergütung -> Behörden-Satz je Fachkraft-Status
+    expect(hourlyRateFor({}, carrier, { professional: true })).toBe(45.5)
+    expect(hourlyRateFor({}, carrier, { professional: false })).toBe(38)
   })
 })
 

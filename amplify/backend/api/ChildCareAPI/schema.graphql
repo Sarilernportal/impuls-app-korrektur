@@ -88,12 +88,19 @@ type Carrier
   vatId: String
   # Abrechnungsregeln je Amt (Felder konfigurierbar; konkrete Rechen-Logik
   # folgt – die Abrechnungszentrale liest sie vom zugeordneten Kostenträger).
-  # Standard-Stundensatz (pro Fallakte überschreibbar).
+  # Standard-Stundensatz (Alt-Feld/Fallback, pro Fallakte überschreibbar).
   defaultHourlyRate: Float
+  # Jede Behörde hinterlegt IMMER ZWEI Stundensätze:
+  # mit Päd. Fachkraft …
+  hourlyRateSpecialist: Float
+  # … und ohne Fachkraft (Päd. Hilfskraft).
+  hourlyRateAssistant: Float
   # Schlüssel des amtsspezifischen Regelsatzes (Strategie-Pattern).
   billingRuleSet: String
   # Krankheit des Kindes: none | partial | full
   sicknessRule: String
+  # Prozentsatz bei sicknessRule=partial (je Behörde; Default 30, THA-Vorlage).
+  sicknessPercent: Float
   # Stundenpool: none | carryover
   poolRule: String
   # Soll-Berechnung: schooldays (Schultage/Ferienkalender)

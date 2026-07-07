@@ -62,6 +62,22 @@ describe('Rechnungsansicht – Positionen nach THA-Vorlage', () => {
     expect(sick.rate).toBe(12) // 40 × 0,3
     expect(sick.amount).toBe(24) // 2 h × 12
   })
+  it('Terminabsage "partial" mit behördeneigenem Prozentsatz (z. B. 50 %)', () => {
+    const positions = invoicePositions(
+      invoice({}, { sicknessRule: 'partial', sicknessPercent: 50 }, true)
+    )
+    const sick = positions.find((p) => p.key === 'sick')
+    expect(sick.label).toContain('50% des Stundensatzes')
+    expect(sick.rate).toBe(20) // 40 × 0,5
+    expect(sick.amount).toBe(40) // 2 h × 20
+  })
+  it('Behörden-Satz je Fachkraft-Status: ohne Fallakten-Satz zählt der passende der zwei Sätze', () => {
+    const carrierRates = { hourlyRateSpecialist: 45.5, hourlyRateAssistant: 38 }
+    const specialist = invoice({ child: {} }, carrierRates)
+    const assistant = invoice({ child: {}, guardian: { professional: false } }, carrierRates)
+    expect(invoicePositions(specialist)[0].rate).toBe(45.5)
+    expect(invoicePositions(assistant)[0].rate).toBe(38)
+  })
   it('Stunden werden auf Viertelstunden gerundet', () => {
     // 9:00–12:10 = 3,1667 h → 3,25 h
     const inv = invoice()
@@ -104,6 +120,23 @@ describe('Berechnungsgrundlage je Kostenträger', () => {
     const b = calculationBasis(invoice({}, { sicknessRule: 'full' }))
     const val = (rows) => rows.find((r) => r.label === 'Krankheit des Kindes').value
     expect(val(a)).not.toBe(val(b))
+  })
+  it('weist die zwei Behörden-Sätze (mit/ohne Fachkraft) aus', () => {
+    const rows = calculationBasis(
+      invoice({}, { hourlyRateSpecialist: 45.5, hourlyRateAssistant: 38 })
+    )
+    const both = rows.find((r) => r.label === 'Stundensätze der Behörde')
+    expect(both.value).toContain('Päd. Fachkraft')
+    expect(both.value).toContain('45,50')
+    expect(both.value).toContain('ohne Fachkraft')
+    expect(both.value).toContain('38,00')
+  })
+  it('Krankheitsregel "partial" nennt den behördeneigenen Prozentsatz', () => {
+    const rows = calculationBasis(
+      invoice({}, { sicknessRule: 'partial', sicknessPercent: 50 })
+    )
+    const sickRow = rows.find((r) => r.label === 'Krankheit des Kindes')
+    expect(sickRow.value).toContain('50 % des Stundensatzes')
   })
   it('nennt E-Rechnungsdaten, wenn vorhanden', () => {
     const rows = calculationBasis(invoice({}, { leitwegId: '06433-04001-77', debtorNumber: 'DEB-1' }))

@@ -25,7 +25,31 @@ export const SICKNESS_RULE_LABELS = Object.freeze({
 })
 
 // Faktor für kurzfristige Terminabsagen laut THA-Rechnungsvorlage (30 %).
+// Gilt als DEFAULT – jede Behörde kann am Kostenträger einen eigenen
+// Prozentsatz hinterlegen (sicknessPercent), siehe sicknessPercentFor().
 export const CANCELLATION_FACTOR = 0.3
+
+// Prozentsatz für „teilweise vergütete" Terminabsagen der jeweiligen Behörde.
+// Fallback: 30 % laut THA-Vorlage, solange das Amt nichts anderes vorgibt.
+export function sicknessPercentFor(carrier) {
+  const percent = Number(carrier?.sicknessPercent)
+  return Number.isFinite(percent) && percent > 0 && percent <= 100
+    ? percent
+    : CANCELLATION_FACTOR * 100
+}
+
+// Beschreibt die Krankheits-/Absageregel der Behörde (für Berechnungsgrundlage).
+export function sicknessRuleLabel(carrier) {
+  const rule = carrier?.sicknessRule || 'none'
+  if (rule === 'partial') {
+    return `Kurzfristige Terminabsage: ${formatPercent(sicknessPercentFor(carrier))} % des Stundensatzes`
+  }
+  return SICKNESS_RULE_LABELS[rule] || SICKNESS_RULE_LABELS.none
+}
+
+function formatPercent(percent) {
+  return Number.isInteger(percent) ? String(percent) : String(percent).replace('.', ',')
+}
 // Pool-Lösung laut THA-Rechnungsvorlage: 65 % des Stundensatzes.
 export const POOL_FACTOR = 0.65
 
@@ -109,8 +133,10 @@ export function invoicePositions(invoice) {
       cancelRate = rate
       note = 'voll vergütet'
     } else if (sicknessRule === 'partial') {
-      cancelRate = rate !== null ? round2(rate * CANCELLATION_FACTOR) : null
-      label = 'Kurzfristige Terminabsage (30% des Stundensatzes)'
+      // Prozentsatz pro Behörde (Default 30 % laut THA-Vorlage).
+      const percent = sicknessPercentFor(carrier)
+      cancelRate = rate !== null ? round2((rate * percent) / 100) : null
+      label = `Kurzfristige Terminabsage (${formatPercent(percent)}% des Stundensatzes)`
       note = ''
     }
     positions.push({
@@ -172,6 +198,8 @@ export function calculationBasis(invoice) {
   if (rate !== null) {
     if (Number(child.hourlyRate) === rate) rateSource = 'aus Bescheid/Fallakte'
     else if (Number(invoice?.guardian?.hourlyRate) === rate) rateSource = 'Vergütungssatz der Fachkraft'
+    else if (Number(carrier.hourlyRateSpecialist) === rate) rateSource = 'Satz der Behörde (Päd. Fachkraft)'
+    else if (Number(carrier.hourlyRateAssistant) === rate) rateSource = 'Satz der Behörde (ohne Fachkraft)'
     else rateSource = 'Standardsatz des Kostenträgers'
   }
 
@@ -186,13 +214,24 @@ export function calculationBasis(invoice) {
     },
     {
       label: 'Krankheit des Kindes',
-      value: SICKNESS_RULE_LABELS[carrier.sicknessRule] || SICKNESS_RULE_LABELS.none
+      value: sicknessRuleLabel(carrier)
     },
     {
       label: 'Stundenpool',
       value: POOL_RULE_LABELS[carrier.poolRule] || POOL_RULE_LABELS.none
     }
   ]
+
+  // Jede Behörde hinterlegt ZWEI Sätze (mit/ohne Fachkraft) – beide ausweisen,
+  // damit das Amt die Grundlage unabhängig vom eingesetzten Betreuer prüfen kann.
+  const specialistRate = Number(carrier.hourlyRateSpecialist)
+  const assistantRate = Number(carrier.hourlyRateAssistant)
+  if (specialistRate > 0 || assistantRate > 0) {
+    const parts = []
+    if (specialistRate > 0) parts.push(`Päd. Fachkraft ${formatEuro(specialistRate)}`)
+    if (assistantRate > 0) parts.push(`ohne Fachkraft ${formatEuro(assistantRate)}`)
+    rows.splice(1, 0, { label: 'Stundensätze der Behörde', value: parts.join(' · ') })
+  }
 
   if (carrier.paymentTermDays) {
     rows.push({ label: 'Zahlungsziel', value: `${carrier.paymentTermDays} Tage` })

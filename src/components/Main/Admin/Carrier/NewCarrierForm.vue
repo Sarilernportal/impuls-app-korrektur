@@ -141,22 +141,34 @@ Datenmodell erweitert ist (siehe Info-Banner).
           Abrechnungsregeln je Amt
         </div>
         <p class="mt-1 text-xs text-amber-800">
-          Diese Regeln steuern die Abrechnungszentrale (Stundensatz, Krankheit, Pool, Soll-Berechnung).
-          Detail-Logik folgt – die Felder werden bereits konfigurierbar angelegt.
+          Diese Regeln gelten PRO BEHÖRDE und steuern die Abrechnungszentrale
+          (Stundensätze, Krankheit/Terminabsage, Pool, Soll-Berechnung).
+          Jede Behörde hinterlegt immer zwei Stundensätze: mit und ohne Fachkraft.
         </p>
         <div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <div>
-            <label class="block text-xs font-medium text-amber-900" for="hourlyRate">Stundensatz (€)</label>
-            <input id="hourlyRate" type="number" min="0" step="0.01" v-model.number="extra.defaultHourlyRate" class="input-base mt-1" placeholder="45.50" />
+            <label class="block text-xs font-medium text-amber-900" for="hourlyRateSpecialist">Stundensatz mit Fachkraft (€)</label>
+            <input id="hourlyRateSpecialist" type="number" min="0" step="0.01" v-model.number="extra.hourlyRateSpecialist" class="input-base mt-1" placeholder="45.50" />
+            <p class="mt-1 text-xs text-amber-700">für Päd. Fachkräfte</p>
           </div>
           <div>
-            <label class="block text-xs font-medium text-amber-900" for="sicknessRule">Krankheit Kind</label>
+            <label class="block text-xs font-medium text-amber-900" for="hourlyRateAssistant">Stundensatz ohne Fachkraft (€)</label>
+            <input id="hourlyRateAssistant" type="number" min="0" step="0.01" v-model.number="extra.hourlyRateAssistant" class="input-base mt-1" placeholder="38.00" />
+            <p class="mt-1 text-xs text-amber-700">für Päd. Hilfskräfte</p>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-amber-900" for="sicknessRule">Krankheit Kind / Terminabsage</label>
             <select id="sicknessRule" v-model="extra.sicknessRule" class="input-base mt-1">
               <option value="">Regel wählen…</option>
               <option value="none">nicht vergütet</option>
-              <option value="partial">teilweise</option>
-              <option value="full">voll</option>
+              <option value="partial">teilweise (%-Satz)</option>
+              <option value="full">voll vergütet</option>
             </select>
+          </div>
+          <div v-if="extra.sicknessRule === 'partial'">
+            <label class="block text-xs font-medium text-amber-900" for="sicknessPercent">Vergütung Absage (%)</label>
+            <input id="sicknessPercent" type="number" min="1" max="100" step="1" v-model.number="extra.sicknessPercent" class="input-base mt-1" placeholder="30" />
+            <p class="mt-1 text-xs text-amber-700">Anteil des Stundensatzes (THA-Standard: 30&nbsp;%)</p>
           </div>
           <div>
             <label class="block text-xs font-medium text-amber-900" for="poolRule">Stundenpool</label>
@@ -242,8 +254,12 @@ export default {
       debtorNumber: '',
       paymentTermDays: null,
       vatId: '',
-      defaultHourlyRate: null,
+      // Immer ZWEI Sätze je Behörde: mit Fachkraft / ohne Fachkraft.
+      hourlyRateSpecialist: null,
+      hourlyRateAssistant: null,
       sicknessRule: '',
+      // Prozentsatz bei „teilweise" – je Behörde unterschiedlich (Default 30 %).
+      sicknessPercent: null,
       poolRule: 'none',
       sollRule: 'schooldays'
     })

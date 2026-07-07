@@ -37,6 +37,20 @@ Datei: `amplify/backend/api/ChildCareAPI/schema.graphql`, `type Carrier`
 | `poolRule`          | `String` | Stundenpool: none / carryover                          |
 | `sollRule`          | `String` | Soll-Berechnung: schooldays                            |
 
+**Ergänzung 2026-07 (zwei Stundensätze + Krankheits-% je Behörde):**
+
+| Feld                   | Typ     | Bedeutung                                                    |
+| ---------------------- | ------- | ------------------------------------------------------------ |
+| `hourlyRateSpecialist` | `Float` | Stundensatz **mit** Päd. Fachkraft                            |
+| `hourlyRateAssistant`  | `Float` | Stundensatz **ohne** Fachkraft (Päd. Hilfskraft)              |
+| `sicknessPercent`      | `Float` | %-Satz bei `sicknessRule=partial` (je Behörde; Default 30)    |
+
+Jede Behörde hinterlegt IMMER ZWEI Sätze. Welcher greift, entscheidet der
+Fachkraft-Status des eingesetzten Betreuers (`Guardian.professional`) –
+Auswahl-Logik: `carrierRateFor(carrier, guardian)` in
+`src/utilities/billing/calculation.js`. `defaultHourlyRate` bleibt als
+Alt-Feld/Fallback bestehen.
+
 `defaultHourlyRate` und `billingRuleSet` existieren bereits (siehe
 `2026-06-sayas-abrechnung-felder.md`). `useBillingAddress` und die `billing*`-
 Adressfelder existieren ebenfalls bereits.
@@ -74,7 +88,8 @@ Heute emittiert `NewCarrierForm.vue` nur die bestehenden `carrierInput`-Keys
 (Adresse, phone, email, billing*). Nach dem Deploy:
 
 1. Die `extra`-Felder (carrierType, billingContactName, E-Rechnung,
-   Abrechnungsregeln, defaultHourlyRate) in den `createCarrier`-Aufruf
+   Abrechnungsregeln, hourlyRateSpecialist, hourlyRateAssistant,
+   sicknessPercent) in den `createCarrier`-Aufruf
    (`store/modules/admin/actions.js → addCarrier`) aufnehmen.
 2. `useBillingAddress = !sameAsMain` mit speichern.
 3. Info-Banner im Formular entfernen.

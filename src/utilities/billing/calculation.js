@@ -47,17 +47,32 @@ export function workedHoursDecimal(reports) {
 // ──────────────────────────────────────────────────────────────────────────
 
 /*
+Stundensatz des Kostenträgers: Behörden hinterlegen IMMER ZWEI Sätze –
+„mit Päd. Fachkraft" und „ohne Fachkraft" (Hilfskraft). Welcher gilt,
+entscheidet der Fachkraft-Status des eingesetzten Betreuers. Fallback ist
+der alte Einzelsatz (defaultHourlyRate), solange nur der gepflegt ist.
+*/
+export function carrierRateFor(carrier, guardian = null) {
+  const professional = guardian?.professional !== false
+  const specific = professional
+    ? positiveOrNull(carrier?.hourlyRateSpecialist)
+    : positiveOrNull(carrier?.hourlyRateAssistant)
+  return specific ?? positiveOrNull(carrier?.defaultHourlyRate)
+}
+
+/*
 Liefert den anzuwendenden Stundensatz. Quellen: Fallakte (Bescheid),
-Betreuer (Vergütung) und Träger-Default. Welche Quelle Vorrang hat, ist je
-Jugendamt konfigurierbar über den Regelsatz (rules.rateSource):
-  'case'     → Fallakte > Betreuer > Träger   (Default)
-  'guardian' → Betreuer > Fallakte > Träger
+Betreuer (Vergütung) und Kostenträger (zwei Sätze: mit/ohne Fachkraft).
+Welche Quelle Vorrang hat, ist je Jugendamt konfigurierbar über den
+Regelsatz (rules.rateSource):
+  'case'     → Fallakte > Betreuer > Kostenträger   (Default)
+  'guardian' → Betreuer > Fallakte > Kostenträger
 Es wird jeweils der erste positive, gültige Satz genommen.
 */
 export function hourlyRateFor(child, carrier, guardian = null, rules = null) {
   const caseRate = positiveOrNull(child?.hourlyRate)
   const guardianRate = positiveOrNull(guardian?.hourlyRate)
-  const carrierRate = positiveOrNull(carrier?.defaultHourlyRate)
+  const carrierRate = carrierRateFor(carrier, guardian)
 
   const source = (rules && rules.rateSource) || 'case'
   const order =

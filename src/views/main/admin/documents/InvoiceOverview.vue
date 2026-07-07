@@ -397,6 +397,9 @@ export default {
           postalCode: '64521',
           city: 'Groß-Gerau',
           billingContactName: 'Leistungsabrechnung / Buchhaltung',
+          // Jede Behörde hinterlegt zwei Sätze: mit / ohne Fachkraft.
+          hourlyRateSpecialist: 45.5,
+          hourlyRateAssistant: 38,
           sicknessRule: 'none',
           poolRule: 'none',
           sollRule: 'schooldays',
@@ -424,6 +427,8 @@ export default {
           houseNumber: '12',
           postalCode: '60311',
           city: 'Frankfurt am Main',
+          hourlyRateSpecialist: 43,
+          hourlyRateAssistant: 36,
           sicknessRule: 'full',
           poolRule: 'carryover',
           sollRule: 'schooldays',
