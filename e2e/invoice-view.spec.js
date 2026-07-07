@@ -38,6 +38,9 @@ test.describe('Rechnungsansicht', () => {
     await expect(basis).toBeVisible()
     await expect(basis.getByText('Stundensatz')).toBeVisible()
     await expect(basis.getByText(/Leitweg-ID/)).toBeVisible()
+
+    // Druck-/PDF-Funktion (Rechnungsvordruck mit Logo) verfügbar
+    await expect(page.getByTestId('print-invoice-btn')).toBeVisible()
   })
 
   test('Rechnungskorrektur vor Versand: Pflicht-Begründung, Summe passt sich an', async ({ page }) => {

@@ -190,6 +190,9 @@ BERECHNUNGSGRUNDLAGE als Anlage – jeder Kostenträger hat eigene Regeln
               <button class="btn-secondary" @click="$emit('close')">Schließen</button>
               <div class="flex flex-col-reverse gap-2 sm:flex-row">
                 <button v-if="showDetailsLink" class="btn-secondary" @click="$emit('open-details')">Detailseite öffnen</button>
+                <button data-testid="print-invoice-btn" class="btn-secondary" @click="printInvoice">
+                  <PrinterIcon class="h-4 w-4" aria-hidden="true" /> Drucken / PDF
+                </button>
                 <button v-if="editable" class="btn-primary" @click="$emit('mark-ready')">
                   <PaperAirplaneIcon class="h-4 w-4" aria-hidden="true" /> Versand vorbereiten
                 </button>
@@ -211,7 +214,7 @@ import {
   TransitionChild,
   TransitionRoot
 } from '@headlessui/vue'
-import { PlusIcon, XMarkIcon, ScaleIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import { PlusIcon, XMarkIcon, ScaleIcon, PaperAirplaneIcon, PrinterIcon } from '@heroicons/vue/24/outline'
 import {
   invoicePositions,
   invoiceTotal,
@@ -220,6 +223,8 @@ import {
   formatEuro,
   formatHours
 } from '@/utilities/billing/invoiceView.js'
+import { buildInvoiceHtml, openInvoicePrintWindow } from '@/utilities/billing/invoicePrint.js'
+import logoUrl from '@/assets/img/logo_main.png'
 
 export default {
   name: 'InvoicePreviewDialog',
@@ -232,7 +237,8 @@ export default {
     PlusIcon,
     XMarkIcon,
     ScaleIcon,
-    PaperAirplaneIcon
+    PaperAirplaneIcon,
+    PrinterIcon
   },
   props: {
     open: { type: Boolean, required: true, default: false },
@@ -329,10 +335,50 @@ export default {
       showCorrectionForm.value = false
     }
 
+    // Druckfertigen Rechnungsvordruck (Briefkopf, Positionen, Korrekturen,
+    // Berechnungsgrundlage) erzeugen und den Browser-Druckdialog öffnen –
+    // dort „Als PDF speichern" wählen.
+    function printInvoice() {
+      const carrier = props.invoice?.carrier || {}
+      const street = [carrier.billingStreet || carrier.street, carrier.billingHouseNumber || carrier.houseNumber]
+        .filter(Boolean)
+        .join(' ')
+      const city = [carrier.billingPostalCode || carrier.postalCode, carrier.billingCity || carrier.city]
+        .filter(Boolean)
+        .join(' ')
+      const invoiceDate = props.invoice?.createdAt
+        ? new Date(props.invoice.createdAt).toLocaleDateString('de-DE')
+        : new Date().toLocaleDateString('de-DE')
+
+      const html = buildInvoiceHtml({
+        invoiceNumber: invoiceNumber.value,
+        invoiceDate,
+        period: period.value,
+        recordNumber: props.invoice?.child?.recordNumber || '',
+        recipient: {
+          name: carrierDisplayName.value,
+          contact: carrier.billingContactName ? `z. Hd. ${carrier.billingContactName}` : '',
+          addressLine1: street,
+          addressLine2: city
+        },
+        childName: childName.value,
+        guardianName: guardianName.value,
+        positions: positions.value,
+        corrections: props.corrections,
+        total: total.value,
+        basis: basis.value,
+        logoUrl,
+        formatEuro,
+        formatHours
+      })
+      openInvoicePrintWindow(html)
+    }
+
     return {
       showCorrectionForm,
       correctionForm,
       correctionError,
+      printInvoice,
       positions,
       basis,
       total,
