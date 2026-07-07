@@ -45,19 +45,21 @@
 
             <p class="text-slate-500">{{ file.size + ' ' + file.unit }}</p>
           </div>
-          <div class="flex flex-col pr-2">
+          <div class="flex flex-col pr-1 sm:pr-2">
             <button
               v-if="showDelete"
               @click="deleteClicked(file)"
               type="button"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-full text-red-500 hover:text-red-600"
+              aria-label="Datei löschen"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full text-red-500 hover:text-red-600"
             >
               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
             </button>
             <button
               @click="downloadClicked(file)"
               type="button"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:text-slate-500"
+              aria-label="Datei herunterladen"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full text-gray-400 hover:text-slate-500"
             >
               <ArrowDownTrayIcon class="h-6 w-6" aria-hidden="true" />
             </button>

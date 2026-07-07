@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-slate-50 flex flex-col">
     <Disclosure
       as="nav"
-      class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur"
+      class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 pt-[env(safe-area-inset-top)] backdrop-blur"
       v-slot="{ open }"
     >
       <div class="px-4 sm:px-6">
@@ -70,11 +70,11 @@
       </DisclosurePanel>
     </Disclosure>
 
-    <main class="flex-1 pb-24">
+    <main class="flex-1 pb-[calc(6rem+env(safe-area-inset-bottom))]">
       <slot />
     </main>
 
-    <nav class="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-2 py-2 shadow-lg backdrop-blur">
+    <nav class="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-lg backdrop-blur">
       <div class="mx-auto grid max-w-3xl grid-cols-5 gap-1">
         <button
           v-for="item in navigationItems"

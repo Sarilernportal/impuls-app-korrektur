@@ -194,7 +194,8 @@ Proof View
                 <button
                   @click="downloadClicked(doc)"
                   type="button"
-                  class="inline-flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:text-secondaryText"
+                  aria-label="Dokument herunterladen"
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-full text-gray-500 hover:text-secondaryText"
                 >
                   <ArrowDownTrayIcon
                     class="h-6 w-6"

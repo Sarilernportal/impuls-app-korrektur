@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
+import 'v-calendar/dist/style.css'
 import router from './router'
 import store from './store'
 import Amplify from 'aws-amplify'

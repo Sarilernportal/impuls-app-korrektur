@@ -335,7 +335,7 @@ Edit Report View
                 <!-- German input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Deutsch</span>
                   <input
                     @input="germanFilled"
@@ -352,7 +352,7 @@ Edit Report View
                 <!-- Maths input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Mathe</span>
                   <input
                     @input="mathsFilled"
@@ -369,7 +369,7 @@ Edit Report View
                 <!-- English input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Englisch</span>
                   <input
                     @input="englishFilled"
@@ -388,7 +388,7 @@ Edit Report View
                   <input
                     @input="individual1NameFilled"
                     :value="homeWorkIndividual1Name"
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   />
                   <input
                     @input="individual1ValueFilled"
@@ -407,7 +407,7 @@ Edit Report View
                   <input
                     @input="individual2NameFilled"
                     :value="homeWorkIndividual2Name"
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   />
                   <input
                     @input="individual2ValueFilled"
