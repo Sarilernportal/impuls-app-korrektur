@@ -104,3 +104,21 @@ Die UI rechnet bereits vollständig; angebunden werden müssen nach dem Deploy:
 ## Sicherheit / Auth
 
 Keine Änderung an den `@auth`-Regeln. Neue Felder erben die Regeln ihres Typs.
+
+## Nachtrag: Rechnungsansicht & Rechnungskorrekturen (2026-07)
+
+Die Rechnungszentrale hat jetzt eine **Rechnungsansicht** (Vorschau vor
+Versand) mit Positionen, **Rechnungskorrekturen** (nur vor Versand, mit
+Pflicht-Begründung, signierter €-Betrag) und der **Berechnungsgrundlage** je
+Kostenträger als Anlage für die Behörde (`InvoicePreviewDialog.vue`,
+Logik in `src/utilities/billing/invoiceView.js`, 13 Tests).
+
+- Krankheitsstunden werden je Amtsregel ausgewiesen: `none` → 0 €,
+  `full` → voller Satz, `partial` → Betrag offen (Detailregel folgt,
+  es wird bewusst nichts geraten).
+- Neues Schema-Feld: `Invoices.corrections: AWSJSON`
+  (Liste `[{label, amount, reason, at}]`, additiv/nullable).
+- Frontend-Anbindung nach `amplify push`: Korrekturen aus
+  `InvoiceOverview.vue` (correctionsById) per `updateInvoices` persistieren
+  und beim Laden wieder einlesen; „Versand vorbereiten" an den bestehenden
+  Versand-/PDF-Prozess koppeln (Berechnungsgrundlage als Anlage mitgeben).

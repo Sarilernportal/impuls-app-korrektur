@@ -336,6 +336,8 @@ type Invoices
   billableHours: Float
   amount: Float
   overhangCorrection: OverhangCorrection
+  # SAYAS: Rechnungskorrekturen vor Versand – Liste [{label, amount, reason, at}].
+  corrections: AWSJSON
   reviseDate: AWSDateTime
   createdAt: AWSDateTime!
   type: String!
