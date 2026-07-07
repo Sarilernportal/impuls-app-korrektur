@@ -21,7 +21,9 @@ async function loginDemo(page) {
 
 test('Anmeldeseite zeigt Marke und Wertversprechen', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByText('Teilhabeassistenz · §35a SGB VIII')).toBeVisible()
+  // Der Claim steht zweimal auf der Seite (Desktop-Panel + mobiler Hero),
+  // daher .first() – sichtbar ist je Viewport genau einer.
+  await expect(page.getByText('Teilhabeassistenz · §35a SGB VIII').first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Demo-App öffnen' })).toBeVisible()
 })
 
