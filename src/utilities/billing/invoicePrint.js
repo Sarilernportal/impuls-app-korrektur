@@ -114,30 +114,33 @@ export function buildInvoiceHtml(context) {
 <meta charset="utf-8" />
 <title>Rechnung Nr. ${escapeHtml(invoiceNumber)}</title>
 <style>
-  @page { size: A4; margin: 16mm 20mm 30mm 24mm; }
+  @page { size: A4; margin: 14mm 20mm 22mm 24mm; }
   * { box-sizing: border-box; }
-  body { font-family: "Helvetica Neue", Arial, sans-serif; color: #1c1f23; font-size: 11pt; line-height: 1.45; margin: 0; }
-  .head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12mm; }
-  .head img { height: 20mm; max-width: 58mm; object-fit: contain; }
-  .sender-block { text-align: right; font-size: 9pt; color: #333; line-height: 1.4; }
+  html, body { height: auto; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; color: #1c1f23; font-size: 10.5pt; line-height: 1.3; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6mm; }
+  .head img { height: 16mm; max-width: 54mm; object-fit: contain; }
+  .sender-block { text-align: right; font-size: 8.5pt; color: #333; line-height: 1.35; }
   .sender-line { font-size: 7.5pt; color: #888; text-decoration: underline; margin-bottom: 2mm; }
-  .addr-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8mm; }
-  .recipient { min-height: 30mm; white-space: pre-line; }
+  .addr-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5mm; }
+  .recipient { min-height: 22mm; white-space: pre-line; }
   .right-meta { text-align: right; font-size: 10pt; color: #333; }
-  h1 { font-size: 12pt; margin: 0 0 2mm; }
-  .subject { font-weight: 700; margin: 0 0 6mm; }
-  p { margin: 0 0 3.5mm; }
-  table.positions { width: 100%; border-collapse: collapse; margin: 4mm 0; }
+  h1 { font-size: 12pt; margin: 0 0 1.5mm; }
+  .subject { font-weight: 700; margin: 0 0 4mm; }
+  p { margin: 0 0 2.5mm; }
+  table.positions { width: 100%; border-collapse: collapse; margin: 3mm 0; }
   table.positions th { text-align: left; font-size: 9pt; color: #555; border-bottom: 1.2px solid #1c1f23; padding: 1.5mm 2mm 1mm 0; }
-  table.positions td { padding: 1.8mm 2mm 1.8mm 0; vertical-align: top; }
+  table.positions td { padding: 1.2mm 2mm 1.2mm 0; vertical-align: top; }
+  table.positions tr { page-break-inside: avoid; }
   table.positions .num { text-align: right; white-space: nowrap; }
   table.positions .op { text-align: center; width: 6mm; color: #555; }
   table.positions tr.sum td { border-top: 1.2px solid #1c1f23; font-weight: 700; padding-top: 2mm; }
   .note { font-size: 8.5pt; color: #854f0b; margin-top: 0.5mm; font-weight: 400; }
-  .vat { margin-top: 6mm; font-size: 9.5pt; }
-  .signer { margin-top: 10mm; }
+  .vat { margin-top: 4mm; font-size: 9.5pt; }
+  .signer { margin-top: 5mm; }
   .foot { position: fixed; bottom: 0; left: 0; right: 0; border-top: 0.5px solid #999; padding-top: 2mm; font-size: 7.5pt; color: #666; display: flex; justify-content: space-between; gap: 6mm; }
-  .foot div { line-height: 1.5; }
+  .foot div { line-height: 1.45; }
+  @media print { p, h1, .subject, .signer, .vat { page-break-inside: avoid; } }
 </style>
 </head>
 <body>
