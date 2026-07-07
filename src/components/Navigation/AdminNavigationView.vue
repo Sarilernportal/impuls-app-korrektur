@@ -86,8 +86,9 @@ TODO HTML DOCUMENTATION
                     v-for="(nav, navIndex) in navigation" :key="navIndex"
                     class="pt-3"
                   >
+                    <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-blue-200/70">{{ nav.title }}</p>
                     <AdminNavigationSidebarArea
-                      :navigation="nav"
+                      :navigation="nav.items"
                       @nav-tabbed="navigationTabTapped"
                       @nav-query-tabbed="navigationQueryTabTapped"
                     />
@@ -157,8 +158,9 @@ TODO HTML DOCUMENTATION
               v-for="(nav, navIndex) in navigation" :key="navIndex"
               class="pt-3"
             >
+              <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-blue-200/70">{{ nav.title }}</p>
               <AdminNavigationSidebarArea
-                :navigation="nav"
+                :navigation="nav.items"
                 @nav-tabbed="navigationTabTapped"
                 @nav-query-tabbed="navigationQueryTabTapped"
               />
@@ -291,6 +293,9 @@ import {
   LinkIcon,
   DocumentTextIcon,
   DocumentIcon,
+  DocumentCheckIcon,
+  ClipboardDocumentListIcon,
+  FolderIcon,
   PencilSquareIcon,
   CalendarDaysIcon,
   BanknotesIcon
@@ -319,6 +324,9 @@ export default {
     LinkIcon,
     DocumentTextIcon,
     DocumentIcon,
+    DocumentCheckIcon,
+    ClipboardDocumentListIcon,
+    FolderIcon,
     PencilSquareIcon,
     CalendarDaysIcon,
     BanknotesIcon,
@@ -337,72 +345,85 @@ export default {
     const store = useStore()
 
     // Constant initialization
-    // Init navigation routes
-    const navigation = ref([[
+    // Init navigation routes – in thematische Gruppen mit Überschrift geteilt.
+    // Die Gruppe "Leistung & Abrechnung" folgt dem Prozessfluss:
+    // Dokumentationen → Nachweise → Abrechnung → Rechnungen.
+    const navigation = ref([
       {
-        name: 'Abrechnung',
-        route: 'BillingCenter',
-        icon: BanknotesIcon,
-        current: false
+        title: 'Verwaltung',
+        items: [
+          {
+            name: 'Klienten',
+            route: 'ChildrenOverview',
+            icon: UserIcon,
+            current: false
+          },
+          {
+            name: 'Betreuer',
+            route: 'GuardianAdminOverview',
+            icon: IdentificationIcon,
+            current: false
+          },
+          {
+            name: 'Kostenträger',
+            route: 'CarrierOverview',
+            icon: BuildingOfficeIcon,
+            current: false
+          }
+        ]
       },
       {
-        name: 'Betreuer',
-        route: 'GuardianAdminOverview',
-        icon: IdentificationIcon,
-        current: false
+        title: 'Leistung & Abrechnung',
+        items: [
+          {
+            name: 'Dokumentationen',
+            route: 'Reports',
+            icon: ClipboardDocumentListIcon,
+            current: false
+          },
+          {
+            name: 'Nachweise',
+            route: 'Timesheets',
+            icon: DocumentCheckIcon,
+            current: false
+          },
+          {
+            name: 'Abrechnung',
+            route: 'BillingCenter',
+            icon: BanknotesIcon,
+            current: false
+          },
+          {
+            name: 'Rechnungen',
+            route: 'Invoices',
+            icon: DocumentTextIcon,
+            current: false
+          }
+        ]
       },
       {
-        name: 'Kostenträger',
-        route: 'CarrierOverview',
-        icon: BuildingOfficeIcon,
-        current: false
-      },
-      {
-        name: 'Klienten',
-        route: 'ChildrenOverview',
-        icon: UserIcon,
-        current: false
-      },
-      {
-        name: 'Nachweise',
-        route: 'Timesheets',
-        icon: EnvelopeOpenIcon,
-        current: false,
-      },
-      {
-        name: 'Dokumentationen',
-        route: 'Reports',
-        icon: EnvelopeOpenIcon,
-        current: false,
-      },
-      {
-        name: 'Rechnungen',
-        route: 'Invoices',
-        icon: DocumentTextIcon,
-        current: false
-      },
-    ],
-    [
-      {
-        name: 'Sharebox',
-        route: 'ShareboxOverview',
-        icon: DocumentIcon,
-        current: false
-      },
-      {
-        route: 'CalendarOverview',
-        icon: CalendarDaysIcon,
-        current: false,
-        name: 'Kalender'
-      },
-      {
-        name: 'Notebox',
-        route: 'NoteboxOverview',
-        icon: PencilSquareIcon,
-        current: false,
-        name: 'Notebox'
+        title: 'Organisation',
+        items: [
+          {
+            name: 'Kalender',
+            route: 'CalendarOverview',
+            icon: CalendarDaysIcon,
+            current: false
+          },
+          {
+            name: 'Sharebox',
+            route: 'ShareboxOverview',
+            icon: FolderIcon,
+            current: false
+          },
+          {
+            name: 'Notebox',
+            route: 'NoteboxOverview',
+            icon: PencilSquareIcon,
+            current: false
+          }
+        ]
       }
-    ]
     ])
 
     // Init secondary naviation routes
@@ -452,7 +473,7 @@ export default {
       if (explicitTitles[route.name]) {
         return explicitTitles[route.name]
       }
-      const primaryItems = navigation.value.flat()
+      const primaryItems = navigation.value.flatMap((group) => group.items)
       const allItems = [...primaryItems, ...secondaryNavigation.value]
       return allItems.find((item) => item.route === route.name)?.name || 'Impuls'
     })
@@ -473,8 +494,8 @@ export default {
     async function navigationTabTapped(route) {
       try {
         // Get the selected navigation item
-        const target = navigation.value.find((nav) => {
-          return nav.some((item) => {
+        const target = navigation.value.find((group) => {
+          return group.items.some((item) => {
             return item.route === route
           })
         })
@@ -482,7 +503,7 @@ export default {
           router.push({ name: route })
           return
         }
-        const targetNav = target.find((nav) => {
+        const targetNav = target.items.find((nav) => {
           return nav.route === route
         })
         // Close the sidebar only, when we tab no child navigation
@@ -545,7 +566,7 @@ export default {
       }
       const activeRoute = parentRoutes[name] || name
       navigation.value.forEach((group) => {
-        group.forEach((item) => {
+        group.items.forEach((item) => {
           item.current = item.route === activeRoute
         })
       })
