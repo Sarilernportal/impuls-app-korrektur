@@ -31,30 +31,45 @@ describe('Rechnungsansicht – Stunden-Aufteilung', () => {
   })
 })
 
-describe('Rechnungsansicht – Positionen je Krankheitsregel des Amtes', () => {
-  it('reguläre Position: Stunden × Satz', () => {
+describe('Rechnungsansicht – Positionen nach THA-Vorlage', () => {
+  it('Betreuungs-Position: Stunden × Satz, Label je Fachkraftstatus', () => {
     const [tha] = invoicePositions(invoice())
+    expect(tha.label).toBe('Betreuung (Päd. Fachkraft)')
     expect(tha.hours).toBe(3)
     expect(tha.rate).toBe(40)
     expect(tha.amount).toBe(120)
   })
-  it('Krankheit "none" → 0 € mit Hinweis', () => {
+  it('Hilfskraft-Label bei professional=false', () => {
+    const [tha] = invoicePositions(invoice({ guardian: { professional: false } }))
+    expect(tha.label).toBe('Betreuung (Päd. Hilfskraft)')
+  })
+  it('Terminabsage "none" → 0 € mit Hinweis „nicht vergütet"', () => {
     const positions = invoicePositions(invoice({}, { sicknessRule: 'none' }, true))
     const sick = positions.find((p) => p.key === 'sick')
+    expect(sick.label).toContain('Kurzfristige Terminabsage')
     expect(sick.amount).toBe(0)
-    expect(sick.note).toBe(SICKNESS_RULE_LABELS.none)
+    expect(sick.note).toBe('nicht vergütet')
   })
-  it('Krankheit "full" → voller Satz', () => {
+  it('Terminabsage "full" → voller Satz', () => {
     const positions = invoicePositions(invoice({}, { sicknessRule: 'full' }, true))
     const sick = positions.find((p) => p.key === 'sick')
     expect(sick.amount).toBe(80)
   })
-  it('Krankheit "partial" → Betrag offen (Detailregel folgt, wird nicht geraten)', () => {
+  it('Terminabsage "partial" → 30 % des Stundensatzes (Vorlage)', () => {
     const positions = invoicePositions(invoice({}, { sicknessRule: 'partial' }, true))
     const sick = positions.find((p) => p.key === 'sick')
-    expect(sick.amount).toBe(null)
+    expect(sick.label).toContain('30% des Stundensatzes')
+    expect(sick.rate).toBe(12) // 40 × 0,3
+    expect(sick.amount).toBe(24) // 2 h × 12
   })
-  it('ohne Krankheitsstunden keine Krankheits-Position', () => {
+  it('Stunden werden auf Viertelstunden gerundet', () => {
+    // 9:00–12:10 = 3,1667 h → 3,25 h
+    const inv = invoice()
+    inv.dailyReport.items = [{ hourFrom: 9, minuteFrom: 0, hourTo: 12, minuteTo: 10 }]
+    const [tha] = invoicePositions(inv)
+    expect(tha.hours).toBe(3.25)
+  })
+  it('ohne Terminabsagen keine Absage-Position', () => {
     expect(invoicePositions(invoice()).some((p) => p.key === 'sick')).toBe(false)
   })
 })
@@ -63,9 +78,9 @@ describe('Rechnungsansicht – Korrekturen & Gesamtbetrag', () => {
   it('summiert signierte Korrekturen', () => {
     expect(correctionsTotal([{ amount: -20 }, { amount: 5.5 }])).toBe(-14.5)
   })
-  it('Gesamt = bezifferte Positionen + Korrekturen (offene Positionen zählen nicht)', () => {
-    const positions = invoicePositions(invoice({}, { sicknessRule: 'partial' }, true)) // 120 + offen
-    expect(invoiceTotal(positions, [{ amount: -20 }])).toBe(100)
+  it('Gesamt = Positionen + Korrekturen (inkl. 30%-Terminabsage)', () => {
+    const positions = invoicePositions(invoice({}, { sicknessRule: 'partial' }, true)) // 120 + 24
+    expect(invoiceTotal(positions, [{ amount: -20 }])).toBe(124)
   })
   it('Korrekturen nur vor Versand zulässig', () => {
     expect(canCorrect(invoice())).toBe(true)

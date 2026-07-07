@@ -19,10 +19,15 @@ import { hourlyRateFor, billingRulesFor, formatEuro, formatHours } from './calcu
 // ──────────────────────────────────────────────────────────────────────────
 
 export const SICKNESS_RULE_LABELS = Object.freeze({
-  none: 'Krankheitstage des Kindes werden nicht vergütet',
-  partial: 'Krankheitstage des Kindes werden teilweise vergütet (Detailregel des Amtes)',
-  full: 'Krankheitstage des Kindes werden voll vergütet'
+  none: 'Kurzfristige Terminabsagen werden nicht vergütet',
+  partial: 'Kurzfristige Terminabsage: 30 % des Stundensatzes (THA-Vorlage)',
+  full: 'Kurzfristige Terminabsagen werden voll vergütet'
 })
+
+// Faktor für kurzfristige Terminabsagen laut THA-Rechnungsvorlage (30 %).
+export const CANCELLATION_FACTOR = 0.3
+// Pool-Lösung laut THA-Rechnungsvorlage: 65 % des Stundensatzes.
+export const POOL_FACTOR = 0.65
 
 export const POOL_RULE_LABELS = Object.freeze({
   none: 'Kein Stundenpool / kein Übertrag',
@@ -46,6 +51,11 @@ function reportHours(report) {
   return Math.max(to - from, 0)
 }
 
+// Rundung auf Viertelstunden laut THA-Vorlage („gerundet Viertelstunden").
+export function roundToQuarter(hours) {
+  return Math.round(hours * 4) / 4
+}
+
 export function splitInvoiceHours(invoice) {
   const items = invoice?.dailyReport?.items || []
   let regular = 0
@@ -55,7 +65,7 @@ export function splitInvoiceHours(invoice) {
     if (report.sick) sick += hours
     else regular += hours
   })
-  return { regular: round2(regular), sick: round2(sick) }
+  return { regular: roundToQuarter(regular), sick: roundToQuarter(sick) }
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -63,10 +73,12 @@ export function splitInvoiceHours(invoice) {
 // ──────────────────────────────────────────────────────────────────────────
 
 /*
-Positionen: reguläre THA-Stunden × Satz; Krankheitsstunden je Amtsregel:
-  none    → 0 € (ausgewiesen als "nicht vergütet")
-  full    → voller Satz
-  partial → Betrag offen (Detailregel folgt, wird NICHT geraten)
+Positionen nach THA-Rechnungsvorlage:
+- „Betreuung (Päd. Fachkraft)" bzw. „(Päd. Hilfskraft)" je Fachkraftstatus.
+- Kurzfristige Terminabsagen (z. B. Krankheit des Kindes) je Amtsregel:
+    none    → 0 € („nicht vergütet")
+    partial → 30 % des Stundensatzes (Standard laut Vorlage)
+    full    → voller Satz
 → [{ key, label, hours, rate, amount, note? }]
 */
 export function invoicePositions(invoice) {
@@ -75,10 +87,13 @@ export function invoicePositions(invoice) {
   const rate = hourlyRateFor(invoice?.child || {}, carrier, invoice?.guardian || null, rules)
   const { regular, sick } = splitInvoiceHours(invoice)
 
+  const professional = invoice?.guardian?.professional !== false
+  const careLabel = professional ? 'Betreuung (Päd. Fachkraft)' : 'Betreuung (Päd. Hilfskraft)'
+
   const positions = [
     {
       key: 'tha',
-      label: 'Teilhabeassistenz / Schulbegleitung (§ 35a SGB VIII)',
+      label: careLabel,
       hours: regular,
       rate,
       amount: rate !== null ? round2(regular * rate) : null
@@ -87,21 +102,23 @@ export function invoicePositions(invoice) {
 
   if (sick > 0) {
     const sicknessRule = carrier.sicknessRule || 'none'
-    let amount = 0
-    let note = SICKNESS_RULE_LABELS.none
+    let cancelRate = 0
+    let note = 'nicht vergütet'
+    let label = 'Kurzfristige Terminabsage'
     if (sicknessRule === 'full') {
-      amount = rate !== null ? round2(sick * rate) : null
-      note = SICKNESS_RULE_LABELS.full
+      cancelRate = rate
+      note = 'voll vergütet'
     } else if (sicknessRule === 'partial') {
-      amount = null
-      note = SICKNESS_RULE_LABELS.partial
+      cancelRate = rate !== null ? round2(rate * CANCELLATION_FACTOR) : null
+      label = 'Kurzfristige Terminabsage (30% des Stundensatzes)'
+      note = ''
     }
     positions.push({
       key: 'sick',
-      label: 'Ausfallzeiten bei Krankheit des Kindes',
+      label,
       hours: sick,
-      rate,
-      amount,
+      rate: cancelRate,
+      amount: cancelRate !== null ? round2(sick * cancelRate) : null,
       note
     })
   }

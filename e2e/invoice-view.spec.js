@@ -26,12 +26,12 @@ test.describe('Rechnungsansicht', () => {
     const preview = page.getByTestId('invoice-preview')
     await expect(preview).toBeVisible()
 
-    // Empfänger + Positionen
+    // Empfänger + Positionen (Labels nach THA-Vorlage)
     await expect(preview.getByText('Jugendamt Groß-Gerau')).toBeVisible()
-    await expect(preview.getByText('Teilhabeassistenz / Schulbegleitung (§ 35a SGB VIII)')).toBeVisible()
-    // Krankheitsposition mit amtsspezifischer Regel (nicht vergütet)
-    await expect(preview.getByText('Ausfallzeiten bei Krankheit des Kindes')).toBeVisible()
-    await expect(preview.getByText(/werden nicht vergütet/).first()).toBeVisible()
+    await expect(preview.getByText('Betreuung (Päd. Fachkraft)')).toBeVisible()
+    // Terminabsage-Position mit amtsspezifischer Regel (nicht vergütet)
+    await expect(preview.getByText(/Kurzfristige Terminabsage/).first()).toBeVisible()
+    await expect(preview.getByText(/nicht vergütet/).first()).toBeVisible()
 
     // Berechnungsgrundlage als Anlage
     const basis = page.getByTestId('calculation-basis')

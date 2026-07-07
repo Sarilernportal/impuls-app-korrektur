@@ -368,10 +368,17 @@ export default {
         ? new Date(props.invoice.createdAt).toLocaleDateString('de-DE')
         : new Date().toLocaleDateString('de-DE')
 
+      // Betreff laut Vorlage: „Rechnung für den Monat Juni 2026" –
+      // Abrechnungsmonat bevorzugen, sonst den Zeitraum der Dokus.
+      const monthLabel =
+        props.invoice?.invoiceMonth && props.invoice?.invoiceYear
+          ? `${props.invoice.invoiceMonth} ${props.invoice.invoiceYear}`
+          : period.value
+
       const html = buildInvoiceHtml({
         invoiceNumber: invoiceNumber.value,
         invoiceDate,
-        period: period.value,
+        period: monthLabel,
         recordNumber: props.invoice?.child?.recordNumber || '',
         birthDate: props.invoice?.child?.dateOfBirth || '',
         debtorNumber: carrier.debtorNumber || '',

@@ -12,23 +12,22 @@ Berechnungsgrundlage des Kostenträgers als Anlage angehängt.
 UND Live-Betrieb; das serverseitige Lambda-PDF bleibt unberührt.
 */
 
-// Absender-Stammdaten (aus der Rechnungsvorlage der Verwaltung übernommen).
+// Absender-Stammdaten (aus der THA-Rechnungsvorlage der Buchhaltung).
 export const INVOICE_SENDER = Object.freeze({
   name: 'IMPULS GmbH',
   addressLine1: 'Bahnhofstraße 23',
   addressLine2: '65428 Rüsselsheim',
-  phone: 'Tel.: 06142-4898080',
+  phone: 'Tel.: 06142-4898246',
   fax: 'Fax: 06142-4898037',
   web: 'www.impuls-erziehungshilfen.de',
-  email: 'info@impuls-erziehungshilfen.de',
+  email: 'm.kroiss@impuls-erziehungshilfen.de',
   managingDirector: 'Geschäftsführer: Süreyya Sari',
   register: 'Handelsregister Darmstadt · HRB-Nr.: 94700',
   taxId: 'Steuernummer: 007 236 01904',
   bankName: 'Nassauische Sparkasse',
   iban: 'IBAN: DE61 5105 0015 0107 0942 52',
-  // Unterzeichner:in der Rechnung – bitte je nach Sachbearbeitung pflegen.
-  signer: 'i. A. die Verwaltung',
-  vatNote: 'Die Leistungen sind nach § 4 Nr. 25 UStG von der Umsatzsteuer befreit.'
+  signer: 'Buchhaltung Impuls',
+  vatNote: 'Die Leistungen sind nach § 4 Nr. 25 UStG. von der Umsatzsteuer befreit.'
 })
 
 function escapeHtml(value) {
@@ -112,7 +111,13 @@ export function buildInvoiceHtml(context) {
 
   const subjectParts = [`für ${childName}`]
   if (birthDate) subjectParts.push(`geb. am ${birthDate}`)
-  if (recordNumber) subjectParts.push(`AktZ. ${recordNumber}`)
+  if (recordNumber) subjectParts.push(`Aktz. ${recordNumber}`)
+
+  // Gesamtstunden für den Einleitungssatz („____ Leistungsstunden").
+  const totalHours = positions.reduce(
+    (sum, position) => sum + (Number.isFinite(position.hours) ? position.hours : 0),
+    0
+  )
 
   return `<!DOCTYPE html>
 <html lang="de">
@@ -182,16 +187,17 @@ ${escapeHtml(recipient.addressLine2 || '')}</div>
   </div>
 
   <h1>Rechnung Nr.: ${escapeHtml(invoiceNumber)}</h1>
-  <p class="subject">Rechnung für den Zeitraum (${escapeHtml(period)}) gemäß § 35a SGB VIII<br />${escapeHtml(
+  <p class="subject">Rechnung für den Monat ${escapeHtml(period)}, gemäß § 35a SGB VIII<br />${escapeHtml(
     subjectParts.join(', ')
   )}</p>
 
   <p>Sehr geehrte Damen und Herren,</p>
-  <p>für die Durchführung der oben genannten Maßnahme stellen wir Ihnen wie vereinbart folgende Leistungen in Rechnung:</p>
+  <p>für die Durchführung der oben genannten Maßnahme stellen wir Ihnen wie vereinbart für
+     ${escapeHtml(formatHours(totalHours))} Leistungsstunden (gerundet auf Viertelstunden)</p>
 
   <table class="positions">
     <thead>
-      <tr><th style="text-align:right">Menge</th><th></th><th style="text-align:right">Satz</th><th></th><th style="text-align:right">Betrag</th><th>Bezeichnung</th></tr>
+      <tr><th style="text-align:right">Leistungsstunden</th><th></th><th style="text-align:right">Stundensatz</th><th></th><th style="text-align:right">Betrag</th><th>Bezeichnung</th></tr>
     </thead>
     <tbody>
       ${positionRows}
@@ -203,6 +209,7 @@ ${escapeHtml(recipient.addressLine2 || '')}</div>
     </tbody>
   </table>
 
+  <p>in Rechnung.</p>
   <p>Wir bitten Sie, den oben genannten Betrag auf die unten angegebene Kontonummer zu überweisen.</p>
   <p>Wir danken für die freundliche Zusammenarbeit.</p>
   <p class="signer">Mit freundlichen Grüßen<br /><br />${escapeHtml(INVOICE_SENDER.signer)}</p>
