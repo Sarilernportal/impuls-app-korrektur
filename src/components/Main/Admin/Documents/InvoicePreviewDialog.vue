@@ -93,20 +93,21 @@ BERECHNUNGSGRUNDLAGE als Anlage – jeder Kostenträger hat eigene Regeln
                 </tbody>
               </table>
 
-              <!-- Korrekturen -->
+              <!-- Ergänzungen & Korrekturen (Zusatzpositionen wie in der Vorlage:
+                   Bekleidungspauschale, Taschengeld, Nachhilfe … oder Kürzungen) -->
               <div class="mt-6 flex items-center justify-between">
-                <h4 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Rechnungskorrekturen</h4>
+                <h4 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Ergänzungen &amp; Korrekturen</h4>
                 <button
                   v-if="editable && !showCorrectionForm"
                   data-testid="add-correction-btn"
                   class="inline-flex items-center gap-1 rounded-md border border-slate-300 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                   @click="openCorrectionForm"
                 >
-                  <PlusIcon class="h-3.5 w-3.5" aria-hidden="true" /> Korrektur hinzufügen
+                  <PlusIcon class="h-3.5 w-3.5" aria-hidden="true" /> Position ergänzen
                 </button>
               </div>
               <p v-if="!editable" class="mt-1 text-xs text-slate-400">
-                Rechnung ist bereits versendet/bezahlt – Korrekturen sind nicht mehr möglich.
+                Rechnung ist bereits versendet/bezahlt – Ergänzungen und Korrekturen sind nicht mehr möglich.
               </p>
 
               <ul v-if="corrections.length" class="mt-2 space-y-2" data-testid="correction-list">
@@ -117,7 +118,10 @@ BERECHNUNGSGRUNDLAGE als Anlage – jeder Kostenträger hat eigene Regeln
                 >
                   <div>
                     <p class="text-sm font-medium text-slate-800">{{ correction.label }}</p>
-                    <p class="text-xs text-slate-500">{{ correction.reason }}</p>
+                    <p class="text-xs text-slate-500">
+                      {{ correction.quantity || 1 }} × {{ formatEuro(correction.unitAmount ?? correction.amount) }}
+                      <span v-if="correction.reason"> · {{ correction.reason }}</span>
+                    </p>
                   </div>
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-semibold tabular-nums" :class="correction.amount < 0 ? 'text-red-700' : 'text-emerald-700'">
@@ -133,28 +137,36 @@ BERECHNUNGSGRUNDLAGE als Anlage – jeder Kostenträger hat eigene Regeln
                   </div>
                 </li>
               </ul>
-              <p v-else-if="editable && !showCorrectionForm" class="mt-2 text-sm text-slate-400">Keine Korrekturen erfasst.</p>
+              <p v-else-if="editable && !showCorrectionForm" class="mt-2 text-sm text-slate-400">
+                Keine Ergänzungen erfasst – z. B. Bekleidungspauschale, Taschengeld, Nachhilfe oder eine Kürzung.
+              </p>
 
-              <!-- Korrektur-Formular -->
+              <!-- Formular: Position ergänzen -->
               <div v-if="showCorrectionForm" class="mt-3 rounded-lg border border-slate-200 p-3">
-                <div class="grid gap-3 sm:grid-cols-2">
-                  <div>
+                <div class="grid gap-3 sm:grid-cols-3">
+                  <div class="sm:col-span-3">
                     <label class="block text-xs font-medium text-slate-600" for="correctionLabel">Bezeichnung*</label>
-                    <input id="correctionLabel" v-model="correctionForm.label" class="input-base mt-1" placeholder="z. B. Kürzung nach Prüfung des Amtes" />
+                    <input id="correctionLabel" v-model="correctionForm.label" class="input-base mt-1" placeholder="z. B. Bekleidungspauschale, Nachhilfe, Kürzung nach Prüfung" />
                   </div>
                   <div>
-                    <label class="block text-xs font-medium text-slate-600" for="correctionAmount">Betrag (€, negativ = Abzug)*</label>
-                    <input id="correctionAmount" type="number" step="0.01" v-model.number="correctionForm.amount" class="input-base mt-1" placeholder="-45.50" />
+                    <label class="block text-xs font-medium text-slate-600" for="correctionQuantity">Menge</label>
+                    <input id="correctionQuantity" type="number" min="1" step="1" v-model.number="correctionForm.quantity" class="input-base mt-1" />
                   </div>
                   <div class="sm:col-span-2">
-                    <label class="block text-xs font-medium text-slate-600" for="correctionReason">Begründung* (wird protokolliert)</label>
-                    <textarea id="correctionReason" v-model="correctionForm.reason" rows="2" class="input-base mt-1" placeholder="Warum wird korrigiert?"></textarea>
+                    <label class="block text-xs font-medium text-slate-600" for="correctionAmount">Betrag je Einheit (€, negativ = Abzug)*</label>
+                    <input id="correctionAmount" type="number" step="0.01" v-model.number="correctionForm.unitAmount" class="input-base mt-1" placeholder="60.00 oder -45.50" />
+                  </div>
+                  <div class="sm:col-span-3">
+                    <label class="block text-xs font-medium text-slate-600" for="correctionReason">
+                      Begründung <span v-if="(correctionForm.unitAmount || 0) < 0">*</span> (wird protokolliert; Pflicht bei Kürzungen)
+                    </label>
+                    <textarea id="correctionReason" v-model="correctionForm.reason" rows="2" class="input-base mt-1" placeholder="z. B. Absprache mit der Sachbearbeitung"></textarea>
                   </div>
                 </div>
                 <p v-if="correctionError" class="mt-2 text-xs text-red-600">{{ correctionError }}</p>
                 <div class="mt-3 flex justify-end gap-2">
                   <button class="btn-secondary" @click="showCorrectionForm = false">Abbrechen</button>
-                  <button data-testid="save-correction-btn" class="btn-primary" @click="submitCorrection">Korrektur übernehmen</button>
+                  <button data-testid="save-correction-btn" class="btn-primary" @click="submitCorrection">Übernehmen</button>
                 </div>
               </div>
 
@@ -250,7 +262,7 @@ export default {
   setup(props, { emit }) {
     const showCorrectionForm = ref(false)
     const correctionError = ref('')
-    const correctionForm = reactive({ label: '', amount: null, reason: '' })
+    const correctionForm = reactive({ label: '', quantity: 1, unitAmount: null, reason: '' })
 
     const positions = computed(() => (props.invoice ? invoicePositions(props.invoice) : []))
     const basis = computed(() => (props.invoice ? calculationBasis(props.invoice) : []))
@@ -305,7 +317,8 @@ export default {
 
     function openCorrectionForm() {
       correctionForm.label = ''
-      correctionForm.amount = null
+      correctionForm.quantity = 1
+      correctionForm.unitAmount = null
       correctionForm.reason = ''
       correctionError.value = ''
       showCorrectionForm.value = true
@@ -317,18 +330,23 @@ export default {
         correctionError.value = 'Bitte eine Bezeichnung angeben.'
         return
       }
-      const amount = Number(correctionForm.amount)
-      if (!Number.isFinite(amount) || amount === 0) {
-        correctionError.value = 'Bitte einen Betrag ungleich 0 angeben (negativ = Abzug).'
+      const quantity = Math.max(1, Math.round(Number(correctionForm.quantity) || 1))
+      const unitAmount = Number(correctionForm.unitAmount)
+      if (!Number.isFinite(unitAmount) || unitAmount === 0) {
+        correctionError.value = 'Bitte einen Betrag je Einheit ungleich 0 angeben (negativ = Abzug).'
         return
       }
-      if (!correctionForm.reason.trim()) {
-        correctionError.value = 'Eine Begründung ist Pflicht (wird protokolliert).'
+      // Zusätze (Taschengeld, Pauschalen …) brauchen keine Begründung –
+      // Kürzungen/Abzüge dagegen immer (Protokollpflicht).
+      if (unitAmount < 0 && !correctionForm.reason.trim()) {
+        correctionError.value = 'Bei Kürzungen ist eine Begründung Pflicht (wird protokolliert).'
         return
       }
       emit('add-correction', {
         label: correctionForm.label.trim(),
-        amount: Math.round(amount * 100) / 100,
+        quantity,
+        unitAmount: Math.round(unitAmount * 100) / 100,
+        amount: Math.round(quantity * unitAmount * 100) / 100,
         reason: correctionForm.reason.trim(),
         at: new Date().toISOString()
       })
@@ -355,6 +373,8 @@ export default {
         invoiceDate,
         period: period.value,
         recordNumber: props.invoice?.child?.recordNumber || '',
+        birthDate: props.invoice?.child?.dateOfBirth || '',
+        debtorNumber: carrier.debtorNumber || '',
         recipient: {
           name: carrierDisplayName.value,
           contact: carrier.billingContactName ? `z. Hd. ${carrier.billingContactName}` : '',

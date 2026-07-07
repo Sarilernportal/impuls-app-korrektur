@@ -53,18 +53,27 @@ test.describe('Rechnungsansicht', () => {
     // Ausgangsbetrag: 3 h × 45,50 € = 136,50 € (Krankheit nicht vergütet)
     await expect(page.getByTestId('invoice-total')).toContainText('136,50')
 
-    // Korrektur ohne Begründung wird abgewiesen
+    // Kürzung ohne Begründung wird abgewiesen (Protokollpflicht)
     await page.getByTestId('add-correction-btn').click()
     await page.locator('#correctionLabel').fill('Kürzung nach Prüfung')
     await page.locator('#correctionAmount').fill('-36.50')
     await page.getByTestId('save-correction-btn').click()
-    await expect(preview.getByText(/Begründung ist Pflicht/)).toBeVisible()
+    await expect(preview.getByText(/Begründung Pflicht/)).toBeVisible()
 
     // Mit Begründung wird übernommen und die Summe angepasst
     await page.locator('#correctionReason').fill('Absprache mit Sachbearbeitung vom 15.06.')
     await page.getByTestId('save-correction-btn').click()
     await expect(page.getByTestId('correction-list')).toContainText('Kürzung nach Prüfung')
     await expect(page.getByTestId('invoice-total')).toContainText('100,00')
+
+    // Zusatzposition wie in der Vorlage (Menge × Einzelbetrag, ohne Begründung)
+    await page.getByTestId('add-correction-btn').click()
+    await page.locator('#correctionLabel').fill('Bekleidungspauschale')
+    await page.locator('#correctionQuantity').fill('2')
+    await page.locator('#correctionAmount').fill('30')
+    await page.getByTestId('save-correction-btn').click()
+    await expect(page.getByTestId('correction-list')).toContainText('Bekleidungspauschale')
+    await expect(page.getByTestId('invoice-total')).toContainText('160,00')
   })
 
   test('bezahlte Rechnung ist nicht mehr korrigierbar (anderes Amt, andere Grundlage)', async ({ page }) => {
