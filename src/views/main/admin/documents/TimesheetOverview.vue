@@ -71,10 +71,10 @@
       </section>
 
       <!-- Prüf-Tabelle -->
-      <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white shadow-card">
         <div class="flex flex-col gap-3 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 class="text-lg font-semibold text-slate-900">Nachweise prüfen</h2>
+            <h2 class="font-display text-lg font-bold text-slate-900">Nachweise prüfen</h2>
             <p class="text-sm text-slate-500">Unterschriften und Doku-Abgleich prüfen, dann freigeben oder Rückfrage stellen.</p>
           </div>
           <div class="flex items-center gap-2">
@@ -164,11 +164,6 @@
           />
         </div>
 
-        <!-- Übergang zur Abrechnung -->
-        <div class="m-5 flex items-center gap-2 rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-800">
-          <ArrowRightCircleIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-          <span>Freigegebene Nachweise erscheinen automatisch in der <strong>Abrechnung</strong> — dort entstehen die Rechnungen. Hier wird nur geprüft.</span>
-        </div>
       </section>
     </div>
 
@@ -213,7 +208,6 @@ import {
   CheckIcon,
   ChatBubbleLeftRightIcon,
   ExclamationTriangleIcon,
-  ArrowRightCircleIcon,
   MagnifyingGlassIcon
 } from '@heroicons/vue/24/outline'
 import {
@@ -236,7 +230,6 @@ export default {
     CheckIcon,
     ChatBubbleLeftRightIcon,
     ExclamationTriangleIcon,
-    ArrowRightCircleIcon,
     MagnifyingGlassIcon,
     DocumentChildSelection,
     DocumentGuardianSelection,
