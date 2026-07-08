@@ -464,6 +464,48 @@ export function listDailyReports() {
   ]
 }
 
+export function listSpecialDailyReports() {
+  // Demo-Sonderberichte (Sonderzeiten) für die Mitarbeiter-App.
+  const now = new Date()
+  const at = (offset, hour = 12) =>
+    new Date(now.getFullYear(), now.getMonth(), now.getDate() - offset, hour).toISOString()
+  const guardian = { id: 'demo-guardian', name: 'Mira', familyName: 'Demir' }
+  const items = [
+    {
+      id: 'demo-special-1',
+      reportType: 'special',
+      reportActivity: 'teamMeeting',
+      documentDate: at(4, 14),
+      hourFrom: 14,
+      minuteFrom: 0,
+      hourTo: 16,
+      minuteTo: 0,
+      report: 'Teamsitzung zur Fallbesprechung und Wochenplanung.',
+      schoolguardian: 'Mira Demir',
+      guardian,
+      signatureImage: null,
+      transmitted: false,
+      charged: false,
+      selected: false
+    },
+    {
+      id: 'demo-special-2',
+      reportType: 'special',
+      reportActivity: 'vacation',
+      documentDate: at(10),
+      documentEndDate: at(6),
+      report: 'Urlaub laut genehmigtem Antrag.',
+      schoolguardian: 'Mira Demir',
+      guardian,
+      signatureImage: null,
+      transmitted: false,
+      charged: false,
+      selected: false
+    }
+  ]
+  return { items, nextToken: null }
+}
+
 export function listTimesheets() {
   return emptyConnection
 }

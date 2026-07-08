@@ -164,7 +164,7 @@ Proof View
           </div>
           <!-- PDF viewer -->
           <div
-            v-if="!isLoading && !transmitted && !showSpecialTimes"
+            v-if="!isLoading && !transmitted && (!showSpecialTimes || isLocalAuthMode)"
             class="w-full"
           >
             <h3 class="text-lg font-medium leading-6 text-primaryText">
@@ -325,6 +325,7 @@ import { useStore } from 'vuex'
 import { reportsReadyForProof, canSubmitProof } from '@/utilities/forms/submitGuards.js'
 import { isLocalAuthMode } from '@/services/authService.js'
 import { openTimesheetPdf } from '@/utilities/documents/timesheetPrint.js'
+import { openSpecialTimesheetPdf } from '@/utilities/documents/specialTimesheetPrint.js'
 
 // component imports
 import TabSelection from '@/components/UIComponents/Selections/TabSelection.vue'
@@ -699,6 +700,28 @@ export default {
           'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
           'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
         ]
+        if (showSpecialTimes.value) {
+          // Sonder-Nachweis (Sonderzeiten)
+          openSpecialTimesheetPdf({
+            guardian: {
+              name: first.guardian?.name || '',
+              familyName: first.guardian?.familyName || ''
+            },
+            month: monthNames[base.getMonth()],
+            documentYear: base.getFullYear(),
+            documents: reports.map((report) => ({
+              documentDate: report.documentDate,
+              documentEndDate: report.documentEndDate,
+              reportActivity: report.reportActivity,
+              hourFrom: report.hourFrom,
+              minuteFrom: report.minuteFrom,
+              hourTo: report.hourTo,
+              minuteTo: report.minuteTo
+            })),
+            signatureImage: null
+          })
+          return
+        }
         openTimesheetPdf({
           preview: true,
           child: {
@@ -1001,6 +1024,7 @@ export default {
     })
 
     return {
+      isLocalAuthMode,
       transmitted,
       tabs,
       specialTabs,
