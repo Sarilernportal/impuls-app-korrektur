@@ -17,11 +17,11 @@
       @close="closeUploadModals"
     />
   </div>
-  <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Sharebox</p>
-        <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Datei hochladen</h1>
+        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Datei hochladen</h1>
         <p class="mt-2 max-w-2xl text-sm text-blue-50">
           Unterlagen direkt dem richtigen Arbeitsbereich zuordnen.
         </p>
