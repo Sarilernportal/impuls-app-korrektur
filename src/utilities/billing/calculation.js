@@ -61,6 +61,31 @@ export function carrierRateFor(carrier, guardian = null) {
 }
 
 /*
+Krankmeldungs-Satz (< 24 Std.) der Behörde: manche Ämter (z. B. Groß-Gerau,
+SGB VIII + IX) vergüten kurzfristige Krankmeldungen mit einem eigenen
+ABSOLUTEN Stundensatz je Fachkraft-Status (Fachkraft 42,91 € / Hilfskraft
+29,71 €) statt prozentual. null = kein eigener Satz hinterlegt → dann gilt
+die prozentuale Regel (Default 30 %, max. 3 Meldungen/Monat).
+*/
+export function sickRateFor(carrier, guardian = null) {
+  const professional = guardian?.professional !== false
+  return professional
+    ? positiveOrNull(carrier?.sickRateSpecialist)
+    : positiveOrNull(carrier?.sickRateAssistant)
+}
+
+/*
+Pooling-Satz (1:2-Betreuung) der Behörde je Fachkraft-Status
+(Groß-Gerau: Fachkraft 75,49 € / Hilfskraft 52,70 €). null = nicht hinterlegt.
+*/
+export function poolRateFor(carrier, guardian = null) {
+  const professional = guardian?.professional !== false
+  return professional
+    ? positiveOrNull(carrier?.poolRateSpecialist)
+    : positiveOrNull(carrier?.poolRateAssistant)
+}
+
+/*
 Liefert den anzuwendenden Stundensatz. Quellen: Fallakte (Bescheid),
 Betreuer (Vergütung) und Kostenträger (zwei Sätze: mit/ohne Fachkraft).
 Welche Quelle Vorrang hat, ist je Jugendamt konfigurierbar über den

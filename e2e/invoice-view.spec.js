@@ -4,7 +4,8 @@ import { test, expect } from '@playwright/test'
 // Versand, Rechnungskorrekturen mit Pflicht-Begründung und die
 // Berechnungsgrundlage je Kostenträger (Anlage für die Behörde).
 //
-// Demo-Rechnungen: RE-2026-0501 (JA Groß-Gerau, Krankheit NICHT vergütet,
+// Demo-Rechnungen: RE-2026-0501 (JA Groß-Gerau mit den ECHTEN Sätzen:
+// Fachkraft 55,51 €, Krankmeldung < 24 Std. 42,91 €, jede Meldung abrechenbar;
 // Entwurf/korrigierbar) und RE-2026-0502 (JA Mitte, Krankheit voll vergütet,
 // bereits bezahlt → nicht korrigierbar).
 
@@ -26,17 +27,21 @@ test.describe('Rechnungsansicht', () => {
     const preview = page.getByTestId('invoice-preview')
     await expect(preview).toBeVisible()
 
-    // Empfänger + Positionen (Labels nach THA-Vorlage)
+    // Empfänger + Positionen (Labels nach THA-Vorlage, echte GG-Sätze)
     await expect(preview.getByText('Jugendamt Groß-Gerau')).toBeVisible()
     await expect(preview.getByText('Betreuung (Päd. Fachkraft)')).toBeVisible()
-    // Terminabsage-Position mit amtsspezifischer Regel (nicht vergütet)
-    await expect(preview.getByText(/Kurzfristige Terminabsage/).first()).toBeVisible()
-    await expect(preview.getByText(/nicht vergütet/).first()).toBeVisible()
+    // Krankmeldung < 24 Std. mit eigenem Behörden-Satz (42,91 €)
+    await expect(preview.getByText(/Krankmeldung < 24 Std\./).first()).toBeVisible()
+    await expect(preview.getByText(/42,91/).first()).toBeVisible()
 
-    // Berechnungsgrundlage als Anlage
+    // Berechnungsgrundlage als Anlage (inkl. Krankmeldungs- und Pooling-Sätzen)
     const basis = page.getByTestId('calculation-basis')
     await expect(basis).toBeVisible()
-    await expect(basis.getByText('Stundensatz')).toBeVisible()
+    await expect(basis.getByText('Stundensatz', { exact: true })).toBeVisible()
+    await expect(basis.getByText(/29,71/)).toBeVisible()
+    await expect(basis.getByText(/Pooling 1:2/)).toBeVisible()
+    await expect(basis.getByText(/75,49/)).toBeVisible()
+    await expect(basis.getByText(/Jede Krankmeldung/)).toBeVisible()
     await expect(basis.getByText(/Leitweg-ID/)).toBeVisible()
 
     // Druck-/PDF-Funktion (Rechnungsvordruck mit Logo) verfügbar
@@ -50,8 +55,8 @@ test.describe('Rechnungsansicht', () => {
     const preview = page.getByTestId('invoice-preview')
     await expect(preview).toBeVisible()
 
-    // Ausgangsbetrag: 3 h × 45,50 € = 136,50 € (Krankheit nicht vergütet)
-    await expect(page.getByTestId('invoice-total')).toContainText('136,50')
+    // Ausgangsbetrag: 3 h × 55,51 € + 3 h Krankmeldung × 42,91 € = 295,26 €
+    await expect(page.getByTestId('invoice-total')).toContainText('295,26')
 
     // Kürzung ohne Begründung wird abgewiesen (Protokollpflicht)
     await page.getByTestId('add-correction-btn').click()
@@ -64,7 +69,7 @@ test.describe('Rechnungsansicht', () => {
     await page.locator('#correctionReason').fill('Absprache mit Sachbearbeitung vom 15.06.')
     await page.getByTestId('save-correction-btn').click()
     await expect(page.getByTestId('correction-list')).toContainText('Kürzung nach Prüfung')
-    await expect(page.getByTestId('invoice-total')).toContainText('100,00')
+    await expect(page.getByTestId('invoice-total')).toContainText('258,76')
 
     // Zusatzposition wie in der Vorlage (Menge × Einzelbetrag, ohne Begründung)
     await page.getByTestId('add-correction-btn').click()
@@ -73,7 +78,7 @@ test.describe('Rechnungsansicht', () => {
     await page.locator('#correctionAmount').fill('30')
     await page.getByTestId('save-correction-btn').click()
     await expect(page.getByTestId('correction-list')).toContainText('Bekleidungspauschale')
-    await expect(page.getByTestId('invoice-total')).toContainText('160,00')
+    await expect(page.getByTestId('invoice-total')).toContainText('318,76')
   })
 
   test('bezahlte Rechnung ist nicht mehr korrigierbar (anderes Amt, andere Grundlage)', async ({ page }) => {

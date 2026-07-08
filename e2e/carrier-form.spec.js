@@ -28,23 +28,37 @@ test.describe('Kostenträger-Formular – Abrechnungsregeln je Behörde', () => 
     await expect(page.getByLabel('Stundensatz (€)', { exact: true })).toHaveCount(0)
   })
 
-  test('Krankheitsregel "teilweise" blendet den %-Satz der Behörde ein', async ({ page }) => {
+  test('Krankheitsregel "teilweise" blendet Behörden-Satz, %-Satz und Monatslimit ein', async ({ page }) => {
     await openCarrierForm(page)
 
-    const sickSelect = page.getByLabel('Krankheit Kind / Terminabsage')
+    const sickSelect = page.getByLabel('Krankheit Kind / Krankmeldung')
     await expect(sickSelect).toBeVisible()
-    // Vor der Auswahl kein Prozentfeld
+    // Vor der Auswahl keine Krankmeldungs-Felder
     await expect(page.getByLabel('Vergütung Absage (%)')).toHaveCount(0)
+    await expect(page.getByLabel('Krankmeldung Fachkraft (€)')).toHaveCount(0)
 
     await sickSelect.selectOption('partial')
+    // Eigener Behörden-Satz (z. B. Groß-Gerau: 42,91 / 29,71)
+    await expect(page.getByLabel('Krankmeldung Fachkraft (€)')).toBeVisible()
+    await expect(page.getByLabel('Krankmeldung ohne Fachkraft (€)')).toBeVisible()
+    // %-Regel + Monatslimit (allgemeine Regel: max. 3 à 30 %)
     const percentField = page.getByLabel('Vergütung Absage (%)')
     await expect(percentField).toBeVisible()
     await expect(page.getByText(/THA-Standard: 30/)).toBeVisible()
+    await expect(page.getByLabel('max. Krankmeldungen / Monat')).toBeVisible()
     await percentField.fill('50')
 
-    // Andere Regel -> Prozentfeld verschwindet wieder
+    // Andere Regel -> Krankmeldungs-Felder verschwinden wieder
     await sickSelect.selectOption('full')
     await expect(page.getByLabel('Vergütung Absage (%)')).toHaveCount(0)
+    await expect(page.getByLabel('Krankmeldung Fachkraft (€)')).toHaveCount(0)
+  })
+
+  test('Pooling-Sätze (1:2) sind je Behörde hinterlegbar', async ({ page }) => {
+    await openCarrierForm(page)
+
+    await expect(page.getByLabel('Pooling 1:2 Fachkraft (€)')).toBeVisible()
+    await expect(page.getByLabel('Pooling 1:2 ohne Fachkraft (€)')).toBeVisible()
   })
 
   test('Adress-Übernahme "entspricht der Hauptadresse" bleibt erhalten', async ({ page }) => {

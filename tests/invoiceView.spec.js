@@ -24,10 +24,27 @@ function invoice(extra = {}, carrierExtra = {}, withSick = false) {
 
 describe('Rechnungsansicht – Stunden-Aufteilung', () => {
   it('trennt reguläre und Krankheitsstunden', () => {
-    expect(splitInvoiceHours(invoice({}, {}, true))).toEqual({ regular: 3, sick: 2 })
+    expect(splitInvoiceHours(invoice({}, {}, true))).toEqual({
+      regular: 3,
+      sick: 2,
+      sickMeldungen: [2],
+      sickTimely: 0
+    })
   })
   it('ohne Krankheit nur regulär', () => {
-    expect(splitInvoiceHours(invoice())).toEqual({ regular: 3, sick: 0 })
+    expect(splitInvoiceHours(invoice())).toEqual({
+      regular: 3,
+      sick: 0,
+      sickMeldungen: [],
+      sickTimely: 0
+    })
+  })
+  it('rechtzeitige Krankmeldungen/Folgetage werden separat geführt', () => {
+    const inv = invoice()
+    inv.dailyReport.items.push({ hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true, sickTimely: true })
+    const split = splitInvoiceHours(inv)
+    expect(split.sickTimely).toBe(2)
+    expect(split.sick).toBe(0)
   })
 })
 
@@ -77,6 +94,73 @@ describe('Rechnungsansicht – Positionen nach THA-Vorlage', () => {
     const assistant = invoice({ child: {}, guardian: { professional: false } }, carrierRates)
     expect(invoicePositions(specialist)[0].rate).toBe(45.5)
     expect(invoicePositions(assistant)[0].rate).toBe(38)
+  })
+  it('Groß-Gerau: eigener Krankmeldungs-Satz hat Vorrang vor der %-Regel (Fachkraft)', () => {
+    const gg = {
+      hourlyRateSpecialist: 55.51,
+      sicknessRule: 'partial',
+      sickRateSpecialist: 42.91,
+      sickRateAssistant: 29.71
+    }
+    const positions = invoicePositions(invoice({ child: {} }, gg, true))
+    const sick = positions.find((p) => p.key === 'sick')
+    expect(sick.label).toContain('Krankmeldung < 24 Std.')
+    expect(sick.rate).toBe(42.91)
+    expect(sick.amount).toBe(85.82) // 2 h × 42,91
+  })
+  it('Groß-Gerau: Hilfskraft-Krankmeldungs-Satz bei professional=false', () => {
+    const gg = {
+      hourlyRateAssistant: 38.75,
+      sicknessRule: 'partial',
+      sickRateSpecialist: 42.91,
+      sickRateAssistant: 29.71
+    }
+    const positions = invoicePositions(
+      invoice({ child: {}, guardian: { professional: false } }, gg, true)
+    )
+    const sick = positions.find((p) => p.key === 'sick')
+    expect(sick.rate).toBe(29.71)
+  })
+  it('Allgemeine Regel: max. 3 Krankmeldungen/Monat, weitere 0 € (transparent)', () => {
+    const inv = invoice({}, { sicknessRule: 'partial' })
+    // 4 Krankmeldungen à 2 h
+    inv.dailyReport.items = [
+      { hourFrom: 9, minuteFrom: 0, hourTo: 12, minuteTo: 0 },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true }
+    ]
+    const positions = invoicePositions(inv)
+    const sick = positions.find((p) => p.key === 'sick')
+    const excess = positions.find((p) => p.key === 'sick-excess')
+    expect(sick.hours).toBe(6) // die ersten 3 Meldungen
+    expect(sick.amount).toBe(72) // 6 h × 12 € (30 % von 40)
+    expect(excess.hours).toBe(2) // die 4. Meldung
+    expect(excess.amount).toBe(0)
+    expect(excess.note).toContain('max. 3')
+  })
+  it('Mit eigenem Behörden-Satz ist jede Krankmeldung abrechenbar (kein Limit)', () => {
+    const gg = { hourlyRateSpecialist: 55.51, sicknessRule: 'partial', sickRateSpecialist: 42.91 }
+    const inv = invoice({ child: {} }, gg)
+    inv.dailyReport.items = [
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true },
+      { hourFrom: 9, minuteFrom: 0, hourTo: 11, minuteTo: 0, sick: true }
+    ]
+    const positions = invoicePositions(inv)
+    const sick = positions.find((p) => p.key === 'sick')
+    expect(sick.hours).toBe(8) // alle 4 Meldungen
+    expect(positions.some((p) => p.key === 'sick-excess')).toBe(false)
+  })
+  it('Rechtzeitige Krankmeldung/Folgetag → 0 € „nicht abrechenbar"', () => {
+    const inv = invoice({}, { sicknessRule: 'partial' })
+    inv.dailyReport.items.push({ hourFrom: 9, minuteFrom: 0, hourTo: 12, minuteTo: 0, sick: true, sickTimely: true })
+    const timely = invoicePositions(inv).find((p) => p.key === 'sick-timely')
+    expect(timely.hours).toBe(3)
+    expect(timely.amount).toBe(0)
+    expect(timely.note).toBe('nicht abrechenbar')
   })
   it('Stunden werden auf Viertelstunden gerundet', () => {
     // 9:00–12:10 = 3,1667 h → 3,25 h
@@ -137,6 +221,30 @@ describe('Berechnungsgrundlage je Kostenträger', () => {
     )
     const sickRow = rows.find((r) => r.label === 'Krankheit des Kindes')
     expect(sickRow.value).toContain('50 % des Stundensatzes')
+  })
+  it('weist Krankmeldungs- und Pooling-Sätze der Behörde aus (Groß-Gerau)', () => {
+    const rows = calculationBasis(
+      invoice({}, {
+        sicknessRule: 'partial',
+        sickRateSpecialist: 42.91,
+        sickRateAssistant: 29.71,
+        poolRateSpecialist: 75.49,
+        poolRateAssistant: 52.7
+      })
+    )
+    const byLabel = Object.fromEntries(rows.map((r) => [r.label, r.value]))
+    expect(byLabel['Krankmeldung < 24 Std. (Satz)']).toContain('42,91')
+    expect(byLabel['Krankmeldung < 24 Std. (Satz)']).toContain('29,71')
+    expect(byLabel['Pooling 1:2 (Satz je Std.)']).toContain('75,49')
+    expect(byLabel['Pooling 1:2 (Satz je Std.)']).toContain('52,70')
+    // Mit eigenem Satz: jede Krankmeldung abrechenbar
+    expect(byLabel['Krankmeldungs-Limit']).toContain('Jede Krankmeldung')
+  })
+  it('ohne eigenen Satz gilt das allgemeine Limit: max. 3 Krankmeldungen/Monat', () => {
+    const rows = calculationBasis(invoice({}, { sicknessRule: 'partial' }))
+    const limit = rows.find((r) => r.label === 'Krankmeldungs-Limit')
+    expect(limit.value).toContain('max. 3')
+    expect(limit.value).toContain('Folgetage')
   })
   it('nennt E-Rechnungsdaten, wenn vorhanden', () => {
     const rows = calculationBasis(invoice({}, { leitwegId: '06433-04001-77', debtorNumber: 'DEB-1' }))

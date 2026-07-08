@@ -101,6 +101,18 @@ type Carrier
   sicknessRule: String
   # Prozentsatz bei sicknessRule=partial (je Behörde; Default 30, THA-Vorlage).
   sicknessPercent: Float
+  # Eigener Krankmeldungs-Satz (< 24 Std.) der Behörde je Fachkraft-Status
+  # (z. B. Groß-Gerau: Fachkraft 42,91 / Hilfskraft 29,71). Hat Vorrang vor
+  # sicknessPercent.
+  sickRateSpecialist: Float
+  sickRateAssistant: Float
+  # Abrechenbare Krankmeldungen pro Monat. null = allgemeine Regel (max. 3);
+  # Behörden mit eigenem Krankmeldungs-Satz: jede Meldung abrechenbar.
+  sicknessMaxPerMonth: Int
+  # Pooling-Satz (1:2-Betreuung) je Fachkraft-Status
+  # (z. B. Groß-Gerau: Fachkraft 75,49 / Hilfskraft 52,70).
+  poolRateSpecialist: Float
+  poolRateAssistant: Float
   # Stundenpool: none | carryover
   poolRule: String
   # Soll-Berechnung: schooldays (Schultage/Ferienkalender)

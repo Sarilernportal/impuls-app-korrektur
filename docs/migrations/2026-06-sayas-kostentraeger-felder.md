@@ -51,6 +51,26 @@ Auswahl-Logik: `carrierRateFor(carrier, guardian)` in
 `src/utilities/billing/calculation.js`. `defaultHourlyRate` bleibt als
 Alt-Feld/Fallback bestehen.
 
+**Ergänzung 2026-07 (Krankmeldungs-/Pooling-Sätze + Monatslimit):**
+
+| Feld                  | Typ     | Bedeutung                                                       |
+| --------------------- | ------- | ---------------------------------------------------------------- |
+| `sickRateSpecialist`  | `Float` | Krankmeldung < 24 Std., Satz **mit** Fachkraft (GG: 42,91 €)      |
+| `sickRateAssistant`   | `Float` | Krankmeldung < 24 Std., Satz **ohne** Fachkraft (GG: 29,71 €)     |
+| `sicknessMaxPerMonth` | `Int`   | abrechenbare Krankmeldungen/Monat (null = allg. Regel: max. 3)    |
+| `poolRateSpecialist`  | `Float` | Pooling 1:2, Satz **mit** Fachkraft (GG: 75,49 €)                 |
+| `poolRateAssistant`   | `Float` | Pooling 1:2, Satz **ohne** Fachkraft (GG: 52,70 €)                |
+
+Referenzwerte Groß-Gerau (SGB VIII + IX): Stundensätze Fachkraft 55,51 € /
+Hilfskraft 38,75 €. Allgemeine Krankheitsregel (ohne eigenen Satz): max. 3
+kurzfristige Krankmeldungen (< 24 Std.) pro Monat à 30 % des Stundensatzes;
+rechtzeitige Krankmeldungen und Folgetage werden nicht abgerechnet
+(`SICKNESS_DEFAULT_MAX_PER_MONTH` und `sicknessMaxFor()` in
+`src/utilities/billing/invoiceView.js`; eigener Satz: `sickRateFor()`,
+Pooling: `poolRateFor()` in `calculation.js`). Tages-Dokus können
+rechtzeitige Meldungen/Folgetage mit `sickTimely: true` kennzeichnen –
+die Erfassungs-UI dafür folgt mit der Doku-Maske.
+
 `defaultHourlyRate` und `billingRuleSet` existieren bereits (siehe
 `2026-06-sayas-abrechnung-felder.md`). `useBillingAddress` und die `billing*`-
 Adressfelder existieren ebenfalls bereits.

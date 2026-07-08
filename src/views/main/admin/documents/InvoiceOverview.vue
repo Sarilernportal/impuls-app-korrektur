@@ -371,7 +371,8 @@ export default {
     }
 
     // Demo: zwei Kostenträger mit UNTERSCHIEDLICHER Berechnungsgrundlage
-    // (Groß-Gerau vergütet Krankheit nicht, Mitte voll) inkl. Krankheitstag.
+    // (Groß-Gerau: echte Sätze inkl. eigenem Krankmeldungs-Satz; Mitte:
+    // Krankheit voll vergütet) inkl. Krankheitstag.
     const demoInvoices = [
       createDemoInvoice({
         id: 'demo-invoice-1',
@@ -385,7 +386,8 @@ export default {
         flag: null,
         hourFrom: 9,
         hourTo: 12,
-        hourlyRate: 45.5,
+        // Kein Bescheid-Satz an der Fallakte -> die Behörden-Sätze greifen.
+        hourlyRate: null,
         withSickDay: true,
         carrierExtras: {
           street: 'Wilhelm-Seipp-Straße',
@@ -393,10 +395,16 @@ export default {
           postalCode: '64521',
           city: 'Groß-Gerau',
           billingContactName: 'Leistungsabrechnung / Buchhaltung',
-          // Jede Behörde hinterlegt zwei Sätze: mit / ohne Fachkraft.
-          hourlyRateSpecialist: 45.5,
-          hourlyRateAssistant: 38,
-          sicknessRule: 'none',
+          // Echte Sätze Groß-Gerau (SGB VIII + IX):
+          hourlyRateSpecialist: 55.51,
+          hourlyRateAssistant: 38.75,
+          // Krankmeldung < 24 Std.: eigener Satz, jede Meldung abrechenbar.
+          sicknessRule: 'partial',
+          sickRateSpecialist: 42.91,
+          sickRateAssistant: 29.71,
+          // Pooling 1:2-Betreuung:
+          poolRateSpecialist: 75.49,
+          poolRateAssistant: 52.7,
           poolRule: 'none',
           sollRule: 'schooldays',
           paymentTermDays: 30,

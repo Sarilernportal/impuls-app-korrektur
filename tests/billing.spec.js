@@ -12,6 +12,8 @@ import {
   workedHoursDecimal,
   hourlyRateFor,
   carrierRateFor,
+  sickRateFor,
+  poolRateFor,
   billingRulesFor,
   defaultBillingRules,
   computeOverhang,
@@ -169,6 +171,28 @@ describe('Berechnung – zwei Behörden-Sätze (mit/ohne Fachkraft)', () => {
     // Keine Fallakte, keine Betreuer-Vergütung -> Behörden-Satz je Fachkraft-Status
     expect(hourlyRateFor({}, carrier, { professional: true })).toBe(45.5)
     expect(hourlyRateFor({}, carrier, { professional: false })).toBe(38)
+  })
+})
+
+describe('Berechnung – Krankmeldungs- und Pooling-Sätze der Behörde (Groß-Gerau)', () => {
+  const grossGerau = {
+    hourlyRateSpecialist: 55.51,
+    hourlyRateAssistant: 38.75,
+    sickRateSpecialist: 42.91,
+    sickRateAssistant: 29.71,
+    poolRateSpecialist: 75.49,
+    poolRateAssistant: 52.7
+  }
+  it('Krankmeldungs-Satz je Fachkraft-Status', () => {
+    expect(sickRateFor(grossGerau, { professional: true })).toBe(42.91)
+    expect(sickRateFor(grossGerau, { professional: false })).toBe(29.71)
+  })
+  it('ohne hinterlegten Krankmeldungs-Satz → null (dann gilt die %-Regel)', () => {
+    expect(sickRateFor({ hourlyRateSpecialist: 45.5 }, { professional: true })).toBe(null)
+  })
+  it('Pooling-Satz (1:2) je Fachkraft-Status', () => {
+    expect(poolRateFor(grossGerau, { professional: true })).toBe(75.49)
+    expect(poolRateFor(grossGerau, { professional: false })).toBe(52.7)
   })
 })
 
