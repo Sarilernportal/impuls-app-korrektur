@@ -199,10 +199,10 @@ TODO HTML DOCUMENTATION
       </div>
     </div>
     <div class="flex min-w-0 flex-1 flex-col lg:pl-64 xl:pl-72">
-      <div class="flex h-16 flex-shrink-0 items-center border-b border-blue-900/20 bg-impuls-blue text-white lg:hidden lg:border-none print:hidden">
+      <div class="flex h-16 flex-shrink-0 items-center border-b border-stone-300/70 bg-sand text-stone-900 lg:hidden lg:border-none print:hidden">
         <button
           type="button"
-          class="flex h-full w-14 items-center justify-center border-r border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white lg:hidden"
+          class="flex h-full w-14 items-center justify-center border-r border-stone-300/70 text-stone-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-impuls-blue lg:hidden"
           @click="sidebarOpen = true"
         >
           <span class="sr-only">Open sidebar</span>
@@ -217,7 +217,7 @@ TODO HTML DOCUMENTATION
             @click="navigationTabTapped('BillingCenter')"
           >
             <p class="truncate text-sm font-semibold leading-tight">Impuls</p>
-            <p class="truncate text-xs text-blue-100">{{ routeTitle }}</p>
+            <p class="truncate text-xs text-stone-500">{{ routeTitle }}</p>
           </button>
           <img
             class="h-10 w-auto rounded-lg bg-white p-1"
@@ -233,17 +233,18 @@ TODO HTML DOCUMENTATION
         </div>
       </main>
       <!-- Footer -->
-      <div class="flex w-full flex-wrap justify-center gap-x-4 gap-y-1 bg-impuls-blue px-4 py-2 text-sm print:hidden sm:text-base">
+      <div class="flex w-full flex-wrap justify-center gap-x-4 gap-y-1 border-t border-stone-300/70 bg-sand px-4 py-2 text-sm print:hidden sm:text-base">
         <router-link
           :to="{ name: 'AdminImprint' }"
-          class="text-gray-100 hover:text-white"
+          class="text-stone-600 hover:text-stone-900"
         >Impressum</router-link>
         <router-link
           :to="{ name: 'AdminGDPR' }"
-          class="text-gray-100 hover:text-white"
+          class="text-stone-600 hover:text-stone-900"
         >
           Datenschutzbestimmung
         </router-link>
+        <!-- Footer im Sand-Ton (einheitlich mit Sidebar) -->
       </div>
       <!-- note notification -->
       <div
