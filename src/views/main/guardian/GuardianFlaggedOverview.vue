@@ -2,7 +2,7 @@
   <div class="mx-auto flex max-w-4xl flex-col px-4 py-4 sm:px-6">
     <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
       <p class="text-sm font-medium text-impuls-blue">Rückläufer</p>
-      <h2 class="mt-1 text-2xl font-bold text-slate-900">Markierte Dokumentationen</h2>
+      <h2 class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">Markierte Dokumentationen</h2>
       <p class="mt-2 text-sm text-slate-600">
         Die folgenden Einträge wurden zur Überarbeitung zurückgegeben. Bitte korrigieren Sie sie, damit die Abrechnung weiterlaufen kann.
       </p>

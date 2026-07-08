@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-5xl px-4 py-4 sm:px-6">
     <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <p class="text-sm font-medium text-impuls-blue">Kalender</p>
-      <h2 class="mt-1 text-2xl font-bold text-slate-900">Termine und Kalendergruppen</h2>
+      <h2 class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">Termine und Kalendergruppen</h2>
       <p class="mt-2 text-sm text-slate-600">
         Wählen Sie einen Tag, um die zugehörigen Termine zu sehen.
       </p>
@@ -25,7 +25,7 @@
 
       <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
         <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-slate-900">Termine</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Termine</h3>
           <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
             {{ filteredEvents.length }} geplant
           </span>
