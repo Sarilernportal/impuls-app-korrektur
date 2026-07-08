@@ -409,7 +409,36 @@ export function listDocuments() {
 }
 
 export function listDailyReports() {
-  return []
+  // Demo-Dokumentationen, damit die Mitarbeiter-App (Nachweis > Dokumentation)
+  // nicht leer ist. reportActivity 'school' = normale Doku (keine Sonderzeit).
+  const now = new Date()
+  const dayIso = (offset) =>
+    new Date(now.getFullYear(), now.getMonth(), now.getDate() - offset, 12).toISOString()
+  const report = (id, name, familyName, offset, hourFrom, hourTo) => ({
+    id,
+    reportType: 'standard',
+    reportActivity: 'school',
+    documentDate: dayIso(offset),
+    hourFrom,
+    minuteFrom: 0,
+    hourTo,
+    minuteTo: 0,
+    substitute: false,
+    sick: false,
+    sickOnTime: null,
+    reviseDate: null,
+    transmitted: false,
+    charged: false,
+    homework: { german: '', maths: '', english: '' },
+    report: 'Begleitung im Unterricht, Unterstützung bei der Konzentration und Struktur.',
+    child: { id: `${id}-child`, name, familyName },
+    guardian: { id: 'demo-guardian', name: 'Mira', familyName: 'Demir' }
+  })
+  return [
+    report('demo-report-1', 'Lina', 'Beispiel', 1, 8, 12),
+    report('demo-report-2', 'Lina', 'Beispiel', 2, 8, 11),
+    report('demo-report-3', 'Max', 'Muster', 3, 9, 13)
+  ]
 }
 
 export function listTimesheets() {
