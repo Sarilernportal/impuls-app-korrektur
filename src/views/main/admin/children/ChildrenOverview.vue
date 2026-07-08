@@ -38,117 +38,111 @@
         </button>
       </section>
 
-      <div class="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
-        <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
-          <div class="border-b border-slate-200 px-5 py-4">
-            <div class="flex flex-col gap-3 2xl:flex-row 2xl:items-center 2xl:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-slate-900">Klienten prüfen</h2>
-                <p class="text-sm text-slate-500">Für Verwaltung, GF und Päd. Leitung auf dieselbe Sicht reduziert.</p>
-              </div>
-              <label class="flex w-full min-w-0 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 2xl:max-w-md">
-                <MagnifyingGlassIcon class="h-5 w-5 text-slate-400" aria-hidden="true" />
-                <input
-                  v-model="searchValue"
-                  type="search"
-                  class="min-w-0 flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
-                  placeholder="Klient, Kostenträger oder Betreuer suchen"
-                />
-              </label>
-            </div>
+      <!-- Master-Detail: Klientenliste links, Detail rechts (DESIGN.md) -->
+      <div class="grid gap-4 lg:grid-cols-[minmax(320px,400px)_1fr] lg:items-start">
+        <!-- Liste -->
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+          <div class="border-b border-slate-200 p-3">
+            <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+              <MagnifyingGlassIcon class="h-5 w-5 text-slate-400" aria-hidden="true" />
+              <input
+                v-model="searchValue"
+                type="search"
+                class="min-w-0 flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
+                placeholder="Klient, Kostenträger oder Betreuer suchen"
+              />
+            </label>
           </div>
 
           <div v-if="isLoading" class="px-5 py-10 text-center text-sm font-semibold text-slate-500">
             Klienten werden geladen...
           </div>
-
           <div v-else-if="filteredChildren.length === 0" class="px-5 py-10 text-center">
             <p class="text-sm font-semibold text-slate-900">Keine Klienten gefunden</p>
             <p class="mt-1 text-sm text-slate-500">Passe Suche oder Statusfilter an.</p>
           </div>
 
-          <div v-else class="divide-y divide-slate-100">
-            <article
+          <div v-else data-testid="children-list" class="max-h-[72vh] overflow-auto">
+            <button
               v-for="child in filteredChildren"
               :key="child.id"
-              class="grid gap-4 px-4 py-4 sm:px-5 md:grid-cols-2 2xl:grid-cols-[minmax(220px,1.15fr)_minmax(170px,0.75fr)_minmax(190px,0.8fr)_minmax(150px,auto)] 2xl:items-center"
+              type="button"
+              @click="selectChild(child)"
+              :class="['flex w-full items-center gap-3 border-b border-slate-100 px-4 py-3 text-left transition', selectedChild && selectedChild.id === child.id ? 'bg-blue-50' : 'hover:bg-slate-50']"
             >
-              <div class="min-w-0">
-                <div class="flex flex-wrap items-center gap-2">
-                  <h3 class="min-w-0 break-words font-semibold leading-snug text-slate-900">{{ fullName(child) }}</h3>
-                  <span :class="['shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold', childStatus(child).class]">
-                    {{ childStatus(child).label }}
-                  </span>
-                </div>
-                <p class="mt-1 break-words text-sm text-slate-600">
-                  {{ child.recordNumber || 'ohne Aktenzeichen' }} · {{ child.weeklyHours || 0 }} Std./Woche
-                </p>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Betreuung</p>
-                <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ guardianNames(child) }}</p>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Kostenträger-Kontakt</p>
-                <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ carrierLine(child) }}</p>
-              </div>
-              <div class="flex items-center justify-start gap-2 md:justify-end 2xl:justify-end">
-                <button
-                  class="rounded-lg px-3 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-50"
-                  @click="openDocuments(child)"
-                >
-                  Doku
-                </button>
-                <button
-                  class="rounded-lg bg-impuls-blue px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-                  @click="openChild(child)"
-                >
-                  Öffnen
-                </button>
-              </div>
-            </article>
+              <InitialsAvatar :name="fullName(child)" size-class="h-9 w-9 text-xs" />
+              <span class="min-w-0 flex-1">
+                <span :class="['block truncate font-display font-bold', selectedChild && selectedChild.id === child.id ? 'text-impuls-blue' : 'text-slate-900']">{{ fullName(child) }}</span>
+                <span class="block truncate text-xs text-slate-500">{{ child.recordNumber || 'ohne Aktenzeichen' }} · {{ child.weeklyHours || 0 }} Std./Woche</span>
+              </span>
+              <span :class="['shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold', childStatus(child).class]">{{ childStatus(child).label }}</span>
+            </button>
           </div>
-        </section>
+        </div>
 
-        <aside class="grid gap-5">
-          <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 class="text-lg font-semibold text-slate-900">Prüfablauf</h2>
-            <div class="mt-4 grid gap-3">
-              <div
-                v-for="step in workflow"
-                :key="step.title"
-                class="flex gap-3 rounded-lg bg-slate-50 p-3"
-              >
-                <span :class="['flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg', step.bgClass]">
-                  <component :is="step.icon" class="h-5 w-5" aria-hidden="true" />
-                </span>
-                <div>
-                  <p class="font-semibold text-slate-900">{{ step.title }}</p>
-                  <p class="text-sm text-slate-600">{{ step.description }}</p>
-                </div>
-              </div>
+        <!-- Detail -->
+        <div v-if="selectedChild" data-testid="child-detail" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h2 class="font-display text-xl font-black tracking-tight text-slate-900">{{ fullName(selectedChild) }}</h2>
+              <p class="mt-0.5 text-sm text-slate-500">{{ selectedChild.recordNumber || 'ohne Aktenzeichen' }} · {{ selectedChild.weeklyHours || 0 }} Std./Woche</p>
             </div>
-          </section>
+            <span :class="['shrink-0 rounded-lg px-3 py-1 text-xs font-semibold', childStatus(selectedChild).class]">{{ childStatus(selectedChild).label }}</span>
+          </div>
 
-          <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 class="text-lg font-semibold text-slate-900">Schnellzugriff</h2>
-            <div class="mt-4 grid gap-2">
+          <div class="mt-5 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-2">
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Betreuung</p>
+              <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ guardianNames(selectedChild) }}</p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Kostenträger-Kontakt</p>
+              <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ carrierLine(selectedChild) }}</p>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button class="rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700" @click="openChild(selectedChild)">Fallakte öffnen</button>
+            <button class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" @click="openDocuments(selectedChild)">Dokumente</button>
+          </div>
+
+          <div class="mt-6 border-t border-slate-100 pt-4">
+            <p class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">Schnellzugriff</p>
+            <div class="grid gap-2 sm:grid-cols-2">
               <button
                 v-for="link in quickLinks"
                 :key="link.title"
-                class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-3 text-left hover:border-blue-200 hover:bg-blue-50"
+                class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 text-left hover:border-blue-200 hover:bg-blue-50"
                 @click="navigate(link.route)"
               >
-                <span>
-                  <span class="block text-sm font-semibold text-slate-900">{{ link.title }}</span>
-                  <span class="block text-xs text-slate-500">{{ link.description }}</span>
-                </span>
-                <ArrowRightIcon class="h-4 w-4 text-slate-400" aria-hidden="true" />
+                <span class="block truncate text-sm font-semibold text-slate-900">{{ link.title }}</span>
+                <ArrowRightIcon class="h-4 w-4 flex-shrink-0 text-slate-400" aria-hidden="true" />
               </button>
             </div>
-          </section>
-        </aside>
+          </div>
+        </div>
+        <div v-else class="hidden rounded-2xl border border-dashed border-slate-200 lg:block"></div>
       </div>
+
+      <!-- Prüfablauf -->
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+        <h2 class="font-display text-lg font-bold text-slate-900">Prüfablauf</h2>
+        <div class="mt-4 grid gap-3 sm:grid-cols-3">
+          <div
+            v-for="step in workflow"
+            :key="step.title"
+            class="flex gap-3 rounded-xl bg-slate-50 p-3"
+          >
+            <span :class="['flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg', step.bgClass]">
+              <component :is="step.icon" class="h-5 w-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p class="font-semibold text-slate-900">{{ step.title }}</p>
+              <p class="text-sm text-slate-600">{{ step.description }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -167,6 +161,7 @@ import {
   MagnifyingGlassIcon,
   UserIcon
 } from '@heroicons/vue/24/outline'
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 
 export default {
   name: 'ChildrenOverview',
@@ -178,7 +173,8 @@ export default {
     DocumentTextIcon,
     ExclamationTriangleIcon,
     MagnifyingGlassIcon,
-    UserIcon
+    UserIcon,
+    InitialsAvatar
   },
   setup() {
     const router = useRouter()
@@ -290,6 +286,17 @@ export default {
         return child.archiveStatus !== 'archived'
       })
     })
+
+    // Master-Detail: ausgewählter Klient (fällt auf den ersten der Liste zurück)
+    const selectedChildId = ref(null)
+    const selectedChild = computed(() => {
+      const list = filteredChildren.value
+      if (list.length === 0) return null
+      return list.find((child) => child.id === selectedChildId.value) || list[0]
+    })
+    function selectChild(child) {
+      selectedChildId.value = child.id
+    }
 
     const workflow = [
       {
@@ -410,6 +417,8 @@ export default {
       quickLinks,
       searchValue,
       selectedStatus,
+      selectedChild,
+      selectChild,
       workflow
     }
   }
