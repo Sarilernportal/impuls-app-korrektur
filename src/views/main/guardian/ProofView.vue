@@ -323,6 +323,8 @@ Proof View
 import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { reportsReadyForProof, canSubmitProof } from '@/utilities/forms/submitGuards.js'
+import { isLocalAuthMode } from '@/services/authService.js'
+import { openTimesheetPdf } from '@/utilities/documents/timesheetPrint.js'
 
 // component imports
 import TabSelection from '@/components/UIComponents/Selections/TabSelection.vue'
@@ -687,6 +689,46 @@ export default {
 
     // Method for downloading temporary timesheet
     async function downloadTemporaryTimeSheet() {
+      // Im Demo direkt die clientseitige Stundennachweis-Vorschau (PDF) öffnen,
+      // statt das (nicht vorhandene) Lambda aufzurufen.
+      if (isLocalAuthMode) {
+        const reports = documents.value || []
+        const first = reports[0] || {}
+        const base = reports.length ? new Date(first.documentDate) : new Date()
+        const monthNames = [
+          'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+          'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+        ]
+        openTimesheetPdf({
+          preview: true,
+          child: {
+            data: {
+              name: first.child?.name || '',
+              familyName: first.child?.familyName || '',
+              weeklyHours: first.child?.weeklyHours || 0,
+              weeklyHoursByPlan: false
+            },
+            guardian: {
+              name: first.guardian?.name || '',
+              familyName: first.guardian?.familyName || ''
+            },
+            dateOfRegistration: ''
+          },
+          month: monthNames[base.getMonth()],
+          documentYear: base.getFullYear(),
+          documents: reports.map((report) => ({
+            documentDate: report.documentDate,
+            hourFrom: report.hourFrom,
+            minuteFrom: report.minuteFrom,
+            hourTo: report.hourTo,
+            minuteTo: report.minuteTo,
+            sick: report.sick,
+            sickOnTime: report.sickOnTime,
+            reportActivity: report.reportActivity
+          }))
+        })
+        return
+      }
       try {
         // set loading state
         tempIsLoading.value = true
