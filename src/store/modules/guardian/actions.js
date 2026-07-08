@@ -399,9 +399,22 @@ export default {
   },
   async checkCreatedReportsCounts() {
     if (isLocalAuthMode) {
+      // Zähler aus den Demo-Dokumentationen ableiten (bleibt in Sync).
+      const reports = listLocalDailyReports()
+      const specialActivities = [
+        'holiday',
+        'vacation',
+        'employeeSickness',
+        'teamMeeting',
+        'furtherEducation',
+        'miscellaneous'
+      ]
+      const special = reports.filter((report) =>
+        specialActivities.includes(report.reportActivity)
+      ).length
       return {
-        standard: 0,
-        special: 0
+        standard: reports.length - special,
+        special
       }
     }
 
