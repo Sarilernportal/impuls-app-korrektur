@@ -4,7 +4,7 @@
       <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p class="text-sm font-medium text-blue-100">{{ todayLabel }}</p>
-          <h2 class="mt-1 text-2xl font-bold sm:text-3xl">Hallo, Mira</h2>
+          <h2 class="mt-1 font-display text-2xl font-bold tracking-tight sm:text-3xl">Hallo, Mira</h2>
           <p class="mt-2 max-w-2xl text-sm text-blue-100">
             Ihre wichtigsten Aufgaben, Termine und Klienten auf einen Blick.
           </p>
@@ -47,7 +47,7 @@
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Priorität</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Priorität</h3>
               <p class="text-sm text-slate-500">Was zuerst erledigt werden sollte.</p>
             </div>
             <span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
@@ -83,7 +83,7 @@
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Heute</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Heute</h3>
               <p class="text-sm text-slate-500">Termine und Arbeitsschritte.</p>
             </div>
             <button
@@ -111,7 +111,7 @@
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Meine Klienten</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Meine Klienten</h3>
               <p class="text-sm text-slate-500">Status pro Klient, ohne lange Suche.</p>
             </div>
             <span class="text-sm font-medium text-slate-500">2 aktiv</span>
@@ -142,7 +142,7 @@
 
       <aside class="grid gap-5">
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h3 class="text-lg font-semibold text-slate-900">Schnell starten</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Schnell starten</h3>
           <div class="mt-4 grid gap-3">
             <button
               v-for="action in quickActions"
@@ -166,7 +166,7 @@
         </section>
 
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h3 class="text-lg font-semibold text-slate-900">Rückgaben</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Rückgaben</h3>
           <div class="mt-4 rounded-lg bg-emerald-50 p-4 text-emerald-800">
             <CheckCircleIcon
               class="h-6 w-6"
@@ -180,7 +180,7 @@
         </section>
 
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h3 class="text-lg font-semibold text-slate-900">Arbeitsstand</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Arbeitsstand</h3>
           <div class="mt-4 space-y-4">
             <div
               v-for="progress in progressItems"
