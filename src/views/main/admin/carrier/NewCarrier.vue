@@ -40,9 +40,9 @@ Add new carrier
         </p>
       </section>
 
-      <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Stammdaten und Abrechnung</h2>
+          <h2 class="font-display text-lg font-bold text-slate-900">Stammdaten und Abrechnung</h2>
           <p class="mt-1 text-sm text-slate-500">Adresse, Kontakt, E-Rechnung und amtsspezifische Abrechnungsregeln in einem Vorgang.</p>
         </div>
         <new-carrier-form

@@ -33,12 +33,12 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
 
     <div v-else class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
       <!-- Status-Kopf -->
-      <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+      <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div class="flex items-center gap-4">
             <InitialsAvatar :name="fullName" size-class="h-14 w-14 text-lg" />
             <div>
-              <h1 class="text-xl font-bold text-slate-900">{{ fullName || 'Nicht angegeben' }}</h1>
+              <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">{{ fullName || 'Nicht angegeben' }}</h1>
               <div class="mt-1.5 flex flex-wrap items-center gap-2">
                 <span :class="['inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold', isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600']">
                   <span :class="['h-1.5 w-1.5 rounded-full', isActive ? 'bg-emerald-500' : 'bg-slate-400']"></span>
@@ -69,15 +69,10 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </div>
       </section>
 
-      <div v-if="editing" class="mt-4 flex items-start gap-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-xs text-sky-800">
-        <InformationCircleIcon class="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
-        <span>Stammdaten, Geschlecht, Fachkraftstatus und Qualifikation werden gespeichert. Funktion, Vergütung, Anstellung, Eintritt und Führungszeugnis folgen mit der Datenmodell-Erweiterung.</span>
-      </div>
-
       <div class="mt-6 grid gap-6 lg:grid-cols-2">
         <!-- Stammdaten -->
-        <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-          <h3 class="text-lg font-semibold text-slate-900">Stammdaten</h3>
+        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+          <h3 class="font-display text-lg font-bold text-slate-900">Stammdaten</h3>
           <dl class="mt-4 space-y-3">
             <field label="Vorname">
               <input v-if="editing" v-model="form.name" class="input-base" />
@@ -107,8 +102,8 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </section>
 
         <!-- Funktion & Qualifikation -->
-        <section v-if="isGuardian" class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-          <h3 class="text-lg font-semibold text-slate-900">Funktion &amp; Qualifikation</h3>
+        <section v-if="isGuardian" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+          <h3 class="font-display text-lg font-bold text-slate-900">Funktion &amp; Qualifikation</h3>
           <dl class="mt-4 space-y-3">
             <field label="Funktion / Tätigkeit">
               <select v-if="editing" v-model="form.jobFunction" class="input-base">
@@ -150,10 +145,10 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </section>
 
         <!-- Führungszeugnis (§ 72a) -->
-        <section v-if="isGuardian" :class="['rounded-xl border p-6 shadow-card lg:col-span-2', certificateBox.boxClass]">
+        <section v-if="isGuardian" :class="['rounded-2xl border p-6 shadow-card lg:col-span-2', certificateBox.boxClass]">
           <div class="flex items-center gap-2">
             <ShieldCheckIcon class="h-5 w-5 flex-shrink-0" :class="certificateBox.iconClass" aria-hidden="true" />
-            <h3 class="text-lg font-semibold text-slate-900">Erweitertes Führungszeugnis (§ 72a SGB VIII)</h3>
+            <h3 class="font-display text-lg font-bold text-slate-900">Erweitertes Führungszeugnis (§ 72a SGB VIII)</h3>
             <span :class="['ml-auto rounded-full px-2.5 py-0.5 text-xs font-semibold', certificateBox.badgeClass]">
               {{ certificateBox.label }}
             </span>
@@ -178,10 +173,10 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </section>
 
         <!-- Zuständige Klienten -->
-        <section v-if="isGuardian" class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+        <section v-if="isGuardian" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Zuständige Klienten</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Zuständige Klienten</h3>
               <p class="mt-0.5 text-sm text-slate-500">Pooling: eine Fachkraft kann mehrere Klienten betreuen.</p>
             </div>
           </div>
@@ -225,7 +220,7 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </section>
 
         <!-- Account -->
-        <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
           <user-detail-account-info
             :user="user"
             :deleteIsLoading="deleteIsLoading"
@@ -250,7 +245,7 @@ import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import LoadingSpinner from '@/components/UIComponents/Utilities/LoadingSpinner.vue'
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import {
-  PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, InformationCircleIcon
+  PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon
 } from '@heroicons/vue/24/outline'
 import { createErrorMessage, createErrorTitle } from '@/utilities/auth/errorCreator.js'
 
@@ -272,7 +267,7 @@ export default {
   components: {
     UserDetailAccountInfo, CriticalAction, LoadingSpinner, SuccessWindow, ErrorWindow,
     InitialsAvatar, Field,
-    PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, InformationCircleIcon
+    PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon
   },
   props: ['id'],
   setup() {

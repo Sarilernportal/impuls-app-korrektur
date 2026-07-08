@@ -28,9 +28,9 @@
       </section>
 
       <section class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_280px]">
-        <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
           <div class="border-b border-slate-100 pb-4">
-            <h2 class="text-lg font-semibold text-slate-900">Upload vorbereiten</h2>
+            <h2 class="font-display text-lg font-bold text-slate-900">Upload vorbereiten</h2>
             <p class="mt-1 text-sm text-slate-500">
               Erst Zielordner wählen, dann Dateien in das Feld ziehen oder auswählen.
             </p>
@@ -54,8 +54,8 @@
           </div>
         </div>
 
-        <aside class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 class="text-lg font-semibold text-slate-900">Ablagehinweis</h2>
+        <aside class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+          <h2 class="font-display text-lg font-bold text-slate-900">Ablagehinweis</h2>
           <div class="mt-4 space-y-3 text-sm text-slate-600">
             <p>
               <span class="font-semibold text-slate-900">Admin</span><br />

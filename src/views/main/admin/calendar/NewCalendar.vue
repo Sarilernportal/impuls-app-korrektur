@@ -42,10 +42,10 @@ New Calendar
 
       <form
         @submit.prevent="confirmButtonTapped"
-        class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
+        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card"
       >
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Kalenderdaten</h2>
+          <h2 class="font-display text-lg font-bold text-slate-900">Kalenderdaten</h2>
           <p class="mt-1 text-sm text-slate-500">Titel, Beschreibung und Farbe für die spätere Wiedererkennung.</p>
         </div>
 
@@ -90,7 +90,7 @@ New Calendar
                 v-model="calendarColor"
               />
               <div>
-                <p class="text-sm font-semibold text-slate-900">{{ calendarColor }}</p>
+                <p class="text-sm font-semibold uppercase tabular-nums text-slate-900">{{ calendarColor }}</p>
                 <p class="text-sm text-slate-500">Diese Farbe erscheint später in der Kalenderliste.</p>
               </div>
             </div>

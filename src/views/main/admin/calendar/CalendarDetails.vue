@@ -69,10 +69,10 @@ Calendar Details
     />
   </div>
   <!-- Main Container -->
-  <div class="flex min-h-screen w-full flex-col gap-6 bg-slate-50 px-4 pt-6 pb-10">
+  <div class="flex min-h-screen w-full flex-col gap-6 bg-app-bg px-4 pt-6 pb-10">
     <!-- Header section -->
     <div class="w-full space-y-1">
-      <h3 class="text-lg leading-6 font-semibold text-slate-900">Kalender Details</h3>
+      <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">Kalender Details</h1>
       <p class="max-w-2xl text-sm text-secondaryText">
         Informationen über die Daten des Kalenders
       </p>
@@ -88,7 +88,7 @@ Calendar Details
     <div v-else class="grid w-full gap-6 lg:grid-cols-2">
     <!-- info -->
     <div
-      class="flex w-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-card divide-y divide-slate-200"
+      class="flex w-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-card divide-y divide-slate-200"
     >
       <!-- title -->
       <EditableTextRow
@@ -139,9 +139,9 @@ Calendar Details
     </div>
     <!-- Teilnehmer -->
     <div
-      class="w-full space-y-1 rounded-xl border border-slate-200 bg-white p-6 shadow-card"
+      class="w-full space-y-1 rounded-2xl border border-slate-200 bg-white p-6 shadow-card"
     >
-      <h3 class="text-lg leading-6 font-semibold text-slate-900">Teilnehmer</h3>
+      <h2 class="font-display text-lg leading-6 font-bold text-slate-900">Teilnehmer</h2>
       <p class="max-w-2xl text-sm text-secondaryText">
         Liste der verbundenen Teilnehmer
       </p>
@@ -185,7 +185,7 @@ Calendar Details
       </div>
     </div>
     <!-- object info (volle Breite) -->
-    <div class="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+    <div class="w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
       <CalendarDetailsObjectInfo
         class="pb-4"
         :calendar="calendar"

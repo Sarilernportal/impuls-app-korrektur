@@ -42,10 +42,10 @@ New Event
 
       <form
         @submit.prevent="confirmButtonTapped"
-        class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
+        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card"
       >
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Termindaten</h2>
+          <h2 class="font-display text-lg font-bold text-slate-900">Termindaten</h2>
           <p class="mt-1 text-sm text-slate-500">Pflichtdaten ausfüllen, Kalender wählen und Datum festlegen.</p>
         </div>
 

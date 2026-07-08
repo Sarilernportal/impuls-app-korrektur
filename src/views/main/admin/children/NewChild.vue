@@ -40,10 +40,9 @@ Add new carrier
         </p>
       </section>
 
-      <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Fallakte anlegen</h2>
-          <p class="mt-1 text-sm text-slate-500">Schritt für Schritt: Stammdaten, Sorgeberechtigte, Schule &amp; Begleitung, Hilfe &amp; Abrechnung.</p>
+          <h2 class="font-display text-lg font-bold text-slate-900">Fallakte anlegen</h2>
         </div>
         <new-child-wizard
           class="mt-5"
