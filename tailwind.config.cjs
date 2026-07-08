@@ -7,6 +7,8 @@ module.exports = {
         // Brand palette
         'impuls-blue': '#00376b',
         'impuls-red': '#d10019',
+        // Warm-neutrale App-Fläche (DESIGN.md)
+        'app-bg': '#f6f5f2',
         // Full brand-blue scale for new components.
         brand: {
           50: '#eef4fa',

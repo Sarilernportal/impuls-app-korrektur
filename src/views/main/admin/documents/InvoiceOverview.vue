@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">GF und Verwaltung</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Rechnungszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Rechnungszentrale</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Echte Rechnungen aus Nachweisen prüfen, offene Läufe sehen und Versand oder Freigabe vorbereiten.
             </p>
@@ -34,24 +34,20 @@
         Lokale Vorschau: Es werden Demo-Rechnungen angezeigt. Produktiv lädt diese Seite echte Rechnungen aus AWS.
       </section>
 
-      <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <section class="flex flex-wrap gap-2">
         <button
           v-for="metric in metrics"
           :key="metric.title"
           :class="[
-            'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-card-hover',
-            activeFilter === metric.filter ? 'border-blue-300 ring-2 ring-blue-100' : 'border-slate-200'
+            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+            activeFilter === metric.filter
+              ? 'border-impuls-blue bg-blue-50 text-impuls-blue'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200'
           ]"
           @click="activeFilter = metric.filter"
         >
-          <div class="flex items-center justify-between">
-            <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', metric.badgeClass]"><component :is="metric.icon" class="h-5 w-5" aria-hidden="true" /></span>
-            <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', metric.badgeClass]">
-              {{ metric.badge }}
-            </span>
-          </div>
-          <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ metric.value }}</p>
-          <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
+          {{ metric.title }}
+          <span :class="['rounded-full px-2 py-0.5 text-xs font-bold tabular-nums', metric.badgeClass]">{{ metric.value }}</span>
         </button>
       </section>
 
@@ -124,7 +120,7 @@
           <div class="border-b border-slate-200 px-5 py-4">
             <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <h2 class="text-lg font-semibold text-slate-900">Rechnungslauf</h2>
+                <h2 class="font-display text-lg font-bold text-slate-900">Rechnungslauf</h2>
                 <p class="text-sm text-slate-500">Status, Leistung und Nachweisbezug stehen im Vordergrund.</p>
               </div>
               <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">

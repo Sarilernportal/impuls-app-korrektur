@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full bg-[#f6f5f2] px-4 py-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <!-- Kopf -->
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">

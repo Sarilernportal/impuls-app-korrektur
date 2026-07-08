@@ -14,7 +14,7 @@ TODO HTML DOCUMENTATION
 -->
 
 <template>
-  <div class="flex h-screen overflow-hidden bg-slate-50">
+  <div class="flex h-screen overflow-hidden bg-app-bg">
     <TransitionRoot
       as="template"
       :show="sidebarOpen"
