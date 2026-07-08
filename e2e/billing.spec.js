@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test'
 
 // End-to-End-Tests für die Abrechnungszentrale (/admin/billing) gegen den
 // Demo-Modus. Sie sichern das visuelle Verhalten im echten Chromium der CI ab:
-// Status-/Filterkarten, Prüftabelle (THA-/§35a-Spalten), Überhang-Korrektur,
-// Sammelabrechnung und die Unterschriften-Ampel.
+// Status-Filter-Chips, Master-Detail (Liste links / Detail rechts),
+// Überhang-Korrektur, Sammelabrechnung und die Unterschriften-Ampel.
 //
 // Grundlage sind die deterministischen Demo-Daten (u. a. Lina Beispiel,
 // Sara Yıldız mit +6 h Überhang, Tom Klein ohne Doku).
@@ -19,54 +19,45 @@ async function openBilling(page) {
 }
 
 test.describe('Abrechnungszentrale', () => {
-  test('Prüftabelle rendert die THA-/§35a-Spalten und Klientzeilen', async ({ page }) => {
+  test('Master-Detail: Liste zeigt Klienten, Detail die Kennzahlen', async ({ page }) => {
     await openBilling(page)
 
-    const table = page.getByTestId('billing-table')
-    await expect(table).toBeVisible()
+    // Liste (links) mit Klient, Fachkraft und Betrag
+    const list = page.getByTestId('billing-list')
+    await expect(list).toBeVisible()
+    await expect(list.getByText('Lina Beispiel')).toBeVisible()
+    await expect(list.getByText('Mira Demir').first()).toBeVisible()
+    await expect(list.getByText('2.366,00', { exact: false }).first()).toBeVisible()
 
-    // Alle geforderten Spaltenüberschriften vorhanden
-    for (const col of [
-      'Klient / Fachkraft',
-      'Jugendamt',
-      'Monat',
-      'h/Wo',
-      'Soll',
-      'Geleistet',
-      'Überhang',
-      'Abrechenbar',
-      'Betrag',
-      'Unterschriften',
-      'Status / Aktion'
-    ]) {
-      await expect(table.getByRole('columnheader', { name: col, exact: false })).toBeVisible()
+    // Detail (rechts) für die vorausgewählte Zeile mit KPI-Feldern
+    const detail = page.getByTestId('billing-detail')
+    await expect(detail).toBeVisible()
+    await expect(detail.getByRole('heading', { name: 'Lina Beispiel' })).toBeVisible()
+    await expect(detail.getByText('2.366,00', { exact: false })).toBeVisible()
+    for (const kpi of ['Soll', 'Geleistet', 'Abrechenbar']) {
+      await expect(detail.getByText(kpi, { exact: true }).first()).toBeVisible()
     }
-
-    // Klient/Fachkraft je Zeile + korrekter Betrag (Lina: 52 h × 45,50 €)
-    await expect(table.getByText('Lina Beispiel')).toBeVisible()
-    // "Mira Demir" ist in den Demo-Daten mehrfach Fachkraft -> erstes Vorkommen
-    await expect(table.getByText('Mira Demir').first()).toBeVisible()
-    await expect(table.getByText('2.366,00', { exact: false }).first()).toBeVisible()
   })
 
-  test('Filterkarten filtern die Tabelle konsistent', async ({ page }) => {
+  test('Filter-Chips filtern die Liste konsistent', async ({ page }) => {
     await openBilling(page)
 
     // "Doku offen" -> nur Tom Klein, kein abrechenbarer Klient
+    // (der ausgewählte Klient steht in Liste UND Detail -> .first())
     await page.getByTestId('filter-doku_offen').click()
-    await expect(page.getByText('Tom Klein')).toBeVisible()
+    await expect(page.getByText('Tom Klein').first()).toBeVisible()
     await expect(page.getByText('Lina Beispiel')).toHaveCount(0)
 
     // "Abrechenbar" -> Lina + Sara (Überhang zählt mit), kein Tom
     await page.getByTestId('filter-abrechenbar').click()
-    await expect(page.getByText('Lina Beispiel')).toBeVisible()
-    await expect(page.getByText('Sara Yıldız')).toBeVisible()
+    await expect(page.getByText('Lina Beispiel').first()).toBeVisible()
+    await expect(page.getByText('Sara Yıldız').first()).toBeVisible()
     await expect(page.getByText('Tom Klein')).toHaveCount(0)
 
-    // Übrige Karten sind klickbar und rendern die Tabelle ohne Absturz
+    // Übrige Chips sind klickbar und rendern die Liste ohne Absturz
     for (const status of ['nachweis_pruefen', 'rechnung_erstellt', 'offen_unbezahlt']) {
       await page.getByTestId('filter-' + status).click()
-      await expect(page.getByTestId('billing-table')).toBeVisible()
+      await expect(page.getByTestId('billing-list')).toBeVisible()
     }
   })
 
@@ -74,8 +65,9 @@ test.describe('Abrechnungszentrale', () => {
     await openBilling(page)
     await page.getByTestId('filter-abrechenbar').click()
 
-    // Sara ist die einzige Überhang-Zeile -> einziger "korrigieren"-Button
-    await page.getByTestId('overhang-correct').first().click()
+    // Sara (einzige Überhang-Zeile) in der Liste auswählen -> Detail zeigt "Korrigieren"
+    await page.getByText('Sara Yıldız').first().click()
+    await page.getByTestId('overhang-correct').click()
 
     await expect(page.getByRole('heading', { name: 'Überhang korrigieren' })).toBeVisible()
     await expect(page.getByText('Deckeln', { exact: true })).toBeVisible()
@@ -97,7 +89,7 @@ test.describe('Abrechnungszentrale', () => {
     await expect(page.getByRole('button', { name: /Rechnung(en)? erstellen/ })).toBeVisible()
   })
 
-  test('Unterschriften-Ampel zeigt E/S/F je Zeile', async ({ page }) => {
+  test('Unterschriften-Ampel zeigt E/S/F im Detail', async ({ page }) => {
     await openBilling(page)
 
     const ampel = page.getByTestId('signatures').first()

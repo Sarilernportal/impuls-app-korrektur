@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-[#f6f5f2] px-4 py-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <!-- Kopf -->
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Verwaltung · THA · § 35a SGB VIII</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Abrechnungszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Abrechnungszentrale</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Nachweise prüfen, fehlende Unterlagen erkennen, Rechnungen an die Jugendämter erstellen.
             </p>
@@ -37,197 +37,171 @@
         Nachweise und Rechnungen aus AWS.
       </section>
 
-      <!-- Kennzahl-/Filter-Karten -->
-      <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <!-- Status-Filter als kompakte Chips (DESIGN.md) -->
+      <section class="flex flex-wrap gap-2">
         <button
           v-for="card in statusCards"
           :key="card.status"
           :data-testid="'filter-' + card.status"
           @click="setFilter(card.status)"
           :class="[
-            'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover',
-            activeFilter === card.status ? 'border-blue-300 ring-1 ring-blue-200' : 'border-slate-200 hover:border-blue-200'
+            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+            activeFilter === card.status
+              ? 'border-impuls-blue bg-blue-50 text-impuls-blue'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200'
           ]"
         >
-          <div class="flex items-center justify-between">
-            <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', card.cardClass]">
-              {{ card.label }}
-            </span>
-            <CheckCircleIcon v-if="activeFilter === card.status" class="h-4 w-4 text-impuls-blue" aria-hidden="true" />
-          </div>
-          <p class="mt-3 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ card.count }}</p>
-          <p class="mt-0.5 text-xs text-slate-500">Filter auf diesen Status</p>
+          {{ card.label }}
+          <span :class="['rounded-full px-2 py-0.5 text-xs font-bold tabular-nums', card.cardClass]">{{ card.count }}</span>
         </button>
       </section>
 
-      <!-- Abrechnungstabelle -->
-      <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
-        <div class="flex flex-col gap-2 border-b border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 class="text-lg font-semibold text-slate-900">Abrechnungsprüfung</h2>
-            <p class="text-sm text-slate-500">Pro Klient · Mitarbeiter:in · Monat — was ist abrechenbar?</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button
-              v-if="activeFilter"
-              class="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:bg-slate-100"
-              @click="setFilter(null)"
-            >
-              Filter zurücksetzen
-            </button>
+      <!-- Master-Detail: Liste links, Detail rechts -->
+      <section class="grid gap-4 lg:grid-cols-[minmax(320px,380px)_1fr] lg:items-start">
+        <!-- Liste -->
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
+            <label class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+              <input type="checkbox" data-testid="select-all" :checked="allSelected" @change="toggleSelectAll" class="h-4 w-4 rounded border-slate-300 text-impuls-blue focus:ring-brand-200" />
+              Alle abrechenbaren
+            </label>
             <button
               data-testid="batch-invoice-btn"
-              class="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
+              class="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-impuls-blue hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
               :disabled="selectedRows.length === 0"
               @click="openBatch"
             >
-              <DocumentTextIcon class="h-4 w-4" aria-hidden="true" /> Ausgewählte abrechnen
+              <DocumentTextIcon class="h-4 w-4" aria-hidden="true" /> Abrechnen<span v-if="selectedRows.length"> ({{ selectedRows.length }})</span>
             </button>
           </div>
-        </div>
 
-        <!-- Ladezustand -->
-        <div v-if="isLoading" class="divide-y divide-slate-100">
-          <div v-for="n in 4" :key="n" class="flex items-center gap-3 px-5 py-4">
-            <div class="h-10 w-10 flex-shrink-0 animate-pulse rounded-full bg-slate-200"></div>
-            <div class="flex-1 space-y-2">
-              <div class="h-3.5 w-1/3 animate-pulse rounded bg-slate-200"></div>
-              <div class="h-3 w-1/2 animate-pulse rounded bg-slate-100"></div>
+          <!-- Ladezustand -->
+          <div v-if="isLoading" class="divide-y divide-slate-100">
+            <div v-for="n in 5" :key="n" class="flex items-center gap-3 px-4 py-3.5">
+              <div class="h-9 w-9 flex-shrink-0 animate-pulse rounded-lg bg-slate-200"></div>
+              <div class="flex-1 space-y-2"><div class="h-3.5 w-1/2 animate-pulse rounded bg-slate-200"></div><div class="h-3 w-2/3 animate-pulse rounded bg-slate-100"></div></div>
             </div>
+          </div>
+
+          <!-- Leerzustand -->
+          <div v-else-if="filteredRows.length === 0" class="flex flex-col items-center px-5 py-12 text-center">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100"><BanknotesIcon class="h-6 w-6 text-slate-400" aria-hidden="true" /></span>
+            <p class="mt-3 text-sm font-semibold text-slate-900">Keine Abrechnungsdaten für diesen Filter</p>
+            <p class="mt-1 text-sm text-slate-500">Statusfilter anpassen oder Dokumentationen prüfen.</p>
+          </div>
+
+          <!-- Liste, gruppiert nach Status -->
+          <div v-else data-testid="billing-list" class="max-h-[72vh] overflow-auto">
+            <template v-for="section in listGroups" :key="section.label">
+              <p class="bg-slate-50/70 px-4 pt-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">{{ section.label }}</p>
+              <button
+                v-for="row in section.rows"
+                :key="row.id"
+                type="button"
+                @click="selectRow(row)"
+                :class="['flex w-full items-center gap-3 border-b border-slate-100 px-4 py-3 text-left transition', selectedRow && selectedRow.id === row.id ? 'bg-blue-50' : 'hover:bg-slate-50']"
+              >
+                <input
+                  v-if="isSelectable(row)"
+                  type="checkbox"
+                  :checked="!!selectedIds[row.id]"
+                  class="h-4 w-4 flex-none rounded border-slate-300 text-impuls-blue focus:ring-brand-200"
+                  @click.stop
+                  @change="toggleSelect(row)"
+                />
+                <span v-else class="w-4 flex-none"></span>
+                <InitialsAvatar :name="clientName(row)" size-class="h-9 w-9 text-xs" />
+                <span class="min-w-0 flex-1">
+                  <span :class="['block truncate font-display font-bold', selectedRow && selectedRow.id === row.id ? 'text-impuls-blue' : 'text-slate-900']">{{ clientName(row) }}</span>
+                  <span class="block truncate text-xs text-slate-500">{{ employeeName(row.document) }} · {{ row.document.carrier?.name || '–' }}</span>
+                </span>
+                <span class="flex-none text-right">
+                  <span class="block font-display text-sm font-bold tabular-nums text-slate-900">{{ row.display.amount }}</span>
+                  <span class="block text-xs tabular-nums text-slate-400">{{ row.display.worked }}</span>
+                </span>
+              </button>
+            </template>
           </div>
         </div>
 
-        <!-- Leerzustand -->
-        <div v-else-if="groupedRows.length === 0" class="flex flex-col items-center px-5 py-12 text-center">
-          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-            <BanknotesIcon class="h-6 w-6 text-slate-400" aria-hidden="true" />
-          </span>
-          <p class="mt-3 text-sm font-semibold text-slate-900">Keine Abrechnungsdaten für diesen Filter</p>
-          <p class="mt-1 text-sm text-slate-500">Passen Sie den Statusfilter an oder prüfen Sie die Dokumentationen.</p>
-        </div>
+        <!-- Detail -->
+        <div v-if="selectedRow" data-testid="billing-detail" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 class="font-display text-xl font-black tracking-tight text-slate-900">{{ clientName(selectedRow) }}</h2>
+              <p class="mt-0.5 text-sm text-slate-500">Fachkraft {{ employeeName(selectedRow.document) }} · {{ rowMonth(selectedRow) }}</p>
+            </div>
+            <SignatureTrafficLight data-testid="signatures" :signatures="selectedRow.signatures" />
+          </div>
 
-        <!-- Tabelle -->
-        <div v-else class="overflow-x-auto">
-          <table data-testid="billing-table" class="w-full min-w-[1080px] border-collapse text-sm">
-            <thead>
-              <tr class="border-b border-slate-200 text-left text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                <th class="px-4 py-3">
-                  <input type="checkbox" data-testid="select-all" :checked="allSelected" @change="toggleSelectAll" class="h-4 w-4 rounded border-slate-300 text-impuls-blue focus:ring-brand-200" />
-                </th>
-                <th class="px-3 py-3">Klient / Fachkraft</th>
-                <th class="px-3 py-3">Jugendamt</th>
-                <th class="px-3 py-3">Monat</th>
-                <th class="px-3 py-3 text-right">h/Wo</th>
-                <th class="px-3 py-3 text-right">Soll</th>
-                <th class="px-3 py-3 text-right">Geleistet</th>
-                <th class="px-3 py-3 text-right">Überhang</th>
-                <th class="px-3 py-3 text-right">Abrechenbar</th>
-                <th class="px-3 py-3 text-right">Betrag</th>
-                <th class="px-3 py-3">Unterschriften</th>
-                <th class="px-3 py-3">Status / Aktion</th>
-              </tr>
-            </thead>
-            <tbody v-for="group in groupedRows" :key="group.key" class="border-b border-slate-100">
-              <!-- Gruppenkopf je Klient -->
-              <tr class="bg-slate-50/70">
-                <td class="px-4 py-2.5">
-                  <input
-                    type="checkbox"
-                    :checked="groupSelected(group)"
-                    :disabled="group.selectableIds.length === 0"
-                    @change="toggleGroupSelect(group)"
-                    class="h-4 w-4 rounded border-slate-300 text-impuls-blue focus:ring-brand-200 disabled:opacity-40"
-                  />
-                </td>
-                <td class="px-3 py-2.5" colspan="2">
-                  <button class="flex items-center gap-2 text-left" @click="toggleGroup(group.key)">
-                    <ChevronRightIcon :class="['h-4 w-4 text-slate-400 transition', isExpanded(group.key) ? 'rotate-90' : '']" aria-hidden="true" />
-                    <InitialsAvatar :name="group.client" size-class="h-8 w-8 text-xs" />
-                    <span class="min-w-0">
-                      <span class="block font-semibold text-slate-900">{{ group.client }}</span>
-                      <span class="block truncate text-xs text-slate-500">{{ group.employee }}</span>
-                    </span>
-                  </button>
-                </td>
-                <td class="px-3 py-2.5 text-xs text-slate-500" colspan="6">{{ group.rows.length }} Nachweis(e)</td>
-                <td class="px-3 py-2.5 text-right font-semibold text-slate-800">{{ group.amountLabel }}</td>
-                <td class="px-3 py-2.5" colspan="2"></td>
-              </tr>
-              <!-- Detailzeilen je Nachweis -->
-              <template v-if="isExpanded(group.key)">
-                <tr v-for="row in group.rows" :key="row.id" class="text-slate-700">
-                  <td class="px-4 py-3 align-top">
-                    <input
-                      type="checkbox"
-                      :checked="!!selectedIds[row.id]"
-                      :disabled="!isSelectable(row)"
-                      @change="toggleSelect(row)"
-                      class="h-4 w-4 rounded border-slate-300 text-impuls-blue focus:ring-brand-200 disabled:opacity-40"
-                    />
-                  </td>
-                  <td class="px-3 py-3 align-top">
-                    <span class="flex items-center gap-1.5 text-xs text-slate-500">
-                      <ArrowDownRightIcon class="h-3.5 w-3.5 text-slate-300" aria-hidden="true" /> Nachweis
-                    </span>
-                  </td>
-                  <td class="px-3 py-3 align-top text-slate-600">{{ row.document.carrier?.name || '–' }}</td>
-                  <td class="px-3 py-3 align-top">{{ rowMonth(row) }}</td>
-                  <td class="px-3 py-3 align-top text-right tabular-nums">{{ row.display.weeklyHours }}</td>
-                  <td class="px-3 py-3 align-top text-right tabular-nums">
-                    <span :class="row.display.sollProvisional ? 'text-slate-400' : ''" :title="row.display.sollProvisional ? 'Vorläufig – Schulkalender folgt' : ''">
-                      {{ row.display.soll }}<span v-if="row.display.sollProvisional">*</span>
-                    </span>
-                  </td>
-                  <td class="px-3 py-3 align-top text-right tabular-nums">{{ row.display.worked }}</td>
-                  <td class="px-3 py-3 align-top text-right tabular-nums" :class="row.hasOverhang ? 'font-semibold text-amber-700' : 'text-slate-300'">
-                    {{ row.display.overhang }}
-                  </td>
-                  <td class="px-3 py-3 align-top text-right font-medium tabular-nums">{{ row.display.billable }}</td>
-                  <td class="px-3 py-3 align-top text-right font-semibold tabular-nums">{{ row.display.amount }}</td>
-                  <td class="px-3 py-3 align-top">
-                    <SignatureTrafficLight data-testid="signatures" :signatures="row.signatures" />
-                  </td>
-                  <td class="px-3 py-3 align-top">
-                    <div class="flex flex-wrap items-center gap-2">
-                      <span :class="['inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold', row.statusMeta.badgeClass]">
-                        {{ row.statusMeta.label }}
-                      </span>
-                      <button
-                        v-if="row.hasOverhang"
-                        data-testid="overhang-correct"
-                        class="inline-flex items-center gap-1 rounded-md border border-amber-300 px-2 py-1 text-xs font-semibold text-amber-700 hover:bg-amber-50"
-                        @click="openCorrection(row)"
-                      >
-                        <PencilSquareIcon class="h-3.5 w-3.5" aria-hidden="true" /> korrigieren
-                      </button>
-                    </div>
-                    <p v-if="row.correction" class="mt-1 text-[11px] text-slate-400">
-                      Korrektur: {{ correctionLabel(row.correction) }}
-                    </p>
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
-        </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{{ selectedRow.document.carrier?.name || 'Kein Kostenträger' }}</span>
+            <span class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-semibold tabular-nums text-slate-600">{{ selectedRow.display.weeklyHours }} h/Woche</span>
+            <span :class="['rounded-lg px-3 py-1 text-xs font-semibold', selectedRow.statusMeta.badgeClass]">{{ selectedRow.statusMeta.label }}</span>
+          </div>
 
-        <!-- Erklär-Box (Ablauf) -->
-        <div class="m-5 rounded-lg bg-slate-50 p-4 text-xs text-slate-500">
-          <p>
-            <span class="font-semibold text-slate-700">Soll</span> = bewilligte h/Woche × Schulwochen im Monat (Ferien rausgerechnet).
-            <span class="font-semibold text-slate-700">Geleistet</span> aus den Leistungsnachweisen. Liegt geleistet über dem Soll, wird der
-            <span class="font-semibold text-amber-700">Überhang</span> sichtbar; standardmäßig ist nur das Soll abrechenbar – über „korrigieren"
-            lässt sich der Überhang deckeln, mit Begründung freigeben oder in den Folgemonat verschieben.
-          </p>
-          <p class="mt-2">
-            Ablauf: <span class="font-medium">Doku offen → Nachweis prüfen → Abrechenbar → Rechnung erstellt → Offen/unbezahlt → Bezahlt</span>.
-            <span class="ml-1">* Soll vorläufig (Schul-/Ferienkalender wird nachgeliefert).</span>
-          </p>
-          <p class="mt-2">
-            <span class="font-semibold text-slate-700">Sammelabrechnung:</span> eine Rechnung bündelt nur Nachweise desselben
-            <span class="font-medium">Klienten und Kostenträgers</span>; nur freigegebene Nachweise (aus der Nachweiszentrale) sind abrechenbar.
+          <!-- KPI -->
+          <div class="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-4">
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs text-slate-500">Soll</p>
+              <p class="mt-1 font-display text-xl font-black tabular-nums text-slate-900">{{ selectedRow.display.soll }}<span v-if="selectedRow.display.sollProvisional">*</span></p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs text-slate-500">Geleistet</p>
+              <p class="mt-1 font-display text-xl font-black tabular-nums text-slate-900">{{ selectedRow.display.worked }}</p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs text-slate-500">Überhang</p>
+              <p :class="['mt-1 font-display text-xl font-black tabular-nums', selectedRow.hasOverhang ? 'text-amber-700' : 'text-slate-300']">{{ selectedRow.display.overhang }}</p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs text-slate-500">Abrechenbar</p>
+              <p class="mt-1 font-display text-xl font-black tabular-nums text-impuls-blue">{{ selectedRow.display.billable }}</p>
+            </div>
+          </div>
+
+          <!-- Betrag -->
+          <div class="mt-4 flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
+            <span class="text-sm font-semibold text-slate-600">Abrechenbarer Betrag</span>
+            <span class="font-display text-lg font-black tabular-nums text-slate-900">{{ selectedRow.display.amount }}</span>
+          </div>
+
+          <p v-if="selectedRow.correction" class="mt-2 text-xs text-slate-400">Korrektur: {{ correctionLabel(selectedRow.correction) }}</p>
+
+          <!-- Aktionen -->
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button
+              v-if="isSelectable(selectedRow)"
+              class="rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"
+              @click="billRow(selectedRow)"
+            >
+              Jetzt abrechnen
+            </button>
+            <button
+              v-if="selectedRow.hasOverhang"
+              data-testid="overhang-correct"
+              class="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 px-4 py-2 text-sm font-semibold text-amber-700 hover:bg-amber-50"
+              @click="openCorrection(selectedRow)"
+            >
+              <PencilSquareIcon class="h-4 w-4" aria-hidden="true" /> Korrigieren
+            </button>
+            <button
+              class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              @click="navigate('Timesheets')"
+            >
+              Nachweis ansehen
+            </button>
+          </div>
+
+          <!-- Legende -->
+          <p class="mt-5 border-t border-slate-100 pt-4 text-xs leading-relaxed text-slate-400">
+            <span class="font-semibold text-slate-600">Soll</span> = bewilligte h/Woche × Schulwochen (Ferien raus).
+            <span class="font-semibold text-slate-600">Geleistet</span> aus den Nachweisen. Ein Überhang wird sichtbar; über „Korrigieren"
+            lässt er sich deckeln, freigeben oder verschieben. Die Sammelabrechnung bündelt nur denselben Klienten & Kostenträger.
+            <span v-if="selectedRow.display.sollProvisional">* Soll vorläufig (Schulkalender folgt).</span>
           </p>
         </div>
+        <div v-else class="hidden rounded-2xl border border-dashed border-slate-200 lg:block"></div>
       </section>
 
       <!-- Schnellzugriff -->
@@ -295,11 +269,8 @@ import {
 import {
   ArrowRightIcon,
   BanknotesIcon,
-  CheckCircleIcon,
-  ChevronRightIcon,
   DocumentTextIcon,
-  PencilSquareIcon,
-  ArrowDownRightIcon
+  PencilSquareIcon
 } from '@heroicons/vue/24/outline'
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import SignatureTrafficLight from '@/components/Main/Admin/Billing/SignatureTrafficLight.vue'
@@ -312,11 +283,8 @@ export default {
   components: {
     ArrowRightIcon,
     BanknotesIcon,
-    CheckCircleIcon,
-    ChevronRightIcon,
     DocumentTextIcon,
     PencilSquareIcon,
-    ArrowDownRightIcon,
     InitialsAvatar,
     SignatureTrafficLight,
     OverhangCorrectionDialog,
@@ -448,6 +416,36 @@ export default {
     )
 
     const filteredRows = computed(() => allRows.value.filter((row) => matchesFilter(row, activeFilter.value)))
+
+    // Master-Detail: Liste (nach Status gruppiert) + ausgewählte Zeile
+    function clientName(row) {
+      const child = row.document.child
+      if (!child?.name) return 'Nicht angegeben'
+      return `${child.name} ${child.familyName || ''}`.trim()
+    }
+    const listGroups = computed(() => {
+      const map = new Map()
+      filteredRows.value.forEach((row) => {
+        const label = row.statusMeta.label
+        if (!map.has(label)) map.set(label, [])
+        map.get(label).push(row)
+      })
+      return Array.from(map.entries()).map(([label, rows]) => ({ label, rows }))
+    })
+    const selectedRowId = ref(null)
+    const selectedRow = computed(() => {
+      const rows = filteredRows.value
+      if (rows.length === 0) return null
+      return rows.find((row) => row.id === selectedRowId.value) || rows[0]
+    })
+    function selectRow(row) {
+      selectedRowId.value = row.id
+    }
+    function billRow(row) {
+      if (!isSelectable(row)) return
+      selectedIds[row.id] = true
+      openBatch()
+    }
 
     // Gruppierung pro Klient
     const groupedRows = computed(() => {
@@ -705,7 +703,14 @@ export default {
       openBatch,
       confirmBatch,
       navigate,
-      rowMonth
+      rowMonth,
+      filteredRows,
+      listGroups,
+      selectedRow,
+      selectRow,
+      billRow,
+      clientName,
+      employeeName
     }
   }
 }
