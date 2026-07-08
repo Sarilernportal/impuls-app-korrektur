@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 2xl:flex-row 2xl:items-end 2xl:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Verwaltung</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Klienten-Zentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Klienten-Zentrale</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Stammdaten, Zuordnungen, Doku-Status und abrechnungsrelevante Hinweise an einem Ort.
             </p>
@@ -21,24 +21,20 @@
         </div>
       </section>
 
-      <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <section class="flex flex-wrap gap-2">
         <button
           v-for="metric in metrics"
           :key="metric.title"
           :class="[
-            'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-card-hover',
-            selectedStatus === metric.filter ? 'border-blue-300 ring-2 ring-blue-100' : 'border-slate-200'
+            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+            selectedStatus === metric.filter
+              ? 'border-impuls-blue bg-blue-50 text-impuls-blue'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200'
           ]"
           @click="selectedStatus = metric.filter"
         >
-          <div class="flex items-center justify-between">
-            <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', metric.badgeClass]"><component :is="metric.icon" class="h-5 w-5" aria-hidden="true" /></span>
-            <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', metric.badgeClass]">
-              {{ metric.badge }}
-            </span>
-          </div>
-          <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ metric.value }}</p>
-          <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
+          {{ metric.title }}
+          <span :class="['rounded-full px-2 py-0.5 text-xs font-bold tabular-nums', metric.badgeClass]">{{ metric.value }}</span>
         </button>
       </section>
 

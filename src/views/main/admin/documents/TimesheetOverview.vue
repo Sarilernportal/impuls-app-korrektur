@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <!-- Kopf -->
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Verwaltung · Schritt 1 von 2 im Abrechnungslauf</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Nachweiszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Nachweiszentrale</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Leistungsnachweise prüfen, mit der Doku abgleichen und freigeben. Keine Rechnung hier.
             </p>
@@ -33,23 +33,21 @@
       </section>
 
       <!-- Filter-/Statuskarten -->
-      <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <section class="flex flex-wrap gap-2">
         <button
           v-for="card in statusCards"
           :key="card.status"
           :data-testid="'review-filter-' + card.status"
           @click="setFilter(card.status)"
           :class="[
-            'group rounded-xl border bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-card-hover',
-            activeFilter === card.status ? 'border-blue-300 ring-1 ring-blue-200' : 'border-slate-200 hover:border-blue-200'
+            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+            activeFilter === card.status
+              ? 'border-impuls-blue bg-blue-50 text-impuls-blue'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200'
           ]"
         >
-          <div class="flex items-center justify-between">
-            <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', card.cardClass]">{{ card.label }}</span>
-            <CheckCircleIcon v-if="activeFilter === card.status" class="h-4 w-4 text-impuls-blue" aria-hidden="true" />
-          </div>
-          <p class="mt-3 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ card.count }}</p>
-          <p class="mt-0.5 text-xs text-slate-500">Filter auf diesen Status</p>
+          {{ card.label }}
+          <span :class="['rounded-full px-2 py-0.5 text-xs font-bold tabular-nums', card.cardClass]">{{ card.count }}</span>
         </button>
       </section>
 
