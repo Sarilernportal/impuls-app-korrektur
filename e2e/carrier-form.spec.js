@@ -14,7 +14,7 @@ async function openCarrierForm(page) {
   await page.waitForURL(/\/admin/, { timeout: 15000 })
   await page.goto('/admin/carrier/add-carrier')
   await expect(
-    page.getByRole('heading', { name: 'Kostenträger / Jugendamt hinzufügen' })
+    page.getByRole('heading', { name: 'Kostenträger / Jugendamt hinzufügen', exact: true })
   ).toBeVisible()
 }
 

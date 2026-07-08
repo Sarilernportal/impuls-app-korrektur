@@ -12,7 +12,7 @@ async function openGuardianForm(page) {
   await demoButton.click()
   await page.waitForURL(/\/admin/, { timeout: 15000 })
   await page.goto('/admin/user/add-guardian')
-  await expect(page.getByRole('heading', { name: 'Betreuer hinzufügen' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Betreuer hinzufügen', exact: true })).toBeVisible()
 }
 
 test.describe('Betreuer hinzufügen', () => {

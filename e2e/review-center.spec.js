@@ -14,7 +14,7 @@ async function openReviewCenter(page) {
   await demoButton.click()
   await page.waitForURL(/\/admin/, { timeout: 15000 })
   await page.goto('/admin/documents/timesheets')
-  await expect(page.getByRole('heading', { name: 'Nachweiszentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Nachweise', exact: true })).toBeVisible()
 }
 
 test.describe('Nachweiszentrale', () => {

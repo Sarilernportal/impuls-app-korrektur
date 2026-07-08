@@ -15,7 +15,7 @@ async function openInvoiceCenter(page) {
   await demoButton.click()
   await page.waitForURL(/\/admin/, { timeout: 15000 })
   await page.goto('/admin/documents/invoices')
-  await expect(page.getByRole('heading', { name: 'Rechnungszentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Rechnungen', exact: true })).toBeVisible()
 }
 
 test.describe('Rechnungsansicht', () => {

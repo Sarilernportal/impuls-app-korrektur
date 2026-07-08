@@ -7,18 +7,18 @@ import { test, expect } from '@playwright/test'
 // Abdeckung aller Menüpunkte und Anlege-Formulare.
 
 const OVERVIEWS = [
-  { path: '/admin/billing', heading: 'Abrechnungszentrale' },
-  { path: '/admin/guardian', heading: 'Mitarbeiter-Zentrale' },
-  { path: '/admin/children', heading: 'Klienten-Zentrale' },
-  { path: '/admin/carrier', heading: 'Kostenträger-Zentrale' },
-  { path: '/admin/carrier-contact', heading: 'Kontakt-Zentrale' },
-  { path: '/admin/documents/reports', heading: 'Dokumentationszentrale' },
-  { path: '/admin/documents/timesheets', heading: 'Nachweiszentrale' },
-  { path: '/admin/documents/invoices', heading: 'Rechnungszentrale' },
-  { path: '/admin/sharebox', heading: 'Sharebox-Zentrale' },
-  { path: '/admin/notebox', heading: 'Notebox-Zentrale' },
-  { path: '/admin/calendar', heading: 'Kalender-Zentrale' },
-  { path: '/admin/user', heading: 'Administratoren-Zentrale' }
+  { path: '/admin/billing', heading: 'Abrechnung' },
+  { path: '/admin/guardian', heading: 'Mitarbeiter' },
+  { path: '/admin/children', heading: 'Klienten' },
+  { path: '/admin/carrier', heading: 'Kostenträger' },
+  { path: '/admin/carrier-contact', heading: 'Kontakte' },
+  { path: '/admin/documents/reports', heading: 'Dokumentationen' },
+  { path: '/admin/documents/timesheets', heading: 'Nachweise' },
+  { path: '/admin/documents/invoices', heading: 'Rechnungen' },
+  { path: '/admin/sharebox', heading: 'Sharebox' },
+  { path: '/admin/notebox', heading: 'Notebox' },
+  { path: '/admin/calendar', heading: 'Kalender' },
+  { path: '/admin/user', heading: 'Administratoren' }
 ]
 
 const FORMS = [
@@ -46,7 +46,7 @@ test.describe('Nutzbarkeit – alle Hauptseiten', () => {
     for (const item of OVERVIEWS) {
       await page.goto(item.path)
       await expect(
-        page.getByRole('heading', { name: item.heading }),
+        page.getByRole('heading', { name: item.heading, exact: true }),
         `Übersicht ${item.path} muss laden`
       ).toBeVisible()
     }
@@ -63,7 +63,7 @@ test.describe('Nutzbarkeit – alle Hauptseiten', () => {
     for (const item of FORMS) {
       await page.goto(item.path)
       await expect(
-        page.getByRole('heading', { name: item.heading }),
+        page.getByRole('heading', { name: item.heading, exact: true }),
         `Formular ${item.path} muss laden`
       ).toBeVisible()
     }

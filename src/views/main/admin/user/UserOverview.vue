@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">System</p>
-            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Administratoren-Zentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Administratoren</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Rollen, Zugänge und Zuständigkeiten kompakt prüfen.
             </p>

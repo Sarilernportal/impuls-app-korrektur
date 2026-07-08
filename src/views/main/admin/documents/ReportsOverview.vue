@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Päd. Leitung</p>
-            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Dokumentationszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Dokumentationen</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Echte Dokus nach Klient, Mitarbeiter, Zeitraum und Prüfstatus ansehen, bevor die Abrechnung weiterläuft.
             </p>

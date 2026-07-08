@@ -29,7 +29,7 @@ test('Anmeldeseite zeigt Marke und Wertversprechen', async ({ page }) => {
 
 test('Demo-Login öffnet den Admin-Bereich', async ({ page }) => {
   await loginDemo(page)
-  await expect(page.getByRole('heading', { name: 'Mitarbeiter-Zentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Mitarbeiter', exact: true })).toBeVisible()
 })
 
 test('Demo als Mitarbeiter öffnet die Mitarbeiter-Startseite', async ({ page }) => {
@@ -37,7 +37,7 @@ test('Demo als Mitarbeiter öffnet die Mitarbeiter-Startseite', async ({ page })
   await page.getByRole('button', { name: 'Demo als Mitarbeiter öffnen' }).click()
   await page.waitForURL(/\/guardian/, { timeout: 15000 })
   // Moderner Hellblau-Hero der Mitarbeiter-Startseite
-  await expect(page.getByRole('heading', { name: /Hallo/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hallo/, exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Dokumentation starten' })).toBeVisible()
 })
 
@@ -45,13 +45,13 @@ test('Zentrale Verwaltungs-Seiten laden', async ({ page }) => {
   await loginDemo(page)
 
   await page.goto('/admin/billing')
-  await expect(page.getByRole('heading', { name: 'Abrechnungszentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Abrechnung', exact: true })).toBeVisible()
 
   await page.goto('/admin/carrier')
-  await expect(page.getByRole('heading', { name: 'Kostenträger-Zentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Kostenträger', exact: true })).toBeVisible()
 
   await page.goto('/admin/documents/reports')
-  await expect(page.getByRole('heading', { name: 'Dokumentationszentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Dokumentationen', exact: true })).toBeVisible()
 })
 
 // Hinweis: Das Öffnen der Auswahl-Dialoge (Klient/Betreuer/Träger) lädt die

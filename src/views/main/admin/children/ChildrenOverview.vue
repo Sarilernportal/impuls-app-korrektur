@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-4 2xl:flex-row 2xl:items-end 2xl:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Verwaltung</p>
-            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Klienten-Zentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Klienten</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Stammdaten, Zuordnungen, Doku-Status und abrechnungsrelevante Hinweise an einem Ort.
             </p>
@@ -123,26 +123,6 @@
         </div>
         <div v-else class="hidden rounded-2xl border border-dashed border-slate-200 lg:block"></div>
       </div>
-
-      <!-- Prüfablauf -->
-      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-        <h2 class="font-display text-lg font-bold text-slate-900">Prüfablauf</h2>
-        <div class="mt-4 grid gap-3 sm:grid-cols-3">
-          <div
-            v-for="step in workflow"
-            :key="step.title"
-            class="flex gap-3 rounded-xl bg-slate-50 p-3"
-          >
-            <span :class="['flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg', step.bgClass]">
-              <component :is="step.icon" class="h-5 w-5" aria-hidden="true" />
-            </span>
-            <div>
-              <p class="font-semibold text-slate-900">{{ step.title }}</p>
-              <p class="text-sm text-slate-600">{{ step.description }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   </div>
 </template>
@@ -167,13 +147,7 @@ export default {
   name: 'ChildrenOverview',
   components: {
     ArrowRightIcon,
-    CheckCircleIcon,
-    ClockIcon,
-    DocumentCheckIcon,
-    DocumentTextIcon,
-    ExclamationTriangleIcon,
     MagnifyingGlassIcon,
-    UserIcon,
     InitialsAvatar
   },
   setup() {
@@ -298,27 +272,6 @@ export default {
       selectedChildId.value = child.id
     }
 
-    const workflow = [
-      {
-        title: '1. Stammdaten prüfen',
-        description: 'Adresse, Kostenträger-Kontakt, Aktenzeichen und Wochenstunden komplett halten.',
-        icon: UserIcon,
-        bgClass: 'bg-blue-100 text-blue-700'
-      },
-      {
-        title: '2. Betreuung zuordnen',
-        description: 'Mitarbeitende mit Klienten verbinden, damit Doku und Nachweis sauber laufen.',
-        icon: CheckCircleIcon,
-        bgClass: 'bg-emerald-100 text-emerald-700'
-      },
-      {
-        title: '3. Doku und Nachweis prüfen',
-        description: 'Fehlende Unterlagen vor der Rechnung sichtbar machen.',
-        icon: DocumentTextIcon,
-        bgClass: 'bg-orange-100 text-orange-700'
-      }
-    ]
-
     const quickLinks = [
       {
         title: 'Dokumentationen',
@@ -418,8 +371,7 @@ export default {
       searchValue,
       selectedStatus,
       selectedChild,
-      selectChild,
-      workflow
+      selectChild
     }
   }
 }

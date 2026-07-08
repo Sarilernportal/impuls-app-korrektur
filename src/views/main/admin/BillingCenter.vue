@@ -6,7 +6,7 @@
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Verwaltung · THA · § 35a SGB VIII</p>
-            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Abrechnungszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Abrechnung</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Nachweise prüfen, fehlende Unterlagen erkennen, Rechnungen an die Jugendämter erstellen.
             </p>

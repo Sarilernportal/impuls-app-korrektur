@@ -6,7 +6,7 @@
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Verwaltung · Schritt 1 von 2 im Abrechnungslauf</p>
-            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Nachweiszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Nachweise</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Leistungsnachweise prüfen, mit der Doku abgleichen und freigeben. Keine Rechnung hier.
             </p>
@@ -167,7 +167,7 @@
         <!-- Übergang zur Abrechnung -->
         <div class="m-5 flex items-center gap-2 rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-800">
           <ArrowRightCircleIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-          <span>Freigegebene Nachweise erscheinen automatisch in der <strong>Abrechnungszentrale</strong> — dort entstehen die Rechnungen. Hier wird nur geprüft.</span>
+          <span>Freigegebene Nachweise erscheinen automatisch in der <strong>Abrechnung</strong> — dort entstehen die Rechnungen. Hier wird nur geprüft.</span>
         </div>
       </section>
     </div>
