@@ -12,7 +12,7 @@ Error Window Component
 -->
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog
+    <HDialog
       as="div"
       static
       class="fixed z-10 inset-0 overflow-y-auto"
@@ -42,7 +42,7 @@ Error Window Component
           leave-to="opacity-0"
         >
           <DialogOverlay
-            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
           />
         </TransitionChild>
 
@@ -138,7 +138,7 @@ Error Window Component
                     focus:outline-none
                     focus:ring-2
                     focus:ring-offset-2
-                    focus:ring-primary-500
+                    focus:ring-brand-500
                     sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
                   "
                   @click="$emit('close')"
@@ -151,7 +151,7 @@ Error Window Component
           </div>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -169,7 +169,7 @@ import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 export default {
   name: "ErrorWindow",
   components: {
-    Dialog,
+    HDialog: Dialog,
     DialogOverlay,
     DialogTitle,
     TransitionChild,

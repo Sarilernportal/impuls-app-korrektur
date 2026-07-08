@@ -112,7 +112,7 @@ export default {
         // if that happens, we pull again, unless the nextToken is null, indicating no more pullable objects
         if (
           contactsResponse.Users.length <= 0 &&
-          contactNextToken.nextToken !== null
+          contactNextToken.value !== null
         ) {
           fetchUser()
         }

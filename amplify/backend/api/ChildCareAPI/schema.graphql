@@ -20,6 +20,20 @@ type Guardian
   phone: String
   professional: Boolean!
   owner: String
+  # --- SAYAS Betreuer (THA, § 35a SGB VIII) – additive, alle nullable ---
+  # Funktion/Tätigkeit (Schulbegleiter:in, Päd. Fachkraft, Vertretung …)
+  jobFunction: String
+  # Vergütung/Stundensatz des Betreuers (Personalkosten; kann je Jugendamt
+  # auch als Abrechnungssatz herangezogen werden – siehe billingRuleSet).
+  hourlyRate: Float
+  employmentType: String
+  startDate: String
+  # Einsatzbereit? Ohne vorgelegtes § 72a-Führungszeugnis = false.
+  active: Boolean
+  # Erweitertes Führungszeugnis (§ 72a SGB VIII)
+  certificateSubmitted: Boolean
+  certificateSubmittedDate: String
+  certificateRenewalDate: String
   careAssignments: [CareAssignment] @hasMany
   dailyReport: [DailyReport] @hasMany
   timeSheets: [TimeSheets] @hasMany
@@ -61,6 +75,36 @@ type Carrier
   invoices: [Invoices] @hasMany
   email: AWSEmail
   allowAutoInvoice: Boolean
+  # --- SAYAS Kostenträger / Jugendamt (§ 35a SGB VIII) – additive, nullable ---
+  # Art des Kostenträgers (Jugendamt, Sozialamt/EGH-Träger, Sonstiger).
+  carrierType: String
+  # Allgemeiner Rechnungs-/Buchhaltungskontakt (Name). Der fallbezogene
+  # Sachbearbeiter wird am Klienten gepflegt, NICHT hier.
+  billingContactName: String
+  # E-Rechnung / Behörde
+  leitwegId: String
+  debtorNumber: String
+  paymentTermDays: Int
+  vatId: String
+  # Abrechnungsregeln je Amt (Felder konfigurierbar; konkrete Rechen-Logik
+  # folgt – die Abrechnungszentrale liest sie vom zugeordneten Kostenträger).
+  # Standard-Stundensatz (Alt-Feld/Fallback, pro Fallakte überschreibbar).
+  defaultHourlyRate: Float
+  # Jede Behörde hinterlegt IMMER ZWEI Stundensätze:
+  # mit Päd. Fachkraft …
+  hourlyRateSpecialist: Float
+  # … und ohne Fachkraft (Päd. Hilfskraft).
+  hourlyRateAssistant: Float
+  # Schlüssel des amtsspezifischen Regelsatzes (Strategie-Pattern).
+  billingRuleSet: String
+  # Krankheit des Kindes: none | partial | full
+  sicknessRule: String
+  # Prozentsatz bei sicknessRule=partial (je Behörde; Default 30, THA-Vorlage).
+  sicknessPercent: Float
+  # Stundenpool: none | carryover
+  poolRule: String
+  # Soll-Berechnung: schooldays (Schultage/Ferienkalender)
+  sollRule: String
 }
 
 type CarrierContact
@@ -108,6 +152,27 @@ type Child
   mother: Parent
   father: Parent
   schoolContact: SchoolContact
+  # --- SAYAS Fallakte (§ 35a SGB VIII) – additive, alle nullable ---
+  # Stammdaten
+  gender: String
+  address: String
+  nativeLanguage: String
+  # Schule & Begleitung
+  schoolForm: String
+  schoolClass: String
+  supportNeed: String
+  # Hilfe & Abrechnung (§ 35a SGB VIII)
+  legalBasis: String
+  caseworker: String
+  decisionRef: String
+  approvedUntil: String
+  # Stundensatz aus Bescheid/Vereinbarung (Default kommt sonst vom Träger).
+  hourlyRate: Float
+  # Datenschutz / Einwilligung
+  consentGiven: Boolean
+  consentDate: String
+  # Dynamische Liste aller Sorgeberechtigten (über Mutter/Vater hinaus)
+  legalGuardians: [Parent]
   archiveStatus: ArchiveStatus
     @index(
       name: "listChildrenByArchiveState"
@@ -229,6 +294,13 @@ type TimeSheets
   documentDate: AWSDateTime!
   transmitted: Boolean
   charged: Boolean
+  # SAYAS: Unterschriften-Ampel + ggf. Überhang-Korrektur dieses Nachweises.
+  signatures: SignatureSet
+  overhangCorrection: OverhangCorrection
+  # SAYAS: Prüf-Status der Nachweiszentrale (eingegangen | in_pruefung |
+  # rueckfrage | doku_fehlt | freigegeben). "freigegeben" macht den Nachweis
+  # in der Abrechnungszentrale abrechenbar.
+  reviewStatus: String
   reportType: ReportType
   flag: TimSheetFlag
     @index(
@@ -267,6 +339,12 @@ type Invoices
   # overwriteSickHours: Float
   transmitted: Boolean
   charged: Boolean
+  # SAYAS: abgerechnete Stunden, Betrag und Überhang-Korrektur (Rechnungskorrektur).
+  billableHours: Float
+  amount: Float
+  overhangCorrection: OverhangCorrection
+  # SAYAS: Rechnungskorrekturen vor Versand – Liste [{label, amount, reason, at}].
+  corrections: AWSJSON
   reviseDate: AWSDateTime
   createdAt: AWSDateTime!
   type: String!
@@ -473,6 +551,10 @@ type Parent {
   phone: String
   email: AWSEmail
   primaryContact: Boolean
+  # SAYAS: Rolle (Mutter, Vater, Vormund, Pflegeeltern, Amtsvormund, sonstige)
+  role: String
+  # SAYAS: personensorgeberechtigt
+  custody: Boolean
 }
 
 type SchoolContact {
@@ -482,6 +564,27 @@ type SchoolContact {
   email: AWSEmail
   function: String
   gender: String
+}
+
+# SAYAS: Unterschriften-Ampel eines Nachweises (Eltern/Schule/Fachkraft).
+# Eine fehlende Unterschrift blockiert den Status "abrechenbar".
+type SignatureSet {
+  parent: Boolean
+  parentAt: AWSDateTime
+  school: Boolean
+  schoolAt: AWSDateTime
+  professional: Boolean
+  professionalAt: AWSDateTime
+}
+
+# SAYAS: Überhang-Korrektur mit Protokoll (wer, wann, warum).
+# mode: cap (deckeln) | release (freigeben) | carryover (in Folgemonat).
+type OverhangCorrection {
+  mode: String
+  releasedHours: Float
+  reason: String
+  correctedBy: String
+  correctedAt: AWSDateTime
 }
 
 input CreateReportInput {

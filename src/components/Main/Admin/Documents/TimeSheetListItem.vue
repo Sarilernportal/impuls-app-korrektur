@@ -11,7 +11,7 @@ Admin Timesheet List Item
 -->
 
 <template>
-  <div class="relative bg-white border border-tertiaryText rounded-xl overflow-clip">
+  <div class="relative bg-white border border-slate-200 rounded-xl overflow-clip">
     <!-- flagged reports indicator -->
     <div
       v-if="flaggedReportsNumber && flaggedReportsNumber > 0"
@@ -200,7 +200,7 @@ export default {
     selectedTimeSheets: {
       type: Array,
       required: false,
-      default: []
+      default: () => []
     }
   },
   components: {
@@ -365,7 +365,7 @@ export default {
 
     // get sorted list of linked documents
     const sortedReports = computed(() => {
-      return props.report.dailyReport.items.sort((a, b) =>
+      return [...props.report.dailyReport.items].sort((a, b) =>
         new Date(a.documentDate) < new Date(b.documentDate)
           ? 1
           : new Date(b.documentDate) < new Date(a.documentDate)

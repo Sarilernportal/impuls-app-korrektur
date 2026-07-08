@@ -12,7 +12,7 @@ Report List Item
 
 <template>
   <!-- Button wraps the hole element due to the list entry should be tapped -->
-  <div class="block w-full bg-white border border-tertiaryText rounded-xl">
+  <div class="block w-full bg-white border border-slate-200 rounded-xl">
     <div class="px-4 py-4 sm:px-6">
       <div class="flex items-center justify-between">
         <div class="ml-2 flex flex-shrink-0 space-x-2">
@@ -305,6 +305,7 @@ export default {
         return null
       } catch (error) {
         console.log(error)
+        return null
       }
     })
 

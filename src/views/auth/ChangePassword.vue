@@ -36,7 +36,7 @@ Change Password Page
       @submit.prevent="submitForm"
     >
       <!-- header -->
-      <h3 class="font-medium text-center text-white">
+      <h3 class="font-medium text-center text-slate-900">
         Bitte geben Sie Ihr altes Passwort ein und bestätigen Sie Ihr neues
         Passwort.
       </h3>
@@ -47,7 +47,6 @@ Change Password Page
           <input-label
             elementID="old-password"
             labelText="Altes Passwort"
-            :useLightText="true"
           />
           <password-textfield
             ref="oldPasswordTextfield"
@@ -63,7 +62,6 @@ Change Password Page
           <input-label
             elementID="new-password"
             labelText="Neues Passwort"
-            :useLightText="true"
           />
           <password-textfield
             ref="newPasswordTextfield"
@@ -79,7 +77,6 @@ Change Password Page
           <input-label
             elementID="new-password-repeat"
             labelText="Neues Passwort wiederholen"
-            :useLightText="true"
           />
           <password-textfield
             ref="newPasswordRepeatTextfield"

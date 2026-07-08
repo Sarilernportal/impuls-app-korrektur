@@ -16,7 +16,7 @@
         v-if="isLoading"
         size="h-6 w-6"
       />
-      <Switch
+      <HSwitch
         v-else
         v-model="buttonIsActive"
         :class="[
@@ -31,7 +31,7 @@
             'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
           ]"
         />
-      </Switch>
+      </HSwitch>
     </dd>
   </SwitchGroup>
 </template>
@@ -72,7 +72,7 @@ export default {
     }
   },
   components: {
-    Switch,
+    HSwitch: Switch,
     SwitchGroup,
     SwitchLabel,
     LoadingSpinner

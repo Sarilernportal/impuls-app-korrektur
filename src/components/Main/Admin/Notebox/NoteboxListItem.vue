@@ -13,7 +13,7 @@ Notebox List Item
 
 <template>
   <div
-    class="flex flex-col gap-2 w-full p-8 lg:w-2/3 rounded-md border bg-white border-gray-500 divide-y divide-gray-500">
+    class="flex flex-col gap-2 w-full p-6 lg:w-2/3 rounded-xl border bg-white border-slate-200 shadow-card divide-y divide-slate-200">
     <div class="flex pb-2">
       <div class="w-full">
         <!-- owner info -->
@@ -35,19 +35,19 @@ Notebox List Item
         <button
           v-if="note.status === 'created' && !getMarkLoadingState"
           title="Notiz als Erledigt markieren"
-          class="bg-green-500 hover:bg-green-400 p-1 rounded-md"
+          class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white transition hover:bg-emerald-700"
           @click="doneTapped"
         >
-          <CheckIcon class="h-6 w-6 text-white" />
+          <CheckIcon class="h-5 w-5" />
         </button>
         <!-- delete button -->
         <button
           v-if="note.status === 'done' && !getMarkLoadingState"
           title="Notiz endgültig löschen"
-          class="bg-red-500 hover:bg-red-400 p-1 rounded-md"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600"
           @click="deleteTapped"
         >
-          <XMarkIcon class="h-6 w-6 text-white" />
+          <XMarkIcon class="h-5 w-5" />
         </button>
       </div>
     </div>
@@ -133,7 +133,7 @@ export default {
     noteTagToBeMarked: {
       type: Object,
       required: false,
-      default: {}
+      default: () => ({})
     }
   },
   emits: ['done-tapped', 'mark-note-read', 'delete-tapped'],

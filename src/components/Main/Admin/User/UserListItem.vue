@@ -44,8 +44,8 @@
         <span
           :class="[
             user.Enabled
-              ? 'bg-green-200 text-green-800'
-              : 'bg-red-200 text-red-800',
+              ? 'bg-emerald-100 text-emerald-700'
+              : 'bg-red-100 text-red-700',
             'px-2 py-1 inline-flex text-base leading-5 font-semibold rounded-full'
           ]"
         >

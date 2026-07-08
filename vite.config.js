@@ -26,24 +26,38 @@ export default defineConfig({
       // filename: 'service-worker.js',
       // strategies: 'injectManifest',
       registerType: 'autoUpdate',
+      workbox: {
+        // Fonts (woff2) mit vorab cachen – die App lädt KEINE externen
+        // Font-Server mehr (Offline-PWA), siehe DESIGN.md.
+        globPatterns: ['**/*.{js,css,html,ico,svg,woff2}']
+      },
       manifest: {
         name: 'Impuls Erziehungshilfen',
         short_name: 'Impuls',
         icons: [
           {
-            src: './favicon/ms-icon-70x70.png',
+            src: './favicon/pwa-192x192.png',
             type: 'image/png',
-            sizes: '70x70'
+            sizes: '192x192',
+            purpose: 'any'
           },
           {
-            src: './favicon/ms-icon-150x150.png',
+            src: './favicon/pwa-512x512.png',
             type: 'image/png',
-            sizes: '150x150'
+            sizes: '512x512',
+            purpose: 'any'
           },
           {
-            src: './favicon/ms-icon-310x310.png',
+            src: './favicon/pwa-maskable-192x192.png',
             type: 'image/png',
-            sizes: '310x310'
+            sizes: '192x192',
+            purpose: 'maskable'
+          },
+          {
+            src: './favicon/pwa-maskable-512x512.png',
+            type: 'image/png',
+            sizes: '512x512',
+            purpose: 'maskable'
           }
         ],
         start_url: '/',

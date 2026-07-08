@@ -20,43 +20,50 @@ Child Document Details
     :open="customError.isPresent"
     @close="customErrorConfirmed"
   />
-  <div class="flex flex-col w-full h-full items-center">
-    <div class="w-full px-4 py-5 sm:px-6 lg:w-4/5 lg:px-8">
-      <h3 class="text-lg leading-6 font-medium text-white">Dokumente</h3>
-    </div>
-    <div v-if="isLoading" class="flex w-full h-full justify-center">
-      <LoadingSpinner size="h-12 w-12" />
-    </div>
-    <div
-      v-else
-      class="flex w-full flex-col lg:w-4/5 divide-y divide-gray-200 p-2 gap-2"
-    >
-      <div v-if="documents.length <= 0" class="text-white text-lg text-center">
-        <p>Keine verknüpften Dokumente gefunden</p>
+  <div class="min-h-full w-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
+    <div class="mx-auto flex w-full max-w-4xl flex-col gap-5">
+      <div>
+        <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">Dokumente</h1>
+        <p class="mt-1 text-sm text-slate-500">Verknüpfte Dokumentationen, Nachweise und Rechnungen dieses Klienten.</p>
       </div>
-      <div v-else v-for="document in documents" :key="document.id" class="pt-2">
-        <ReportListItem
-          v-if="document.documentType === 'dailyReport'"
-          :report="document"
-        />
-        <InvoiceListItem
-          v-if="document.documentType === 'invoice'"
-          :report="document"
-          :showType="true"
-        />
-        <TimeSheetListItem
-          v-if="document.documentType === 'timeSheet'"
-          :report="document"
-          :showType="true"
-        />
+
+      <div v-if="isLoading" class="flex w-full justify-center py-10">
+        <LoadingSpinner size="h-12 w-12" />
       </div>
-      <div v-if="nextToken !== null" class="flex w-full p-2 justify-center">
-        <button
-          class="py-2 px-4 border border-transparent text-sm font-medium text-white rounded-xl bg-indigo-600 hover:bg-indigo-700"
-          @click="fetchChildDocuments"
-        >
-          Weitere Dokumente laden
-        </button>
+
+      <div
+        v-else
+        class="rounded-2xl border border-slate-200 bg-white p-4 shadow-card"
+      >
+        <div v-if="documents.length <= 0" class="py-10 text-center">
+          <p class="text-sm font-semibold text-slate-900">Keine verknüpften Dokumente gefunden</p>
+        </div>
+        <div v-else class="flex flex-col divide-y divide-slate-100">
+          <div v-for="document in documents" :key="document.id" class="py-2">
+            <ReportListItem
+              v-if="document.documentType === 'dailyReport'"
+              :report="document"
+            />
+            <InvoiceListItem
+              v-if="document.documentType === 'invoice'"
+              :report="document"
+              :showType="true"
+            />
+            <TimeSheetListItem
+              v-if="document.documentType === 'timeSheet'"
+              :report="document"
+              :showType="true"
+            />
+          </div>
+        </div>
+        <div v-if="nextToken !== null" class="flex w-full justify-center pt-4">
+          <button
+            class="rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"
+            @click="fetchChildDocuments"
+          >
+            Weitere Dokumente laden
+          </button>
+        </div>
       </div>
     </div>
   </div>

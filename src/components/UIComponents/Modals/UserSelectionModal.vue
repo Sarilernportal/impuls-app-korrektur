@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot :show="open" as="template" @after-leave="query = ''" appear>
-    <Dialog as="div" class="relative z-10" @close="closeModal">
+    <HDialog as="div" class="relative z-10" @close="closeModal">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -10,12 +10,10 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div
-          class="fixed inset-0 bg-gray-800 bg-opacity-80 transition-opacity"
-        />
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" />
       </TransitionChild>
       <div
-        class="fixed ml-0 md:ml-52 inset-0 z-10 overflow-y-auto p-6 sm:p-6 md:p-20 grid place-items-center"
+        class="fixed ml-0 md:ml-52 inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20 grid place-items-center"
       >
         <TransitionChild
           class="w-full"
@@ -28,44 +26,38 @@
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto max-w-3xl h-full sm:h-1/2 transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
+            class="mx-auto flex max-h-[80vh] w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 transition-all"
           >
             <Combobox v-slot="{ activeOption }">
-              <div class="flex flex-col h-full grow">
-                <div class="flex mt-2 items-center px-2 pb-1">
+              <div class="flex h-full grow flex-col">
+                <!-- Search header -->
+                <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3">
                   <MagnifyingGlassIcon
-                    class="pointer-events-none h-5 w-5 text-gray-400"
+                    class="pointer-events-none h-5 w-5 text-slate-400"
                     aria-hidden="true"
                   />
                   <ComboboxInput
-                    class="h-12 w-full border-0 bg-transparent pr-4 text-gray-800 placeholder-gray-400 sm:text-sm"
-                    placeholder="Suche nach Namen"
+                    class="h-10 w-full border-0 bg-transparent text-slate-800 placeholder-slate-400 focus:ring-0 sm:text-sm"
+                    placeholder="Nach Namen suchen …"
                     @change="query = $event.target.value"
                   />
-                  <!-- close icon -->
-                  <div class="flex items-center mr-2">
-                    <button
-                      class="h-7 w-7 text-gray-400 hover:text-gray-300 cursor-pointer"
-                      @click="closeModal"
-                    >
-                      <XMarkIcon />
-                    </button>
-                  </div>
+                  <button
+                    class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                    @click="closeModal"
+                  >
+                    <XMarkIcon class="h-5 w-5" />
+                  </button>
                 </div>
                 <ComboboxOptions
                   v-if="query === '' || filteredPeople.length > 0"
-                  class="flex flex-col overflow-y-auto sm:flex-row divide-x divide-gray-100"
+                  class="flex flex-col divide-slate-100 overflow-y-auto sm:flex-row sm:divide-x"
                   as="div"
                   static
                   hold
                 >
-                  <!-- left side -->
-                  <div
-                    :class="[
-                      ' min-w-0 flex-auto scroll-py-4 overflow-y-auto px-6 py-4'
-                    ]"
-                  >
-                    <div hold class="-mx-2 text-sm text-gray-700">
+                  <!-- left side: list -->
+                  <div class="min-w-0 flex-auto scroll-py-4 overflow-y-auto p-3">
+                    <div hold class="space-y-1">
                       <ComboboxOption
                         v-for="person in filteredPeople"
                         :key="person.id"
@@ -74,24 +66,22 @@
                         v-slot="{ active }"
                       >
                         <div
+                          @click="onSelect(person)"
                           :class="[
-                            'group flex cursor-default select-none items-center rounded-md p-2',
-                            active && 'bg-gray-100 text-gray-900'
+                            'group flex cursor-pointer select-none items-center gap-3 rounded-xl p-2',
+                            active ? 'bg-brand-50' : 'hover:bg-slate-50'
                           ]"
                         >
-                          <span
-                            v-if="!person.name && !person.familyName"
-                            class="ml-3 flex-auto truncate"
-                            >Nicht Angegeben</span
-                          >
-                          <span v-else class="ml-3 flex-auto truncate">{{
-                            (person.name ? person.name : '') +
-                            ' ' +
-                            (person.familyName ? person.familyName : '')
-                          }}</span>
+                          <InitialsAvatar :name="displayName(person)" size-class="h-9 w-9 text-xs" />
+                          <span class="min-w-0 flex-1">
+                            <span class="block truncate text-sm font-semibold text-slate-900">{{ displayName(person) }}</span>
+                            <span
+                              v-if="person.email || person.carrier"
+                              class="block truncate text-xs text-slate-500"
+                            >{{ person.email || person.carrier?.name }}</span>
+                          </span>
                           <ChevronRightIcon
-                            v-if="active"
-                            class="ml-3 h-5 w-5 flex-none text-gray-400"
+                            :class="['h-5 w-5 flex-none', active ? 'text-impuls-blue' : 'text-slate-300 group-hover:text-slate-400']"
                             aria-hidden="true"
                           />
                         </div>
@@ -99,152 +89,56 @@
                     </div>
                     <div
                       v-if="showLoadMore"
-                      class="w-full flex justify-center mt-5"
+                      class="mt-4 flex justify-center"
                     >
-                      <div
-                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"
+                      <button
+                        class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
                         @click="loadMore"
                       >
-                        <ChevronDoubleDownIcon class="h-5 w-5 text-gray-400" />
-                      </div>
+                        <ChevronDoubleDownIcon class="h-4 w-4" />
+                        Mehr laden
+                      </button>
                     </div>
                   </div>
-                  <!-- right side -> user viewer -->
+                  <!-- right side: detail preview -->
                   <div
                     v-if="activeOption"
-                    class="w-full sm:w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sflex"
+                    class="hidden w-full flex-none flex-col overflow-y-auto bg-slate-50/60 sm:flex sm:w-1/2"
                   >
-                    <!-- name -->
-                    <div class="flex-none p-6 text-center">
-                      <h2
-                        v-if="!activeOption.name && !activeOption.familyName"
-                        class="mt-3 font-semibold text-gray-900"
-                      >
-                        Nicht Angegeben
-                      </h2>
-                      <h2 v-else class="mt-3 font-semibold text-gray-900">
-                        {{
-                          (activeOption.name ? activeOption.name : '') +
-                          ' ' +
-                          (activeOption.familyName
-                            ? activeOption.familyName
-                            : '')
-                        }}
-                      </h2>
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <InitialsAvatar :name="displayName(activeOption)" size-class="h-16 w-16 text-lg" />
+                      <h2 class="mt-3 font-semibold text-slate-900">{{ displayName(activeOption) }}</h2>
                     </div>
-                    <!-- user info -->
-                    <div class="flex flex-auto flex-col justify-between p-6">
-                      <dl
-                        class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700"
-                      >
-                        <!-- phone -->
-                        <dt class="col-end-1 font-semibold text-gray-900">
-                          Telefon
-                        </dt>
-                        <dd>
-                          {{
-                            activeOption.phone
-                              ? activeOption.phone
-                              : 'Nicht angegeben'
-                          }}
-                        </dd>
-                        <!-- email -->
-                        <dt class="col-end-1 font-semibold text-gray-900">
-                          Email
-                        </dt>
+                    <div class="flex flex-auto flex-col justify-between px-6 pb-6">
+                      <dl class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-slate-700">
+                        <dt class="col-end-1 font-semibold text-slate-900">Telefon</dt>
+                        <dd>{{ activeOption.phone ? activeOption.phone : 'Nicht angegeben' }}</dd>
+                        <dt class="col-end-1 font-semibold text-slate-900">E-Mail</dt>
                         <dd class="truncate">
                           <a
                             v-if="activeOption.email"
                             :href="`mailto:${activeOption.email}`"
-                            class="text-indigo-600 underline"
-                          >
-                            {{ activeOption.email }}
-                          </a>
-                          <p v-else>Nicht angegeben</p>
+                            class="text-impuls-blue underline"
+                          >{{ activeOption.email }}</a>
+                          <span v-else>Nicht angegeben</span>
                         </dd>
-                        <!-- connected carrier -->
-                        <dt
-                          v-if="activeOption.carrier"
-                          class="col-end-1 font-semibold text-gray-900"
-                        >
-                          Träger
-                        </dt>
-                        <dd v-if="activeOption.carrier">
-                          {{
-                            activeOption.carrier.name
-                              ? activeOption.carrier.name
-                              : 'Nicht angegeben'
-                          }}
-                        </dd>
-                        <!-- connected mother -->
-                        <dt
-                          v-if="activeOption.mother"
-                          class="col-end-1 font-semibold text-gray-900"
-                        >
-                          Mutter
-                        </dt>
-                        <dd v-if="activeOption.mother" class="flex gap-1">
-                          <div v-if="activeOption.mother.name">
-                            {{
-                              activeOption.mother.name !== ''
-                                ? activeOption.mother.name
-                                : 'N/A'
-                            }}
-                          </div>
-                          <div v-if="activeOption.mother.familyName">
-                            {{
-                              activeOption.mother.familyName !== ''
-                                ? activeOption.mother.familyName
-                                : 'N/A'
-                            }}
-                          </div>
-                          <div
-                            v-if="
-                              !activeOption.mother.name &&
-                              !activeOption.mother.familyName
-                            "
-                          >
-                            Nicht angegeben
-                          </div>
-                        </dd>
-                        <!-- connected father -->
-                        <dt
-                          v-if="activeOption.father"
-                          class="col-end-1 font-semibold text-gray-900"
-                        >
-                          Vater
-                        </dt>
-                        <dd v-if="activeOption.father" class="flex gap-1">
-                          <div v-if="activeOption.father.name">
-                            {{
-                              activeOption.father.name !== ''
-                                ? activeOption.father.name
-                                : 'N/A'
-                            }}
-                          </div>
-                          <div v-if="activeOption.father.familyName">
-                            {{
-                              activeOption.father.familyName !== ''
-                                ? activeOption.father.familyName
-                                : 'N/A'
-                            }}
-                          </div>
-                          <div
-                            v-if="
-                              !activeOption.father.name &&
-                              !activeOption.father.familyName
-                            "
-                          >
-                            Nicht angegeben
-                          </div>
-                        </dd>
+                        <template v-if="activeOption.carrier">
+                          <dt class="col-end-1 font-semibold text-slate-900">Kostenträger</dt>
+                          <dd>{{ activeOption.carrier.name ? activeOption.carrier.name : 'Nicht angegeben' }}</dd>
+                        </template>
+                        <template v-if="activeOption.mother">
+                          <dt class="col-end-1 font-semibold text-slate-900">Mutter</dt>
+                          <dd>{{ displayName(activeOption.mother) }}</dd>
+                        </template>
+                        <template v-if="activeOption.father">
+                          <dt class="col-end-1 font-semibold text-slate-900">Vater</dt>
+                          <dd>{{ displayName(activeOption.father) }}</dd>
+                        </template>
                       </dl>
-                      <div
-                        class="flex flex-auto flex-col justify-between items-center p-6"
-                      >
+                      <div class="mt-6 flex justify-center">
                         <button
                           @click="onSelect(activeOption)"
-                          class="px-5 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-900 text-white"
+                          class="w-full rounded-xl bg-impuls-blue px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
                         >
                           Auswählen
                         </button>
@@ -254,25 +148,20 @@
                 </ComboboxOptions>
                 <div
                   v-if="query !== '' && filteredPeople.length === 0"
-                  class="py-14 px-6 text-center text-sm sm:px-14"
+                  class="px-6 py-14 text-center text-sm sm:px-14"
                 >
-                  <UsersIcon
-                    class="mx-auto h-6 w-6 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  <p class="mt-4 font-semibold text-gray-900">
-                    Keine Personen gefunden
-                  </p>
-                  <p class="mt-2 text-gray-500">
-                    Wir konnten leider keine Personen mit diesem Namen finden.
-                  </p>
+                  <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                    <UsersIcon class="h-6 w-6 text-slate-400" aria-hidden="true" />
+                  </span>
+                  <p class="mt-4 font-semibold text-slate-900">Keine Personen gefunden</p>
+                  <p class="mt-1 text-slate-500">Wir konnten niemanden mit diesem Namen finden.</p>
                 </div>
               </div>
             </Combobox>
           </DialogPanel>
         </TransitionChild>
       </div>
-    </Dialog>
+    </HDialog>
   </TransitionRoot>
 </template>
 
@@ -280,6 +169,8 @@
 // vue imports
 import { computed, ref, watch } from 'vue'
 
+// component imports
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 // heroicon imports
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/20/solid'
 import {
@@ -300,6 +191,7 @@ import {
 
 export default {
   components: {
+    InitialsAvatar,
     MagnifyingGlassIcon,
     XMarkIcon,
     ChevronRightIcon,
@@ -309,7 +201,7 @@ export default {
     ComboboxInput,
     ComboboxOptions,
     ComboboxOption,
-    Dialog,
+    HDialog: Dialog,
     DialogPanel,
     TransitionChild,
     TransitionRoot
@@ -318,7 +210,7 @@ export default {
     people: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     open: {
       type: Boolean,
@@ -335,6 +227,12 @@ export default {
   setup(props, { emit }) {
     // initialize ref
     const query = ref('')
+
+    // build a readable display name from a person-like object
+    function displayName(person) {
+      const name = [person?.name, person?.familyName].filter(Boolean).join(' ').trim()
+      return name || 'Nicht angegeben'
+    }
 
     // compute filtered people
     const filteredPeople = computed(() =>
@@ -390,6 +288,7 @@ export default {
     return {
       query,
       filteredPeople,
+      displayName,
       onSelect,
       closeModal,
       loadMore

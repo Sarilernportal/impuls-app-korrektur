@@ -12,7 +12,7 @@ Invoice Item
 
 <template>
   <div :class="[
-    confirmedStatus ? 'bg-green-300' : 'bg-white border border-tertiaryText',
+    confirmedStatus ? 'bg-emerald-50' : 'bg-white border border-slate-200',
     'relative  rounded-xl overflow-clip'
   ]">
     <!-- flagged reports indicator -->
@@ -71,7 +71,7 @@ Invoice Item
                 class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
                 @click="goToCarrier"
               >
-                <p>{{ 'Träger: ' + carrierName }}</p>
+                <p>{{ 'Kostenträger: ' + carrierName }}</p>
               </button>
             </div>
           </div>
@@ -285,7 +285,7 @@ export default {
 
     // get sorted list of linked documents
     const sortedReports = computed(() => {
-      return props.report.dailyReport.items.sort((a, b) =>
+      return [...props.report.dailyReport.items].sort((a, b) =>
         new Date(a.documentDate) < new Date(b.documentDate)
           ? 1
           : new Date(b.documentDate) < new Date(a.documentDate)

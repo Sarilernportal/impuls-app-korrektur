@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:px-5 sm:py-6 shadow-sm">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
+    <div class="flex w-full flex-col gap-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Päd. Leitung</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Dokumentationszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Dokumentationen</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Echte Dokus nach Klient, Mitarbeiter, Zeitraum und Prüfstatus ansehen, bevor die Abrechnung weiterläuft.
             </p>
@@ -16,12 +16,6 @@
               @click="navigate('ReportCreateEmpty')"
             >
               Doku nachtragen
-            </button>
-            <button
-              class="rounded-lg bg-white/15 px-4 py-2 text-sm font-semibold text-white hover:bg-white/25"
-              @click="navigate('BillingCenter')"
-            >
-              Abrechnung prüfen
             </button>
           </div>
         </div>
@@ -34,28 +28,20 @@
         Lokale Vorschau: Es werden Demo-Dokus angezeigt. Produktiv lädt diese Seite echte Dokumentationen aus AWS.
       </section>
 
-      <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <section class="flex flex-wrap gap-2">
         <button
           v-for="metric in metrics"
           :key="metric.title"
           :class="[
-            'rounded-lg border bg-white p-4 text-left shadow-sm hover:border-blue-200 hover:bg-blue-50',
-            activeFilter === metric.filter ? 'border-blue-300 ring-2 ring-blue-100' : 'border-slate-200'
+            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+            activeFilter === metric.filter
+              ? 'border-impuls-blue bg-blue-50 text-impuls-blue'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200'
           ]"
           @click="activeFilter = metric.filter"
         >
-          <div class="flex items-center justify-between">
-            <component
-              :is="metric.icon"
-              :class="['h-6 w-6', metric.iconClass]"
-              aria-hidden="true"
-            />
-            <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', metric.badgeClass]">
-              {{ metric.badge }}
-            </span>
-          </div>
-          <p class="mt-4 text-3xl font-bold text-slate-900">{{ metric.value }}</p>
-          <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
+          {{ metric.title }}
+          <span :class="['rounded-full px-2 py-0.5 text-xs font-bold tabular-nums', metric.badgeClass]">{{ metric.value }}</span>
         </button>
       </section>
 
@@ -65,7 +51,7 @@
             <DocumentChildSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="child"
+              :selectedChild="child"
               @child-selected="childSelected"
             />
             <button
@@ -73,14 +59,14 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearChild"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <div class="flex items-center gap-2">
             <DocumentGuardianSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="guardian"
+              :selectedGuardian="guardian"
               @guardian-selected="guardianSelected"
             />
             <button
@@ -88,98 +74,55 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearGuardian"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <DocumentTimespanFilter @time-filter="setDateFilter" />
         </div>
       </section>
 
-      <div class="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
-        <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
-          <div class="border-b border-slate-200 px-5 py-4">
-            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-slate-900">Dokus im Prüfprozess</h2>
-                <p class="text-sm text-slate-500">Pädagogisch relevant, aber auf Abrechnung vorbereitet.</p>
-              </div>
-              <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-                <MagnifyingGlassIcon
-                  class="h-5 w-5 text-slate-400"
-                  aria-hidden="true"
-                />
-                <input
-                  v-model="searchValue"
-                  type="search"
-                  class="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
-                  placeholder="Klient, Mitarbeiter oder Status suchen"
-                />
-              </label>
-            </div>
+      <!-- Master-Detail: Dokuliste links, Detail rechts (DESIGN.md) -->
+      <div class="grid gap-4 lg:grid-cols-[minmax(320px,400px)_1fr] lg:items-start">
+        <!-- Liste -->
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+          <div class="border-b border-slate-200 p-3">
+            <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+              <MagnifyingGlassIcon class="h-5 w-5 text-slate-400" aria-hidden="true" />
+              <input
+                v-model="searchValue"
+                type="search"
+                class="min-w-0 flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
+                placeholder="Klient, Mitarbeiter oder Status suchen"
+              />
+            </label>
           </div>
 
-          <div
-            v-if="isLoading"
-            class="px-5 py-10 text-center text-sm font-semibold text-slate-500"
-          >
+          <div v-if="isLoading" class="px-5 py-10 text-center text-sm font-semibold text-slate-500">
             Dokumentationen werden geladen...
           </div>
-
-          <div
-            v-else-if="filteredReports.length === 0"
-            class="px-5 py-10 text-center"
-          >
+          <div v-else-if="filteredReports.length === 0" class="px-5 py-10 text-center">
             <p class="text-sm font-semibold text-slate-900">Keine Dokumentationen gefunden</p>
             <p class="mt-1 text-sm text-slate-500">Passe Suche, Status oder Zeitraumfilter an.</p>
           </div>
 
-          <div
-            v-else
-            class="divide-y divide-slate-100"
-          >
-            <article
-              v-for="(report, index) in filteredReports"
+          <div v-else data-testid="report-list" class="max-h-[72vh] overflow-auto">
+            <button
+              v-for="report in filteredReports"
               :key="report.id"
-              class="grid gap-4 px-5 py-4 2xl:grid-cols-[minmax(0,1fr)_130px_150px_170px]"
+              type="button"
+              @click="selectReport(report)"
+              :class="['flex w-full items-center gap-3 border-b border-slate-100 px-4 py-3 text-left transition', selectedReport && selectedReport.id === report.id ? 'bg-blue-50' : 'hover:bg-slate-50']"
             >
-              <div>
-                <div class="flex flex-wrap items-center gap-2">
-                  <h3 class="font-semibold text-slate-900">{{ childName(report) }}</h3>
-                  <span :class="['rounded-full px-2.5 py-1 text-xs font-semibold', statusInfo(report).badgeClass]">
-                    {{ statusInfo(report).label }}
-                  </span>
-                </div>
-                <p class="mt-1 text-sm text-slate-600">{{ guardianName(report) }} · {{ activityLabel(report) }}</p>
-              </div>
-              <div>
-                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Datum</p>
-                <p class="mt-1 text-sm font-semibold text-slate-800">{{ reportDate(report) }}</p>
-              </div>
-              <div>
-                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Zeit</p>
-                <p class="mt-1 text-sm font-semibold text-slate-800">{{ hoursWorked(report) }}</p>
-              </div>
-              <div class="flex items-center justify-between gap-2 lg:justify-end">
-                <button
-                  class="rounded-lg px-3 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-50"
-                  @click="openTimesheets(report)"
-                >
-                  Nachweis
-                </button>
-                <button
-                  class="rounded-lg bg-impuls-blue px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-                  @click="openReport(report, index)"
-                >
-                  Prüfen
-                </button>
-              </div>
-            </article>
+              <InitialsAvatar :name="childName(report)" size-class="h-9 w-9 text-xs" />
+              <span class="min-w-0 flex-1">
+                <span :class="['block truncate font-display font-bold', selectedReport && selectedReport.id === report.id ? 'text-impuls-blue' : 'text-slate-900']">{{ childName(report) }}</span>
+                <span class="block truncate text-xs text-slate-500">{{ guardianName(report) }} · {{ reportDate(report) }}</span>
+              </span>
+              <span :class="['shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold', statusInfo(report).badgeClass]">{{ statusInfo(report).label }}</span>
+            </button>
           </div>
 
-          <div
-            v-if="!isLoading"
-            class="border-t border-slate-200 px-5 py-4"
-          >
+          <div v-if="!isLoading" class="border-t border-slate-200 px-5 py-4">
             <pagination-bar
               :page="currentPage"
               :nextPageAvailable="nextToken[currentPage + 1] !== null"
@@ -187,50 +130,58 @@
               @to-previous="previousPageTapped"
             />
           </div>
-        </section>
+        </div>
 
-        <aside class="grid gap-5">
-          <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 class="text-lg font-semibold text-slate-900">Prüffokus</h2>
-            <div class="mt-4 grid gap-3">
-              <div
-                v-for="step in workflow"
-                :key="step.title"
-                class="flex gap-3 rounded-lg bg-slate-50 p-3"
-              >
-                <span :class="['flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg', step.bgClass]">
-                  <component
-                    :is="step.icon"
-                    class="h-5 w-5"
-                    aria-hidden="true"
-                  />
-                </span>
-                <div>
-                  <p class="font-semibold text-slate-900">{{ step.title }}</p>
-                  <p class="text-sm text-slate-600">{{ step.description }}</p>
-                </div>
-              </div>
+        <!-- Detail -->
+        <div v-if="selectedReport" data-testid="report-detail" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+          <div class="flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h2 class="font-display text-xl font-black tracking-tight text-slate-900">{{ childName(selectedReport) }}</h2>
+              <p class="mt-0.5 text-sm text-slate-500">{{ guardianName(selectedReport) }} · {{ activityLabel(selectedReport) }}</p>
             </div>
-          </section>
+            <span :class="['shrink-0 rounded-lg px-3 py-1 text-xs font-semibold', statusInfo(selectedReport).badgeClass]">{{ statusInfo(selectedReport).label }}</span>
+          </div>
 
-          <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 class="text-lg font-semibold text-slate-900">Schnellzugriff</h2>
-            <div class="mt-4 grid gap-2">
+          <div class="mt-5 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-2">
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Datum</p>
+              <p class="mt-1 text-sm font-semibold tabular-nums text-slate-800">{{ reportDate(selectedReport) }}</p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Zeit</p>
+              <p class="mt-1 text-sm font-semibold tabular-nums text-slate-800">{{ hoursWorked(selectedReport) }}</p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Mitarbeiter</p>
+              <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ guardianName(selectedReport) }}</p>
+            </div>
+            <div class="bg-white px-4 py-4">
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Leistung</p>
+              <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ activityLabel(selectedReport) }}</p>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-wrap gap-2">
+            <button class="rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700" @click="openReport(selectedReport, selectedReportIndex)">Doku prüfen</button>
+            <button class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" @click="openTimesheets(selectedReport)">Nachweis</button>
+          </div>
+
+          <div class="mt-6 border-t border-slate-100 pt-4">
+            <p class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">Schnellzugriff</p>
+            <div class="grid gap-2 sm:grid-cols-2">
               <button
                 v-for="link in quickLinks"
                 :key="link.title"
-                class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-3 text-left hover:border-blue-200 hover:bg-blue-50"
+                class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 text-left hover:border-blue-200 hover:bg-blue-50"
                 @click="navigate(link.route)"
               >
-                <span>
-                  <span class="block text-sm font-semibold text-slate-900">{{ link.title }}</span>
-                  <span class="block text-xs text-slate-500">{{ link.description }}</span>
-                </span>
-                <ArrowRightIcon class="h-4 w-4 text-slate-400" aria-hidden="true" />
+                <span class="block truncate text-sm font-semibold text-slate-900">{{ link.title }}</span>
+                <ArrowRightIcon class="h-4 w-4 flex-shrink-0 text-slate-400" aria-hidden="true" />
               </button>
             </div>
-          </section>
-        </aside>
+          </div>
+        </div>
+        <div v-else class="hidden rounded-2xl border border-dashed border-slate-200 lg:block"></div>
       </div>
     </div>
   </div>
@@ -245,8 +196,9 @@ import DocumentChildSelection from '@/components/Main/Admin/Documents/DocumentCh
 import DocumentGuardianSelection from '@/components/Main/Admin/Documents/DocumentGuardianSelection.vue'
 import DocumentTimespanFilter from '@/components/Main/Admin/Documents/DocumentTimespanFilter.vue'
 import PaginationBar from '@/components/Navigation/PaginationBar.vue'
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import {
-  ArrowLeftIcon,
+  XMarkIcon,
   ArrowRightIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -259,18 +211,14 @@ import {
 export default {
   name: 'ReportsOverview',
   components: {
-    ArrowLeftIcon,
+    XMarkIcon,
     ArrowRightIcon,
-    CheckCircleIcon,
-    ClockIcon,
-    DocumentCheckIcon,
-    DocumentTextIcon,
     DocumentGuardianSelection,
     DocumentChildSelection,
     DocumentTimespanFilter,
-    ExclamationTriangleIcon,
     MagnifyingGlassIcon,
-    PaginationBar
+    PaginationBar,
+    InitialsAvatar
   },
   setup() {
     const router = useRouter()
@@ -342,6 +290,21 @@ export default {
       })
     })
 
+    // Master-Detail: ausgewählte Doku (fällt auf die erste der Liste zurück)
+    const selectedReportId = ref(null)
+    const selectedReport = computed(() => {
+      const list = filteredReports.value
+      if (list.length === 0) return null
+      return list.find((report) => report.id === selectedReportId.value) || list[0]
+    })
+    const selectedReportIndex = computed(() => {
+      if (!selectedReport.value) return 0
+      return filteredReports.value.findIndex((report) => report.id === selectedReport.value.id)
+    })
+    function selectReport(report) {
+      selectedReportId.value = report.id
+    }
+
     const metrics = computed(() => {
       const all = sourceReports.value
       const ready = all.filter((report) => statusInfo(report).filter === 'ready')
@@ -397,27 +360,6 @@ export default {
         }
       ]
     })
-
-    const workflow = [
-      {
-        title: 'Inhalt prüfen',
-        description: 'Päd. Leitung sieht, welche Dokus fachlich noch Rückfragen brauchen.',
-        icon: DocumentTextIcon,
-        bgClass: 'bg-blue-100 text-blue-700'
-      },
-      {
-        title: 'Abrechnung sichern',
-        description: 'Verwaltung erkennt, ob die Doku zum Nachweis passt.',
-        icon: DocumentCheckIcon,
-        bgClass: 'bg-emerald-100 text-emerald-700'
-      },
-      {
-        title: 'Rückgabe sichtbar',
-        description: 'Offene Rückfragen werden nicht in alten Listen versteckt.',
-        icon: ExclamationTriangleIcon,
-        bgClass: 'bg-amber-100 text-amber-700'
-      }
-    ]
 
     const quickLinks = [
       {
@@ -742,7 +684,9 @@ export default {
       setDateFilter,
       statusInfo,
       activityLabel,
-      workflow
+      selectedReport,
+      selectedReportIndex,
+      selectReport
     }
   }
 }

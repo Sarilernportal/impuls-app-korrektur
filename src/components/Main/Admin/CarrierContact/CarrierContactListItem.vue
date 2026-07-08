@@ -54,7 +54,7 @@
           <div class="flex items-center">
             <div>
               <div class="lg:hidden text-base text-gray-500">
-                <span>Träger:</span>
+                <span>Kostenträger:</span>
               </div>
               <button
                 @click="showCarrierDetailsTapped(carrierId)"

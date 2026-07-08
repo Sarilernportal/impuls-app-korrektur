@@ -22,7 +22,7 @@
       <button
         @click="goToUser"
         :class="[
-          'text-gray-300 px-2 bg-gray-700 overflow-clip hover:bg-gray-500 print:border print:border-gray-400',
+          'text-slate-700 px-2 bg-slate-100 overflow-clip hover:bg-slate-200 print:border print:border-slate-300',
           allowDelete ? 'rounded-r-none' : 'rounded-r-full pr-3'
         ]"
       >
@@ -32,7 +32,7 @@
       <button
         v-if="allowDelete"
         @click="deleteTapped"
-        class="h-full pr-1 bg-gray-700 hover:bg-gray-500 rounded-r-full overflow-clip text-red-500 hover:text-red-300"
+        class="h-full pr-1 bg-slate-100 hover:bg-slate-200 rounded-r-full overflow-clip text-red-500 hover:text-red-600"
       >
         <XMarkIcon class="h-5 w-5" />
       </button>
@@ -80,8 +80,6 @@ export default {
 
     const userName = computed(() => {
       try {
-        // set loading state
-        isLoading.value = true
         // get participant from userlist
         const participant = props.userList[props.participation.participant]
         // check if Attributes values can be read
@@ -123,9 +121,6 @@ export default {
       } catch (error) {
         console.log(error)
         return 'Nicht angegeben'
-      } finally {
-        // reset loading state
-        isLoading.value = false
       }
     })
 

@@ -69,10 +69,10 @@ Calendar Details
     />
   </div>
   <!-- Main Container -->
-  <div class="flex flex-col h-full w-full px-4 pb-2 pt-4 bg-primary items-center gap-8">
+  <div class="flex min-h-screen w-full flex-col gap-6 bg-app-bg px-4 pt-6 pb-10">
     <!-- Header section -->
-    <div class="space-y-1 w-full lg:w-4/5">
-      <h3 class="text-lg leading-6 font-medium text-primaryText">Kalender Details</h3>
+    <div class="w-full space-y-1">
+      <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">Kalender Details</h1>
       <p class="max-w-2xl text-sm text-secondaryText">
         Informationen über die Daten des Kalenders
       </p>
@@ -84,10 +84,11 @@ Calendar Details
     >
       <LoadingSpinner size="h-12 w-12" />
     </div>
+    <!-- Inhalts-Grid (2 Spalten) -->
+    <div v-else class="grid w-full gap-6 lg:grid-cols-2">
     <!-- info -->
     <div
-      v-else
-      class="flex flex-col w-full lg:w-4/5 mt-4 divide-y divide-gray-800"
+      class="flex w-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-card divide-y divide-slate-200"
     >
       <!-- title -->
       <EditableTextRow
@@ -136,12 +137,11 @@ Calendar Details
         </div>
       </div>
     </div>
-    <!-- Header section connections -->
+    <!-- Teilnehmer -->
     <div
-      v-if="!isLoading"
-      class="space-y-1 w-full lg:w-4/5"
+      class="w-full space-y-1 rounded-2xl border border-slate-200 bg-white p-6 shadow-card"
     >
-      <h3 class="text-lg leading-6 font-medium text-primaryText">Teilnehmer</h3>
+      <h2 class="font-display text-lg leading-6 font-bold text-slate-900">Teilnehmer</h2>
       <p class="max-w-2xl text-sm text-secondaryText">
         Liste der verbundenen Teilnehmer
       </p>
@@ -184,15 +184,15 @@ Calendar Details
         />
       </div>
     </div>
-    <!-- object info -->
-    <div class="w-full lg:w-4/5">
+    <!-- object info (volle Breite) -->
+    <div class="w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
       <CalendarDetailsObjectInfo
         class="pb-4"
-        v-if="!isLoading"
         :calendar="calendar"
         :deleteIsLoading="deleteIsLoading"
         @delete-calendar-tapped="openDeleteCalendar"
       />
+    </div>
     </div>
   </div>
 </template>

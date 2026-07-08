@@ -12,7 +12,7 @@ User Detail Data Info View
 -->
 <template>
   <div>
-    <dl class="divide-y divide-gray-800">
+    <dl class="divide-y divide-slate-200">
       <!-- data complete switch -->
       <switchable-info
         title="Daten vollständig"

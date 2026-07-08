@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:px-5 sm:py-6 shadow-sm">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
+    <div class="flex w-full flex-col gap-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Termine</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Kalender-Zentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Kalender</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Termine nach Klienten, Mitarbeitenden und Verwaltung sichtbar machen.
             </p>
@@ -31,19 +31,18 @@
         <div
           v-for="metric in metrics"
           :key="metric.title"
-          class="rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm"
+          class="rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-card"
         >
-          <component :is="metric.icon" :class="['h-6 w-6', metric.iconClass]" aria-hidden="true" />
-          <p class="mt-4 text-3xl font-bold text-slate-900">{{ metric.value }}</p>
+          <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', metric.badgeClass]"><component :is="metric.icon" class="h-5 w-5" aria-hidden="true" /></span>
+          <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ metric.value }}</p>
           <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
         </div>
       </section>
 
       <div class="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
-        <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
+        <section class="rounded-2xl border border-slate-200 bg-white shadow-card">
           <div class="border-b border-slate-200 px-5 py-4">
-            <h2 class="text-lg font-semibold text-slate-900">Heute und diese Woche</h2>
-            <p class="text-sm text-slate-500">Termine sind nach Zweck gruppiert, nicht nur nach Datum.</p>
+            <h2 class="font-display text-lg font-bold text-slate-900">Heute und diese Woche</h2>
           </div>
           <div class="divide-y divide-slate-100">
             <article
@@ -69,7 +68,7 @@
                 <p class="mt-1 text-sm font-semibold text-slate-800">{{ event.owner }}</p>
               </div>
               <div class="flex items-center lg:justify-end">
-                <button class="rounded-lg px-3 py-2 text-sm font-semibold text-impuls-blue hover:bg-blue-50">
+                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
                   Öffnen
                 </button>
               </div>
@@ -77,8 +76,8 @@
           </div>
         </section>
 
-        <aside class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 class="text-lg font-semibold text-slate-900">Kalendergruppen</h2>
+        <aside class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+          <h2 class="font-display text-lg font-bold text-slate-900">Kalendergruppen</h2>
           <div class="mt-4 grid gap-3">
             <button
               v-for="group in groups"

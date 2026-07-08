@@ -26,7 +26,7 @@ New carrier contact form
             Kontaktperson
           </h3>
           <p class="max-w-2xl text-sm text-secondaryText">
-            Informationen über die Kontaktperson einer Trägerinstitution.
+            Informationen über die Kontaktperson einer Kostenträger.
           </p>
         </div>
       </div>
@@ -286,7 +286,6 @@ export default {
       setName,
       setNameValidation,
       setPhone,
-      setPhoneValidation,
       setPhoneValidation,
       setEmail,
       setEmailValidation,

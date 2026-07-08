@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:px-5 sm:py-6 shadow-sm">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
+    <div class="flex w-full flex-col gap-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">GF und Verwaltung</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Rechnungszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Rechnungen</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Echte Rechnungen aus Nachweisen prüfen, offene Läufe sehen und Versand oder Freigabe vorbereiten.
             </p>
@@ -34,28 +34,20 @@
         Lokale Vorschau: Es werden Demo-Rechnungen angezeigt. Produktiv lädt diese Seite echte Rechnungen aus AWS.
       </section>
 
-      <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      <section class="flex flex-wrap gap-2">
         <button
           v-for="metric in metrics"
           :key="metric.title"
           :class="[
-            'rounded-lg border bg-white p-4 text-left shadow-sm hover:border-blue-200 hover:bg-blue-50',
-            activeFilter === metric.filter ? 'border-blue-300 ring-2 ring-blue-100' : 'border-slate-200'
+            'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition',
+            activeFilter === metric.filter
+              ? 'border-impuls-blue bg-blue-50 text-impuls-blue'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200'
           ]"
           @click="activeFilter = metric.filter"
         >
-          <div class="flex items-center justify-between">
-            <component
-              :is="metric.icon"
-              :class="['h-6 w-6', metric.iconClass]"
-              aria-hidden="true"
-            />
-            <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', metric.badgeClass]">
-              {{ metric.badge }}
-            </span>
-          </div>
-          <p class="mt-4 text-3xl font-bold text-slate-900">{{ metric.value }}</p>
-          <p class="mt-1 text-sm font-medium text-slate-600">{{ metric.title }}</p>
+          {{ metric.title }}
+          <span :class="['rounded-full px-2 py-0.5 text-xs font-bold tabular-nums', metric.badgeClass]">{{ metric.value }}</span>
         </button>
       </section>
 
@@ -65,7 +57,7 @@
             <DocumentChildSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="child"
+              :selectedChild="child"
               @child-selected="childSelected"
             />
             <button
@@ -73,14 +65,14 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearChild"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <div class="flex items-center gap-2">
             <DocumentGuardianSelection
               class="w-full"
               :enableAddButton="true"
-              :selectedCarrier="guardian"
+              :selectedGuardian="guardian"
               @guardian-selected="guardianSelected"
             />
             <button
@@ -88,7 +80,7 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearGuardian"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <div class="flex items-center gap-2">
@@ -103,7 +95,7 @@
               class="rounded-lg bg-slate-100 p-2 text-slate-600 hover:bg-slate-200"
               @click.prevent="clearCarrier"
             >
-              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+              <XMarkIcon class="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
           <DocumentTimespanFilter @time-filter="setDateFilter" />
@@ -128,7 +120,7 @@
           <div class="border-b border-slate-200 px-5 py-4">
             <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <h2 class="text-lg font-semibold text-slate-900">Rechnungslauf</h2>
+                <h2 class="font-display text-lg font-bold text-slate-900">Rechnungslauf</h2>
                 <p class="text-sm text-slate-500">Status, Leistung und Nachweisbezug stehen im Vordergrund.</p>
               </div>
               <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
@@ -140,7 +132,7 @@
                   v-model="searchValue"
                   type="search"
                   class="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
-                  placeholder="Klient, Träger oder Status suchen"
+                  placeholder="Klient, Kostenträger oder Status suchen"
                 />
               </label>
             </div>
@@ -195,10 +187,11 @@
                   Nachweis
                 </button>
                 <button
+                  data-testid="invoice-view-btn"
                   class="rounded-lg bg-impuls-blue px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-                  @click="openInvoice(invoice, index)"
+                  @click="openPreview(invoice, index)"
                 >
-                  Öffnen
+                  Ansicht
                 </button>
               </div>
             </article>
@@ -251,11 +244,32 @@
         </aside>
       </div>
     </div>
+
+    <!-- Rechnungsansicht (Vorschau, Korrekturen, Berechnungsgrundlage) -->
+    <invoice-preview-dialog
+      :open="previewOpen"
+      :invoice="previewInvoice"
+      :corrections="previewCorrections"
+      :show-details-link="previewInvoice ? !previewInvoice.id?.startsWith('demo-') : false"
+      @close="previewOpen = false"
+      @add-correction="addCorrection"
+      @remove-correction="removeCorrection"
+      @mark-ready="markReady"
+      @open-details="openDetailsFromPreview"
+    />
+
+    <success-window
+      v-if="previewMessage"
+      title="Rechnung"
+      :message="previewMessage"
+      :open="!!previewMessage"
+      @close="previewMessage = ''"
+    />
   </div>
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { isLocalAuthMode } from '@/services/authService.js'
@@ -263,9 +277,11 @@ import DocumentCarrierSelection from '@/components/Main/Admin/Documents/Document
 import DocumentChildSelection from '@/components/Main/Admin/Documents/DocumentChildSelection.vue'
 import DocumentGuardianSelection from '@/components/Main/Admin/Documents/DocumentGuardianSelection.vue'
 import DocumentTimespanFilter from '@/components/Main/Admin/Documents/DocumentTimespanFilter.vue'
+import InvoicePreviewDialog from '@/components/Main/Admin/Documents/InvoicePreviewDialog.vue'
 import PaginationBar from '@/components/Navigation/PaginationBar.vue'
+import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import {
-  ArrowLeftIcon,
+  XMarkIcon,
   BanknotesIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -278,7 +294,7 @@ import {
 export default {
   name: 'InvoiceOverview',
   components: {
-    ArrowLeftIcon,
+    XMarkIcon,
     BanknotesIcon,
     CheckCircleIcon,
     ClockIcon,
@@ -288,9 +304,11 @@ export default {
     DocumentGuardianSelection,
     DocumentTimespanFilter,
     ExclamationTriangleIcon,
+    InvoicePreviewDialog,
     MagnifyingGlassIcon,
     PaginationBar,
-    PaperAirplaneIcon
+    PaperAirplaneIcon,
+    SuccessWindow
   },
   setup() {
     const router = useRouter()
@@ -310,6 +328,50 @@ export default {
     const searchValue = ref('')
     const startDateFilter = ref(null)
 
+    // Rechnungsansicht (Vorschau, Korrekturen, Berechnungsgrundlage)
+    const previewOpen = ref(false)
+    const previewInvoice = ref(null)
+    const previewIndex = ref(0)
+    const previewMessage = ref('')
+    // Korrekturen je Rechnung – frontend-first, Persistenz folgt mit dem
+    // Backend-Feld Invoices.corrections (siehe Migrationsleitfaden).
+    const correctionsById = reactive({})
+
+    const previewCorrections = computed(() =>
+      previewInvoice.value ? correctionsById[previewInvoice.value.id] || [] : []
+    )
+
+    function openPreview(invoice, index) {
+      previewInvoice.value = invoice
+      previewIndex.value = index
+      previewOpen.value = true
+    }
+
+    function addCorrection(correction) {
+      const id = previewInvoice.value?.id
+      if (!id) return
+      if (!correctionsById[id]) correctionsById[id] = []
+      correctionsById[id].push(correction)
+    }
+
+    function removeCorrection(index) {
+      const id = previewInvoice.value?.id
+      if (id && correctionsById[id]) correctionsById[id].splice(index, 1)
+    }
+
+    function markReady() {
+      previewOpen.value = false
+      previewMessage.value =
+        'Die Rechnung ist versandbereit (inkl. Korrekturen und Berechnungsgrundlage). Der Versand an den Kostenträger erfolgt über den bestehenden Rechnungslauf.'
+    }
+
+    function openDetailsFromPreview() {
+      previewOpen.value = false
+      if (previewInvoice.value) openInvoice(previewInvoice.value, previewIndex.value)
+    }
+
+    // Demo: zwei Kostenträger mit UNTERSCHIEDLICHER Berechnungsgrundlage
+    // (Groß-Gerau vergütet Krankheit nicht, Mitte voll) inkl. Krankheitstag.
     const demoInvoices = [
       createDemoInvoice({
         id: 'demo-invoice-1',
@@ -318,11 +380,29 @@ export default {
         childFamilyName: 'Beispiel',
         guardianName: 'Mira',
         guardianFamilyName: 'Demir',
-        carrierName: 'Impuls Demo Träger',
+        carrierName: 'Jugendamt Groß-Gerau',
         charged: false,
         flag: null,
         hourFrom: 9,
-        hourTo: 12
+        hourTo: 12,
+        hourlyRate: 45.5,
+        withSickDay: true,
+        carrierExtras: {
+          street: 'Wilhelm-Seipp-Straße',
+          houseNumber: '4',
+          postalCode: '64521',
+          city: 'Groß-Gerau',
+          billingContactName: 'Leistungsabrechnung / Buchhaltung',
+          // Jede Behörde hinterlegt zwei Sätze: mit / ohne Fachkraft.
+          hourlyRateSpecialist: 45.5,
+          hourlyRateAssistant: 38,
+          sicknessRule: 'none',
+          poolRule: 'none',
+          sollRule: 'schooldays',
+          paymentTermDays: 30,
+          leitwegId: '06433-04001-77',
+          debtorNumber: 'DEB-1187'
+        }
       }),
       createDemoInvoice({
         id: 'demo-invoice-2',
@@ -335,7 +415,21 @@ export default {
         charged: true,
         flag: null,
         hourFrom: 10,
-        hourTo: 12
+        hourTo: 12,
+        hourlyRate: 43,
+        withSickDay: true,
+        carrierExtras: {
+          street: 'Rathausallee',
+          houseNumber: '12',
+          postalCode: '60311',
+          city: 'Frankfurt am Main',
+          hourlyRateSpecialist: 43,
+          hourlyRateAssistant: 36,
+          sicknessRule: 'full',
+          poolRule: 'carryover',
+          sollRule: 'schooldays',
+          paymentTermDays: 14
+        }
       })
     ]
 
@@ -731,6 +825,31 @@ export default {
     }
 
     function createDemoInvoice(options) {
+      const items = [
+        {
+          id: `${options.id}-report`,
+          documentDate: new Date().toISOString(),
+          hourFrom: options.hourFrom,
+          minuteFrom: 0,
+          hourTo: options.hourTo,
+          minuteTo: 0,
+          flag: options.flag
+        }
+      ]
+      // Optionaler Krankheitstag des Kindes (3 h) – zeigt die amtsspezifische
+      // Krankheitsregel in Positionen und Berechnungsgrundlage.
+      if (options.withSickDay) {
+        items.push({
+          id: `${options.id}-sick`,
+          documentDate: new Date().toISOString(),
+          hourFrom: 9,
+          minuteFrom: 0,
+          hourTo: 12,
+          minuteTo: 0,
+          sick: true,
+          flag: null
+        })
+      }
       return {
         id: options.id,
         type: 'invoice',
@@ -742,7 +861,8 @@ export default {
         child: {
           id: `${options.id}-child`,
           name: options.childName,
-          familyName: options.childFamilyName
+          familyName: options.childFamilyName,
+          hourlyRate: options.hourlyRate
         },
         guardian: {
           id: `${options.id}-guardian`,
@@ -751,21 +871,11 @@ export default {
         },
         carrier: {
           id: `${options.id}-carrier`,
-          name: options.carrierName
+          name: options.carrierName,
+          defaultHourlyRate: options.hourlyRate,
+          ...(options.carrierExtras || {})
         },
-        dailyReport: {
-          items: [
-            {
-              id: `${options.id}-report`,
-              documentDate: new Date().toISOString(),
-              hourFrom: options.hourFrom,
-              minuteFrom: 0,
-              hourTo: options.hourTo,
-              minuteTo: 0,
-              flag: options.flag
-            }
-          ]
-        }
+        dailyReport: { items }
       }
     }
 
@@ -799,6 +909,15 @@ export default {
       nextToken,
       openInvoice,
       openTimesheets,
+      openPreview,
+      previewOpen,
+      previewInvoice,
+      previewCorrections,
+      previewMessage,
+      addCorrection,
+      removeCorrection,
+      markReady,
+      openDetailsFromPreview,
       previousPageTapped,
       searchValue,
       setDateFilter,

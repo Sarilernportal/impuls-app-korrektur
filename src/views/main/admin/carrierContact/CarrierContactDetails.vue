@@ -15,10 +15,10 @@ Carrier Contact Details
   <!-- Critical action modal for carrier delete operation -->
   <critical-action
     :open="deleteSelected"
-    title="Trägerkontakt löschen"
-    message="Möchten Sie den Trägerkontakt wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
+    title="Kostenträger-Kontakt löschen"
+    message="Möchten Sie den Kostenträger-Kontakt wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
     buttonCancelTitle="Abbrechen"
-    buttonConfirmTitle="Trägerkontakt löschen"
+    buttonConfirmTitle="Kostenträger-Kontakt löschen"
     @close="deleteSelected = false"
     @confirmed="confirmedDelete"
   >
@@ -39,7 +39,7 @@ Carrier Contact Details
     :open="customSuccess.isPresent"
     @close="customSuccessConfirmed"
   />
-  <div class="h-screen overflow-scroll-y flex">
+  <div class="min-h-screen overflow-y-auto bg-app-bg flex">
     <!-- Content area -->
     <!-- Loading spinner -->
     <div
@@ -54,55 +54,52 @@ Carrier Contact Details
       class="flex-1 flex flex-col"
     >
       <main class="flex-1 focus:outline-none">
-        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:w-4/5 lg:px-8 xl:px-0">
-          <div class="py-8">
-            <div class="px-4 sm:px-6 md:px-0">
-              <!-- Description list with inline editing -->
-              <div class="divide-y divide-gray-700">
-                <!-- Header section -->
-                <div class="space-y-1">
-                  <h3 class="text-lg leading-6 font-medium text-primaryText">
-                    Profil
-                  </h3>
-                  <p class="max-w-2xl text-sm text-secondaryText">
-                    Informationen über persönliche Daten des Trägerkontaktes.
-                  </p>
-                </div>
-                <!-- carrier contact data section -->
-                <div class="mt-6">
-                  <carrier-contact-data-info
-                    :carrierContact="carrierContact"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
+        <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <div class="grid gap-6 lg:grid-cols-2">
+            <!-- Profil -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
+              <div class="mt-5">
+                <carrier-contact-data-info
+                  :carrierContact="carrierContact"
+                  :isLoading="propertyIsLoading"
+                  @change-submit="changeSubmitted"
+                />
               </div>
-              <!-- carrier selection -->
-              <div class="mt-6 pt-6 border-t border-gray-700">
+            </section>
+
+            <!-- Kostenträger-Zuordnung -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Kostenträger</h3>
+              <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
+              <div class="mt-5">
                 <CarrierSelection
                   :preSelected="carrierContact.carrier"
                   @carrier-selected="setCarrier"
                   @carrier-removed="removeCarrier"
                 />
               </div>
-              <!-- children list -->
-              <div class="mt-6">
-                <CarrierContactDetailChildrenList
-                  @child-selected="addChild"
-                  @remove-child="removeChild"
-                  :carrierContact="carrierContact"
-                />
-              </div>
-              <!-- Account Information section -->
-              <div class="mt-8 divide-y divide-gray-700">
-                <carrier-contact-detail-account-info
-                  :carrier="carrierContact"
-                  :deleteIsLoading="deleteIsLoading"
-                  :userStateIsLoading="userStateIsLoading"
-                  @delete-carrier-contact-tapped="deleteCarrierContactTapped"
-                />
-              </div>
-            </div>
+            </section>
+
+            <!-- Verknüpfte Klienten (volle Breite) -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <CarrierContactDetailChildrenList
+                @child-selected="addChild"
+                @remove-child="removeChild"
+                :carrierContact="carrierContact"
+              />
+            </section>
+
+            <!-- Konto (volle Breite) -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <carrier-contact-detail-account-info
+                :carrier="carrierContact"
+                :deleteIsLoading="deleteIsLoading"
+                :userStateIsLoading="userStateIsLoading"
+                @delete-carrier-contact-tapped="deleteCarrierContactTapped"
+              />
+            </section>
           </div>
         </div>
       </main>
@@ -222,7 +219,7 @@ export default {
         customSuccess.isPresent = true
         customSuccess.title = 'Erfolgreich gelöscht'
         customSuccess.message =
-          'Sie haben den Trägerkontakt erfolgreich gelöscht!'
+          'Sie haben den Kostenträger-Kontakt erfolgreich gelöscht!'
       } catch (err) {
         console.log(err)
         // Show error window when user couldn't be removed

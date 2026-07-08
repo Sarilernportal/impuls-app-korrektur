@@ -24,7 +24,7 @@ Children Details
   <!-- Success modal -->
   <success-window v-if="customSuccess.isPresent" :title="customSuccess.title" :message="customSuccess.message"
     :open="customSuccess.isPresent" @close="customSuccessConfirmed" />
-  <div class="h-screen overflow-scroll-y flex">
+  <div class="min-h-screen overflow-y-auto bg-app-bg flex">
     <!-- Content area -->
     <!-- Loading spinner -->
     <div v-if="isLoading" class="w-full flex justify-center items-center">
@@ -33,77 +33,63 @@ Children Details
     <!-- Main content area -->
     <div v-else class="flex-1 flex flex-col">
       <main class="flex-1 focus:outline-none">
-        <div class="relative mx-auto max-w-full px-4 sm:px-6 lg:w-4/5 lg:px-8 xl:px-0">
-          <div class="py-8">
-            <div class="px-4 sm:px-6 md:px-0">
-              <!-- Description list with inline editing -->
-              <div class="divide-y divide-gray-700">
-                <!-- Header section -->
-                <div class="space-y-1">
-                  <h3 class="text-lg leading-6 font-medium text-primaryText">
-                    Profil
-                  </h3>
-                  <p class="max-w-2xl text-sm text-secondaryText">
-                    Informationen über persönliche Daten des Klienten.
-                  </p>
-                </div>
-                <!-- Data section -->
-                <div class="mt-6">
-                  <!-- Data section for users -->
-                  <children-detail-data-info :child="child" :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted" />
-                </div>
+        <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <div class="grid gap-6 lg:grid-cols-2">
+            <!-- Profil -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Klienten.</p>
+              <div class="mt-5">
+                <children-detail-data-info :child="child" :isLoading="propertyIsLoading"
+                  @change-submit="changeSubmitted" />
               </div>
-              <!-- mother header -->
-              <div class="space-y-1 mt-3 pt-3">
-                <h3 class="text-lg leading-6 font-medium text-primaryText">Mutter</h3>
-                <p class="max-w-2xl text-sm text-secondaryText">
-                  Informationen über die Mutter des Klienten.
-                </p>
-              </div>
-              <!-- mother data section -->
-              <div class="mt-6">
+            </section>
+
+            <!-- Mutter -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Mutter</h3>
+              <p class="mt-1 text-sm text-slate-500">Informationen über die Mutter des Klienten.</p>
+              <div class="mt-5">
                 <ChildrenDetailContactInfo :child="child" contactType="mother" :isLoading="contactPropertyIsLoading"
                   @change-submit="contactChangeSubmitted" />
               </div>
-              <!-- father header -->
-              <div class="space-y-1 mt-3 pt-3">
-                <h3 class="text-lg leading-6 font-medium text-primaryText">Vater</h3>
-                <p class="max-w-2xl text-sm text-secondaryText">
-                  Informationen über den Vater des Klienten.
-                </p>
-              </div>
-              <!-- father data section -->
-              <div class="mt-6">
+            </section>
+
+            <!-- Vater -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Vater</h3>
+              <p class="mt-1 text-sm text-slate-500">Informationen über den Vater des Klienten.</p>
+              <div class="mt-5">
                 <ChildrenDetailContactInfo :child="child" contactType="father" :isLoading="contactPropertyIsLoading"
                   @change-submit="contactChangeSubmitted" />
               </div>
-              <!-- school contact header -->
-              <div class="space-y-1 mt-3 pt-3">
-                <h3 class="text-lg leading-6 font-medium text-primaryText">
-                  Schulkontakt
-                </h3>
-                <p class="max-w-2xl text-sm text-secondaryText">
-                  Informationen über den Schulkontakt des Klienten.
-                </p>
-              </div>
-              <!-- school contact data section -->
-              <div class="mt-6">
+            </section>
+
+            <!-- Schulkontakt -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Schulkontakt</h3>
+              <p class="mt-1 text-sm text-slate-500">Informationen über den Schulkontakt des Klienten.</p>
+              <div class="mt-5">
                 <ChildrenDetailContactInfo :child="child" contactType="schoolContact"
                   :isLoading="contactPropertyIsLoading" @change-submit="contactChangeSubmitted" />
               </div>
-              <!-- connections to guardians and carriercontacts -->
-              <div class="mt-6" v-if="child.archiveStatus === 'unarchived' || !child.archiveStatus">
-                <ChildrenDetailConnectionsInfo :child="child" :isLoading="propertyIsLoading"
-                  @connection-selected="changeSubmitted" @guardian-connection-selected="guardianSelected"
-                  @delete-care-asignment="DeleteCareAssignment" />
-              </div>
-              <!-- Account Information section -->
-              <div class="mt-8 divide-y divide-gray-700">
-                <children-detail-account-info :child="child" :archiveIsLoading="archiveIsLoading"
-                  :userStateIsLoading="userStateIsLoading" @archive-child-tapped="archiveChildTapped" />
-              </div>
-            </div>
+            </section>
+
+            <!-- Verbindungen (volle Breite) -->
+            <section
+              v-if="child.archiveStatus === 'unarchived' || !child.archiveStatus"
+              class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2"
+            >
+              <ChildrenDetailConnectionsInfo :child="child" :isLoading="propertyIsLoading"
+                @connection-selected="changeSubmitted" @guardian-connection-selected="guardianSelected"
+                @delete-care-asignment="DeleteCareAssignment" />
+            </section>
+
+            <!-- Konto (volle Breite) -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+              <children-detail-account-info :child="child" :archiveIsLoading="archiveIsLoading"
+                :userStateIsLoading="userStateIsLoading" @archive-child-tapped="archiveChildTapped" />
+            </section>
           </div>
         </div>
       </main>

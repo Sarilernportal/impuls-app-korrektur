@@ -22,7 +22,7 @@ Report List Item Flag Update
     <div
       title="Markierung erfolgreich"
       v-if="reportFlagSuccessStatus === 'success' && !reportFlagIsLoading"
-      class="rounded-full bg-green-300 p-1"
+      class="rounded-full bg-emerald-100 p-1"
     >
       <CheckIcon class="h-5 w-5 text-green-600" />
     </div>
@@ -30,7 +30,7 @@ Report List Item Flag Update
     <div
       title="Markierung konnte nicht abgeschlossen werden"
       v-if="reportFlagSuccessStatus === 'error' && !reportFlagIsLoading"
-      class="rounded-full bg-red-300 p-1"
+      class="rounded-full bg-red-100 p-1"
     >
       <XMarkIcon class="h-5 w-5 text-red-600" />
     </div>

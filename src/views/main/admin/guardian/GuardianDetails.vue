@@ -20,16 +20,16 @@ Guardian Details
     :open="customError.isPresent"
     @close="customErrorConfirmed"
   />
-  <div class="flex flex-col w-full h-full items-center">
-    <div class="w-full px-4 py-5 sm:px-6 lg:w-4/5 lg:px-8">
-      <h3 class="text-lg leading-6 font-medium text-white">Dokumente</h3>
+  <div class="flex min-h-screen w-full flex-col items-center bg-slate-50">
+    <div class="w-full px-4 py-5 sm:px-6 lg:px-8">
+      <h3 class="text-lg leading-6 font-semibold text-slate-900">Dokumente</h3>
     </div>
     <div v-if="isLoading" class="flex w-full h-full justify-center">
       <LoadingSpinner size="h-12 w-12" />
     </div>
     <div
       v-else
-      class="flex w-full flex-col lg:w-4/5 divide-y divide-gray-200 p-2 gap-2"
+      class="flex w-full flex-col divide-y divide-gray-200 p-2 gap-2"
     >
       <div v-for="document in documents" :key="document.id" class="pt-2">
         <ReportListItem

@@ -40,7 +40,7 @@ Carrier Contact Overview List
     <div v-else class="w-full h-full flex justify-center items-center py-6">
       <!-- title -->
       <h3 class="text-center font-semibold text-white text-xl">
-        keine weiteren Träger verfügbar
+        keine weiteren Kostenträger verfügbar
       </h3>
     </div>
     <!-- Pagination Bar -->
@@ -158,7 +158,7 @@ export default {
         'Registriert',
         'Adresse',
         'Kontakt',
-        'Träger'
+        'Kostenträger'
       ]
       const contentProp = props.content.menuItems
       for (const item in contentProp) {

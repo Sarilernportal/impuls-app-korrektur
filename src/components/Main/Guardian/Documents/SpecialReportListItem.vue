@@ -13,7 +13,7 @@ Guardian Report List Item
 <template>
   <!-- Button wraps the hole element due to the list entry should be tapped -->
   <div
-    :class="['flex w-full rounded-xl', report.retrospectively ? 'bg-red-200 hover:bg-red-300' : 'bg-white border border-tertiaryText hover:bg-gray-50']"
+    :class="['flex w-full rounded-xl', report.retrospectively ? 'bg-red-50 hover:bg-red-100' : 'bg-white border border-slate-200 hover:bg-gray-50']"
   >
     <div
       v-if="showSelectionInput"
@@ -34,13 +34,13 @@ Guardian Report List Item
       <div class="flex items-center justify-between">
         <div class="flex flex-wrap gap-2">
           <!-- activity name -->
-          <div class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-green-300">
+          <div class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-emerald-100 text-emerald-700">
             <p>{{ activityName }}</p>
           </div>
           <!-- total hours -->
           <div
             v-if="displayActivityTimes"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-green-300"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-emerald-100 text-emerald-700"
           >
             <p>Gesamtzeit:</p>
             <p>{{ hoursWorked }}</p>

@@ -1,12 +1,12 @@
 <template>
   <div class="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-4 sm:px-6 lg:px-8">
-    <section class="rounded-lg bg-impuls-blue px-4 py-5 text-white shadow-sm sm:px-6">
+    <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 px-5 py-6 text-white shadow-soft sm:px-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p class="text-sm font-medium text-blue-100">{{ todayLabel }}</p>
-          <h2 class="mt-1 text-2xl font-bold sm:text-3xl">Hallo, Mira</h2>
+          <h2 class="mt-1 font-display text-2xl font-bold tracking-tight sm:text-3xl">Hallo, Mira</h2>
           <p class="mt-2 max-w-2xl text-sm text-blue-100">
-            Deine wichtigsten Aufgaben, Termine und Klienten auf einen Blick.
+            Ihre wichtigsten Aufgaben, Termine und Klienten auf einen Blick.
           </p>
         </div>
         <button
@@ -23,19 +23,21 @@
         v-for="card in statusCards"
         :key="card.title"
         @click="navigate(card.route)"
-        class="rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm hover:border-blue-200 hover:bg-blue-50"
+        class="group rounded-xl border border-slate-200 bg-white p-4 text-left shadow-card transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-card-hover"
       >
         <div class="flex items-center justify-between">
-          <component
-            :is="card.icon"
-            :class="['h-6 w-6', card.iconClass]"
-            aria-hidden="true"
-          />
+          <span :class="['flex h-10 w-10 items-center justify-center rounded-xl', card.badgeClass]">
+            <component
+              :is="card.icon"
+              class="h-5 w-5"
+              aria-hidden="true"
+            />
+          </span>
           <span :class="['rounded-full px-2 py-0.5 text-xs font-semibold', card.badgeClass]">
             {{ card.badge }}
           </span>
         </div>
-        <p class="mt-4 text-3xl font-bold text-slate-900">{{ card.value }}</p>
+        <p class="mt-4 text-3xl font-bold tracking-tight text-slate-900 tabular-nums">{{ card.value }}</p>
         <p class="mt-1 text-sm font-medium text-slate-600">{{ card.title }}</p>
       </button>
     </section>
@@ -45,7 +47,7 @@
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Priorität</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Priorität</h3>
               <p class="text-sm text-slate-500">Was zuerst erledigt werden sollte.</p>
             </div>
             <span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
@@ -81,7 +83,7 @@
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Heute</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Heute</h3>
               <p class="text-sm text-slate-500">Termine und Arbeitsschritte.</p>
             </div>
             <button
@@ -109,7 +111,7 @@
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-slate-900">Meine Klienten</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Meine Klienten</h3>
               <p class="text-sm text-slate-500">Status pro Klient, ohne lange Suche.</p>
             </div>
             <span class="text-sm font-medium text-slate-500">2 aktiv</span>
@@ -121,11 +123,15 @@
               class="rounded-lg border border-slate-200 p-3"
             >
               <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p class="font-semibold text-slate-900">{{ client.name }}</p>
-                  <p class="text-sm text-slate-600">{{ client.subtitle }}</p>
+                <div class="flex items-center gap-3">
+                  <InitialsAvatar :name="client.name" size-class="h-10 w-10 text-sm" />
+                  <div class="min-w-0">
+                    <p class="font-semibold text-slate-900">{{ client.name }}</p>
+                    <p class="text-sm text-slate-600">{{ client.subtitle }}</p>
+                  </div>
                 </div>
-                <span :class="['w-fit rounded-full px-2.5 py-1 text-xs font-semibold', client.badgeClass]">
+                <span :class="['inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-semibold', client.badgeClass]">
+                  <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-current opacity-70"></span>
                   {{ client.status }}
                 </span>
               </div>
@@ -136,7 +142,7 @@
 
       <aside class="grid gap-5">
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h3 class="text-lg font-semibold text-slate-900">Schnell starten</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Schnell starten</h3>
           <div class="mt-4 grid gap-3">
             <button
               v-for="action in quickActions"
@@ -160,7 +166,7 @@
         </section>
 
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h3 class="text-lg font-semibold text-slate-900">Rückgaben</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Rückgaben</h3>
           <div class="mt-4 rounded-lg bg-emerald-50 p-4 text-emerald-800">
             <CheckCircleIcon
               class="h-6 w-6"
@@ -174,7 +180,7 @@
         </section>
 
         <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-          <h3 class="text-lg font-semibold text-slate-900">Arbeitsstand</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Arbeitsstand</h3>
           <div class="mt-4 space-y-4">
             <div
               v-for="progress in progressItems"
@@ -212,10 +218,12 @@ import {
   PencilSquareIcon,
   StarIcon
 } from '@heroicons/vue/24/outline'
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 
 export default {
   name: 'GuardianOverview',
   components: {
+    InitialsAvatar,
     ArchiveBoxIcon,
     CalendarDaysIcon,
     CheckCircleIcon,

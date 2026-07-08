@@ -24,7 +24,7 @@
         Informationen über verknüpfte Kontakte.
       </p>
     </div>
-    <div class="border-y-2 border-gray-700 divide-y divide-gray-700">
+    <div class="border-y-2 border-gray-700 divide-y divide-slate-200">
       <div
         v-for="contact in carrierContacts"
         :key="contact.id"

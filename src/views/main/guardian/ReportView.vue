@@ -11,7 +11,7 @@ Report View
 -->
 
 <template>
-  <div class="px-4 py-2">
+  <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
     <div>
       <!-- Error modal -->
       <error-window
@@ -41,9 +41,9 @@ Report View
     <!-- Form wrapper -->
     <form :class="[
       isLoading ? 'hidden' : 'block',
-      'space-y-8 divide-y divide-gray-200'
+      'space-y-8 divide-y divide-slate-200'
     ]">
-      <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+      <div class="space-y-8 divide-y divide-slate-200 sm:space-y-5">
         <div class="space-y-6 sm:space-y-5">
           <!-- Header -->
           <div>
@@ -57,7 +57,7 @@ Report View
           </div>
 
           <!-- Child selection -->
-          <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+          <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
             <label
               for="child"
               class="block text-sm font-medium text-primaryText sm:mt-px sm:pt-2"
@@ -67,7 +67,7 @@ Report View
                 @change="childSelected"
                 id="child"
                 name="child"
-                class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
+                class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:max-w-xs sm:text-sm"
               >
                 <option
                   name="childoption"
@@ -84,20 +84,20 @@ Report View
           <div v-if="errorState !== 'none'">
             <div
               v-if="errorState === 'no-carrier'"
-              class="bg-red-300 p-2 rounded-md text-center"
+              class="bg-red-50 border border-red-200 p-2 rounded-md text-center"
             >
               <h2 class="text-lg text-red-700 font-bold my-2">
                 Bitte an Admin wenden!
               </h2>
               <p class="text-red-700 p-2">
-                Der ausgewählte Klient ist mit keinem Trägerkontakt oder der
-                Trägerkontakt ist mit keinem Träger verbunden!
+                Der ausgewählte Klient ist mit keinem Kostenträger-Kontakt oder der
+                Kostenträger-Kontakt ist mit keinem Kostenträger verbunden!
               </p>
             </div>
           </div>
           <div v-else>
             <!-- sickness section -->
-            <div class="flex flex-col gap-2 sm:border-t sm:border-gray-200 pb-2">
+            <div class="flex flex-col gap-2 sm:border-t sm:border-slate-200 pb-2">
               <!-- sickness button -->
               <StandardButton
                 v-if="!isSick"
@@ -122,7 +122,7 @@ Report View
               />
             </div>
             <!-- substitute selection -->
-            <div class="flex flex-col sm:border-t sm:border-gray-200 mt-4 mb-2">
+            <div class="flex flex-col sm:border-t sm:border-slate-200 mt-4 mb-2">
               <p class="text-base font-medium text-primaryText sm:text-sm">
                 Vertretung*
               </p>
@@ -134,7 +134,7 @@ Report View
                     @click="substituteSelected"
                     id="substitute"
                     name="substitute"
-                    class="w-5 h-5 text-blue-600 bg-white border-gray-400 rounded focus:ring-blue-500 focus:ring-2"
+                    class="w-5 h-5 text-impuls-blue bg-white border-slate-300 rounded focus:ring-brand-200 focus:ring-2"
                   >
                   <label
                     class="ml-3 p-1"
@@ -146,7 +146,7 @@ Report View
             <!-- sick on time selection -->
             <div
               v-if="isSick"
-              class="flex flex-col gap sm:border-t sm:border-gray-200 mt-4 mb-2"
+              class="flex flex-col gap sm:border-t sm:border-slate-200 mt-4 mb-2"
             >
               <p class="text-base font-medium text-primaryText sm:text-sm">
                 Meldestatus auswählen*
@@ -162,7 +162,7 @@ Report View
                     @click="sickOnTimeSelected"
                     id="sickOnTime"
                     name="sickOnTime"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                   >
                   <label
                     class="ml-3 p-1"
@@ -176,7 +176,7 @@ Report View
                     @click="sickOnTimeSelected"
                     id="sickDelayed"
                     name="sickDelayed"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                   >
                   <label
                     class="ml-3 p-1"
@@ -186,7 +186,7 @@ Report View
               </div>
             </div>
             <!-- calendar | date + time selection -->
-            <div class="flex flex-col gap-2 sm:border-t sm:border-gray-200">
+            <div class="flex flex-col gap-2 sm:border-t sm:border-slate-200">
               <p class="text-base font-medium text-primaryText sm:text-sm">
                 Zeitraum auswählen*
               </p>
@@ -281,7 +281,7 @@ Report View
                             id="happy"
                             name="moodinput"
                             type="radio"
-                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                           />
                           <img
                             class="ml-3 p-1 h-12 w-12 bg-white rounded-full"
@@ -294,7 +294,7 @@ Report View
                             id="neutral"
                             name="moodinput"
                             type="radio"
-                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                           />
                           <img
                             class="ml-3 p-1 h-12 w-12 bg-white rounded-full"
@@ -307,7 +307,7 @@ Report View
                             id="sad"
                             name="moodinput"
                             type="radio"
-                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                           />
                           <img
                             class="ml-3 p-1 h-12 w-12 bg-white rounded-full"
@@ -324,7 +324,7 @@ Report View
             <!-- exchange with school/teacher -->
             <div
               v-if="!isSick && inputData.reportActivity !== 'miscellaneous'"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label
                 for="negative"
@@ -340,7 +340,7 @@ Report View
                   id="exchange"
                   name="exchange"
                   rows="3"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
@@ -349,7 +349,7 @@ Report View
             <!-- Homework input -->
             <div
               v-if="!isSick && inputData.reportActivity !== 'miscellaneous'"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label class="block text-sm font-medium text-primaryText sm:mt-px sm:pt-2">Hausaufgaben</label>
               <!-- <p class="text-sm text-secondaryText">
@@ -360,7 +360,7 @@ Report View
                 <!-- German input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Deutsch</span>
                   <input
                     @input="germanFilled"
@@ -376,7 +376,7 @@ Report View
                 <!-- Maths input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Mathe</span>
                   <input
                     @input="mathsFilled"
@@ -392,7 +392,7 @@ Report View
                 <!-- English input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Englisch</span>
                   <input
                     @input="englishFilled"
@@ -409,7 +409,7 @@ Report View
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <input
                     @input="individual1NameFilled"
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   />
                   <input
                     @input="individual1ValueFilled"
@@ -426,7 +426,7 @@ Report View
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <input
                     @input="individual2NameFilled"
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   />
                   <input
                     @input="individual2ValueFilled"
@@ -442,7 +442,7 @@ Report View
             <!-- Daily report input -->
             <div
               v-if="!isSick"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label
                 for="report"
@@ -454,7 +454,7 @@ Report View
                   id="report"
                   name="report"
                   rows="3"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
@@ -463,7 +463,7 @@ Report View
             <!-- Parent report input -->
             <div
               v-if="!isSick && inputData.reportActivity !== 'miscellaneous'"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label
                 for="parentreport"
@@ -475,14 +475,14 @@ Report View
                   id="parentreport"
                   name="parentreport"
                   rows="3"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
             </div>
 
             <!-- Signature field for the school guardian -->
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
               <div class="col-span-1 sm:col-span-2 md:col-span-1">
                 <SignatureField
                   ref="signatureField"
@@ -497,7 +497,7 @@ Report View
               <div class="flex my-2 text-primaryText gap-2 items-center">
                 <input
                   @click="thruthfullButtonTapped"
-                  class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                  class="w-4 h-4 text-impuls-blue bg-white border-gray-300 rounded focus:ring-brand-200 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
                   type="checkbox"
                   id="truthfull"
                   value="truthfull"
@@ -518,7 +518,7 @@ Report View
       <!-- error message if not all required fields were filled -->
       <div
         v-if="!inputValid"
-        class="flex items-center justify-center w-full h-full bg-red-300 rounded-xl p-2"
+        class="flex items-center justify-center w-full h-full bg-red-50 border border-red-200 rounded-xl p-2"
       >
         <p class="text-center text-red-600 text-sm font-medium">
           Es wurden nicht alle Pflichtfelder ausgefüllt!
@@ -536,7 +536,7 @@ Report View
     <!-- required fields reminder -->
     <div
       v-if="!isLoading && errorState === 'none'"
-      class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+      class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
     >
       <p class="text-base font-medium text-secondaryText sm:text-sm">*Pflichtfeld</p>
     </div>
@@ -554,6 +554,7 @@ Report View
 <script>
 // Vue imports
 import { ref, computed, onMounted } from 'vue'
+import { careTimeIsPositive } from '@/utilities/forms/submitGuards.js'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -947,10 +948,12 @@ export default {
       // check if selected time is more than 0 hours and 0 minutes
       if (
         allowTimeSelection.value &&
-        inputData.value.hourTo +
-        inputData.value.minuteTo / 60 -
-        (inputData.value.hourFrom + inputData.value.minuteFrom / 60) <=
-        0
+        !careTimeIsPositive({
+          hourFrom: inputData.value.hourFrom,
+          minuteFrom: inputData.value.minuteFrom,
+          hourTo: inputData.value.hourTo,
+          minuteTo: inputData.value.minuteTo
+        })
       ) {
         return false
       }

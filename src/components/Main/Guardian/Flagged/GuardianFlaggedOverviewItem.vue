@@ -6,7 +6,7 @@
       <div class="flex gap-2">
         <!-- special report flag -->
         <div
-          :class="['flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5', reportType === 'special' ? 'bg-impuls-blue text-gray-100' : 'bg-green-300']"
+          :class="['flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5', reportType === 'special' ? 'bg-impuls-blue text-gray-100' : 'bg-emerald-100 text-emerald-700']"
         >
           <p>{{ reportType === 'special' ? 'Sonderzeiten' : 'Dokumentation' }}</p>
         </div>

@@ -9,15 +9,15 @@
       @click="navigationTabTapped(item.route)"
       :class="[
         item.current
-          ? 'bg-blue-600 text-white'
-          : 'text-gray-100 hover:text-white hover:bg-blue-400',
-        'w-full group flex min-h-[2.75rem] items-center px-3 py-2.5 text-sm leading-6 font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-white/80'
+          ? 'bg-impuls-blue text-white shadow-sm'
+          : 'text-stone-700 hover:bg-black/5 hover:text-stone-900',
+        'w-full group flex min-h-[2.75rem] items-center px-3 py-2.5 text-sm leading-6 font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-impuls-blue/40'
       ]"
       :aria-current="item.current ? 'page' : undefined"
     >
       <component
         :is="item.icon"
-        class="mr-4 h-6 w-6 flex-shrink-0 text-gray-200"
+        class="mr-4 h-6 w-6 flex-shrink-0"
         aria-hidden="true"
       />
       {{ item.name }}
@@ -33,22 +33,22 @@
         @click="navigationTabTapped(item.route)"
         :class="[
           item.current
-            ? 'bg-blue-600 text-white'
-            : 'text-gray-100 hover:text-white hover:bg-blue-400',
+            ? 'bg-impuls-blue text-white shadow-sm'
+            : 'text-stone-700 hover:bg-black/5 hover:text-stone-900',
           'w-full group flex min-h-[2.75rem] items-center px-3 py-2.5 text-sm leading-6 font-medium rounded-lg'
         ]"
         :aria-current="item.current ? 'page' : undefined"
       >
         <component
           :is="item.icon"
-          class="mr-4 h-6 w-6 flex-shrink-0 text-gray-200"
+          class="mr-4 h-6 w-6 flex-shrink-0"
           aria-hidden="true"
         />
         {{ item.name }}
         <svg
           :class="[
             open ? 'rotate-90' : '',
-            'text-white ml-3 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-gray-200'
+            'ml-3 h-5 w-5 flex-shrink-0 transform opacity-70'
           ]"
           viewBox="0 0 20 20"
           aria-hidden="true"
@@ -65,7 +65,7 @@
           :key="subItem.name"
           as="a"
           @click="navigationTabTapped(subItem.route)"
-          class="group flex min-h-[2.5rem] w-full cursor-pointer items-center rounded-lg py-2 pl-11 pr-2 text-sm font-medium text-gray-100 hover:bg-blue-400 hover:text-white"
+          class="group flex min-h-[2.5rem] w-full cursor-pointer items-center rounded-lg py-2 pl-11 pr-2 text-sm font-medium text-stone-600 hover:bg-black/5 hover:text-stone-900"
         >
           {{ subItem.name }}</DisclosureButton>
       </DisclosurePanel>
@@ -81,22 +81,22 @@
         @click="navigationTabTapped(item.route)"
         :class="[
           item.current
-            ? 'bg-blue-600 text-white'
-            : 'text-gray-100 hover:text-white hover:bg-blue-400',
+            ? 'bg-impuls-blue text-white shadow-sm'
+            : 'text-stone-700 hover:bg-black/5 hover:text-stone-900',
           'w-full group flex min-h-[2.75rem] items-center px-3 py-2.5 text-sm leading-6 font-medium rounded-lg'
         ]"
         :aria-current="item.current ? 'page' : undefined"
       >
         <component
           :is="item.icon"
-          class="mr-4 h-6 w-6 flex-shrink-0 text-gray-200"
+          class="mr-4 h-6 w-6 flex-shrink-0"
           aria-hidden="true"
         />
         {{ item.name }}
         <svg
           :class="[
             open ? 'rotate-90' : '',
-            'text-white ml-3 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-gray-200'
+            'ml-3 h-5 w-5 flex-shrink-0 transform opacity-70'
           ]"
           viewBox="0 0 20 20"
           aria-hidden="true"
@@ -111,7 +111,7 @@
         <DisclosureButton
           as="a"
           @click="navigationQueryTabTapped(item, { query: '', value: '' })"
-          class="group flex min-h-[2.5rem] w-full cursor-pointer items-center rounded-lg py-2 pl-11 pr-2 text-sm font-medium text-gray-100 hover:bg-blue-400 hover:text-white"
+          class="group flex min-h-[2.5rem] w-full cursor-pointer items-center rounded-lg py-2 pl-11 pr-2 text-sm font-medium text-stone-600 hover:bg-black/5 hover:text-stone-900"
         >
           Übersicht
         </DisclosureButton>
@@ -120,7 +120,7 @@
           :key="subItem.name"
           as="a"
           @click="navigationQueryTabTapped(item, subItem.route)"
-          class="group flex min-h-[2.5rem] w-full cursor-pointer items-center rounded-lg py-2 pl-11 pr-2 text-sm font-medium text-gray-100 hover:bg-blue-400 hover:text-white"
+          class="group flex min-h-[2.5rem] w-full cursor-pointer items-center rounded-lg py-2 pl-11 pr-2 text-sm font-medium text-stone-600 hover:bg-black/5 hover:text-stone-900"
         >
           {{ subItem.name }}
         </DisclosureButton>
@@ -150,7 +150,7 @@ export default {
     navigation: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     }
   },
   emits: ['nav-tabbed', 'nav-query-tabbed'],

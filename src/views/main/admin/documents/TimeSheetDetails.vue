@@ -15,17 +15,17 @@ TimeSheet Details
   <div class="flex flex-col w-full h-full items-center px-4 py-4 sm:px-6 lg:px-8">
     <!-- Header -->
     <div class="flex items-center justify-between w-full">
-      <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+      <button
+        class="bg-impuls-blue hover:bg-brand-700 transition rounded-full text-white p-2 shadow-sm"
         @click="goToPrevious"
       >
         <ArrowLeftIcon class="h-6 w-6" />
       </button>
-      <h2 class="text-lg font-medium leading-6 text-primaryText">
+      <h2 class="font-display text-xl font-bold tracking-tight text-primaryText">
         Nachweis Details
       </h2>
-      <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+      <button
+        class="bg-impuls-blue hover:bg-brand-700 transition rounded-full text-white p-2 shadow-sm"
         @click="goToNext"
       >
         <ArrowRightIcon class="h-6 w-6" />
@@ -34,7 +34,7 @@ TimeSheet Details
     <!-- Main content container -->
     <div class="flex grow w-full h-full mt-4 sm:flex">
       <!-- PDF viewer -->
-      <div class="mb-4 w-full h-full sm:mb-0 sm:mr-4">
+      <div class="mb-4 w-full h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card sm:mb-0 sm:mr-4">
         <iframe
           :src="pdf"
           class="w-full h-full"
@@ -51,7 +51,6 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
-import _ from 'lodash'
 
 export default {
   components: {
@@ -148,7 +147,7 @@ export default {
     }
 
     // Return the setup object
-    return { document, pdf, id, goToPrevious, goToNext }
+    return { document, pdf, goToPrevious, goToNext }
   }
 }
 </script>

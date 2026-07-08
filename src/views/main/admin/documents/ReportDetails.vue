@@ -12,38 +12,38 @@ Report Details
 -->
 
 <template>
-  <div class="flex flex-col w-full h-full items-center px-4 py-4 sm:px-6 lg:px-8">
+  <div class="flex h-full w-full flex-col items-center bg-app-bg px-4 py-4 sm:px-6 lg:px-8">
     <!-- Header -->
-    <div class="flex items-center justify-between w-full">
-      <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+    <div class="flex w-full items-center justify-between">
+      <button
+        class="rounded-lg bg-impuls-blue p-2 text-white transition hover:bg-brand-700"
         @click="goToPrevious"
       >
         <ArrowLeftIcon class="h-6 w-6" />
       </button>
-      <h2 class="text-lg font-medium leading-6 text-primaryText">
+      <h2 class="font-display text-lg font-bold leading-6 text-primaryText">
         Dokumentation Details
       </h2>
-      <button 
-        class="bg-indigo-600 rounded-full text-white p-1"
+      <button
+        class="rounded-lg bg-impuls-blue p-2 text-white transition hover:bg-brand-700"
         @click="goToNext"
       >
         <ArrowRightIcon class="h-6 w-6" />
       </button>
     </div>
     <!-- Main content container -->
-    <div class="flex grow w-full h-full mt-4 sm:flex">
+    <div class="mt-4 flex h-full w-full grow">
       <!-- PDF viewer -->
-      <div class="mb-4 w-full h-full sm:mb-0 sm:mr-4">
+      <div class="mb-4 h-full w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card sm:mb-0">
         <div v-if="document.retrospectively">
-          <p class="mt-4 font-semibold text-gray-500 text-center">
+          <p class="mt-4 text-center font-semibold text-slate-500">
             Die Dokumentation wurde durch einen Administrator erstellt und hat noch keine PDF hinterlegt.
           </p>
         </div>
         <iframe
           v-else
           :src="pdf"
-          class="w-full h-full"
+          class="h-full w-full"
         ></iframe>
       </div>
     </div>
@@ -57,7 +57,6 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
-import _ from 'lodash'
 
 export default {
   components: {
@@ -155,7 +154,7 @@ export default {
     }
 
     // Return the setup object
-    return { document, pdf, id, goToNext, goToPrevious }
+    return { document, pdf, goToNext, goToPrevious }
   }
 }
 </script>

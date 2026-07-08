@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-4xl px-4 py-4 sm:px-6">
     <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <p class="text-sm font-medium text-impuls-blue">Dateien</p>
-      <h2 class="mt-1 text-2xl font-bold text-slate-900">Sharebox</h2>
+      <h2 class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">Sharebox</h2>
       <p class="mt-2 text-sm text-slate-600">
-        Hier findest du freigegebene Dokumente und Unterlagen für deine Arbeit.
+        Hier finden Sie freigegebene Dokumente und Unterlagen für Ihre Arbeit.
       </p>
     </section>
 
@@ -23,7 +23,7 @@
           class="mx-auto h-10 w-10 text-slate-400"
           aria-hidden="true"
         />
-        <h3 class="mt-3 font-semibold text-slate-900">Keine Dateien vorhanden</h3>
+        <h3 class="mt-3 font-display font-semibold text-slate-900">Keine Dateien vorhanden</h3>
         <p class="mt-1 text-sm text-slate-600">
           Sobald die Verwaltung Dokumente bereitstellt, erscheinen sie hier.
         </p>

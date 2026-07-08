@@ -64,7 +64,6 @@
             class="text-base text-secondaryText"
           >Kontakte:</span>
           <CarrierContactListItemChild
-            v-if="carrier.carrierContacts.items.length > 0"
             v-for="carrierContact in carrier.carrierContacts.items"
             :key="carrierContact.id"
             :carrierContact="carrierContact"

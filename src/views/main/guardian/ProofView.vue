@@ -58,7 +58,7 @@ Proof View
       @close="closeTimesheetModals"
     />
   </div>
-  <div class="px-4 py-2">
+  <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
     <div class="space-y-8 divide-y divide-gray-200">
       <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
         <div class="space-y-6 sm:space-y-5">
@@ -102,29 +102,32 @@ Proof View
           </div>
           <!-- Document list -->
           <div v-else>
-            <div
+            <template
               v-if="(transmitted && !showSpecialTimes) || (!transmitted && showSpecialTimes)"
-              v-for="document in documents"
-              :key="document.id"
-              class="pt-2"
             >
-              <TimeSheetListItem
-                v-if="transmitted && !showSpecialTimes"
-                :report="document"
-              />
-              <SpecialReportListItem
-                v-if="!transmitted && showSpecialTimes"
-                :report="document"
-                :showSelectionInput="true"
-                @delete-report="openDeleteReportModal"
-                @special-report-selected="specialReportSelected"
-              />
-            </div>
+              <div
+                v-for="document in documents"
+                :key="document.id"
+                class="pt-2"
+              >
+                <TimeSheetListItem
+                  v-if="transmitted && !showSpecialTimes"
+                  :report="document"
+                />
+                <SpecialReportListItem
+                  v-if="!transmitted && showSpecialTimes"
+                  :report="document"
+                  :showSelectionInput="true"
+                  @delete-report="openDeleteReportModal"
+                  @special-report-selected="specialReportSelected"
+                />
+              </div>
+            </template>
             <div
               v-else
               v-for="month in sortedReports"
               :key="month.month"
-              class="mt-2 border-t border-tertiaryText"
+              class="mt-2 border-t border-slate-200"
             >
               <!-- month header -->
               <div class="py-2 flex flex-col items-center">
@@ -146,7 +149,7 @@ Proof View
               </div>
               <!-- reports -->
               <div
-                v-for="report in month.reports"
+                v-for="report in month.reports" :key="report.id"
                 class="pt-2"
               >
                 <ReportListItem
@@ -185,13 +188,14 @@ Proof View
               <div
                 v-for="doc of tempDocs"
                 :key="doc.name"
-                class="flex flex-1 items-center justify-between p-4 truncate rounded-lg border border-tertiaryText bg-white overflow-hidden"
+                class="flex flex-1 items-center justify-between p-4 truncate rounded-lg border border-slate-200 bg-white overflow-hidden"
               >
                 <p class="text-gray-600">{{ doc.name }}</p>
                 <button
                   @click="downloadClicked(doc)"
                   type="button"
-                  class="inline-flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:text-secondaryText"
+                  aria-label="Dokument herunterladen"
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-full text-gray-500 hover:text-secondaryText"
                 >
                   <ArrowDownTrayIcon
                     class="h-6 w-6"
@@ -207,7 +211,7 @@ Proof View
             v-if="!isLoading && !transmitted && documents.length > 0"
           >
             <!-- signature field -->
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
               <div class="col-span-1 sm:col-span-2 md:col-span-1">
                 <SignatureField
                   ref="signatureField"
@@ -242,7 +246,7 @@ Proof View
                 <div class="flex my-2 text-primaryText gap-2 items-center">
                   <input
                     @click="thruthfullButtonTapped"
-                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                    class="w-4 h-4 text-impuls-blue bg-white border-slate-300 rounded focus:ring-2 focus:ring-brand-200"
                     type="checkbox"
                     id="truthfull"
                     value="truthfull"
@@ -254,14 +258,14 @@ Proof View
                 <div class="flex my-2 text-primaryText gap-2 items-center">
                   <input
                     @click="gdprConfirmButtonTapped"
-                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                    class="w-4 h-4 text-impuls-blue bg-white border-slate-300 rounded focus:ring-2 focus:ring-brand-200"
                     type="checkbox"
                     id="gdprConfirm"
                     value="gdprConfirm"
                   />
                   <label for="gdprConfirm">Ich habe die <router-link
                       :to="{ name: 'GuardianGDPR' }"
-                      class="text-blue-500"
+                      class="text-impuls-blue underline"
                     >Datenschutzbestimmungen</router-link> gelesen und erkläre mich mit
                     Ihnen
                     einverstanden</label>
@@ -273,7 +277,7 @@ Proof View
               <StandardButton
                 @button-tapped="confirmButtonTapped"
                 title="Bestätigen"
-                :enabled="signature !== null && truthfull && gdprConfirm && allValid"
+                :enabled="canSubmit"
                 :isLoading="isLoading"
               />
             </div>
@@ -318,6 +322,7 @@ Proof View
 // Vue imports
 import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { reportsReadyForProof, canSubmitProof } from '@/utilities/forms/submitGuards.js'
 
 // component imports
 import TabSelection from '@/components/UIComponents/Selections/TabSelection.vue'
@@ -925,24 +930,28 @@ export default {
     // calculate overall validation
     const allValid = computed(() => {
       try {
-        for (const report of documents.value) {
-          if (report.retrospectively) {
-            return false
-          }
-        }
-        if (!showSpecialTimes.value && selectedReports.value.length < 1) {
-          return false
-        }
-        if (showSpecialTimes.value && selectedSpecialReports.value.length < 1) {
-          return false
-        }
-        return true
+        return reportsReadyForProof({
+          documents: documents.value,
+          showSpecialTimes: showSpecialTimes.value,
+          selectedReports: selectedReports.value,
+          selectedSpecialReports: selectedSpecialReports.value
+        })
       } catch (error) {
         console.log(error)
         // fallback
         return false
       }
     })
+
+    // Nachweis nur absendbar mit Unterschrift + beiden Bestätigungen + gültiger Auswahl
+    const canSubmit = computed(() =>
+      canSubmitProof({
+        signature: signature.value,
+        truthfull: truthfull.value,
+        gdprConfirm: gdprConfirm.value,
+        ready: allValid.value
+      })
+    )
 
     onMounted(async () => {
       await getDailyReports()
@@ -963,6 +972,7 @@ export default {
       tempDocs,
       tempIsLoading,
       allValid,
+      canSubmit,
       showSpecialTimes,
       nextToken,
       gdprConfirm,

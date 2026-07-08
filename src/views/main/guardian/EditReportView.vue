@@ -11,7 +11,7 @@ Edit Report View
 -->
 
 <template>
-  <div class="px-4 py-2">
+  <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
     <div>
       <!-- Error modal -> report not found -->
       <error-window
@@ -41,9 +41,9 @@ Edit Report View
     <!-- Form wrapper -->
     <form :class="[
       isLoading ? 'hidden' : 'block',
-      'space-y-8 divide-y divide-gray-200'
+      'space-y-8 divide-y divide-slate-200'
     ]">
-      <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+      <div class="space-y-8 divide-y divide-slate-200 sm:space-y-5">
         <div class="space-y-6 sm:space-y-5">
           <!-- Header -->
           <div>
@@ -57,7 +57,7 @@ Edit Report View
           </div>
           <div
             v-if="flagText"
-            class="flex flex-col bg-red-300 rounded-lg p-2 gap-2"
+            class="flex flex-col bg-red-50 border border-red-200 rounded-lg p-2 gap-2"
           >
             <!-- flag text -->
             <h3 class="w-full text-center font-medium text-red-700">
@@ -70,7 +70,7 @@ Edit Report View
           </div>
 
           <!-- Child selection -->
-          <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+          <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
             <label
               for="child"
               class="text-base font-medium text-primaryText sm:text-sm"
@@ -82,7 +82,7 @@ Edit Report View
             </div>
           </div>
           <!-- substitute selection -->
-          <div class="flex flex-col sm:border-t sm:border-gray-200 mt-4 mb-2">
+          <div class="flex flex-col sm:border-t sm:border-slate-200 mt-4 mb-2">
             <p class="text-base font-medium text-primaryText sm:text-sm">
               In Vertretung?*
             </p>
@@ -91,7 +91,7 @@ Edit Report View
             </p>
           </div>
           <!-- substitute selection -->
-          <div class="flex flex-col sm:border-t sm:border-gray-200 mt-4 mb-2">
+          <div class="flex flex-col sm:border-t sm:border-slate-200 mt-4 mb-2">
             <p class="text-base font-medium text-primaryText sm:text-sm">
               Vertretung*
             </p>
@@ -103,7 +103,7 @@ Edit Report View
                   @click="substituteSelected"
                   id="substitute"
                   name="substitute"
-                  class="w-5 h-5 text-blue-600 bg-white border-gray-400 rounded focus:ring-blue-500 focus:ring-2"
+                  class="w-5 h-5 text-impuls-blue bg-white border-slate-300 rounded focus:ring-brand-200 focus:ring-2"
                 >
                 <label
                   class="ml-3 p-1"
@@ -116,7 +116,7 @@ Edit Report View
           <div>
             <div
               v-if="isSick"
-              class="flex flex-col sm:border-t sm:border-gray-200 mt-4 mb-2"
+              class="flex flex-col sm:border-t sm:border-slate-200 mt-4 mb-2"
             >
               <p class="text-sm text-secondaryText text-center">
                 Klient ist als krank markiert
@@ -135,7 +135,7 @@ Edit Report View
                     @click="sickOnTimeSelected"
                     id="sickOnTime"
                     name="sickOnTime"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                   >
                   <label
                     class="ml-3 p-1"
@@ -149,7 +149,7 @@ Edit Report View
                     @click="sickOnTimeSelected"
                     id="sickDelayed"
                     name="sickDelayed"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                   >
                   <label
                     class="ml-3 p-1"
@@ -159,7 +159,7 @@ Edit Report View
               </div>
             </div>
             <!-- calendar | date + time selection -->
-            <div class="flex flex-col gap-2 sm:border-t sm:border-gray-200">
+            <div class="flex flex-col gap-2 sm:border-t sm:border-slate-200">
               <p class="text-base font-medium text-primaryText sm:text-sm">
                 Zeitraum auswählen*
               </p>
@@ -257,7 +257,7 @@ Edit Report View
                             id="happy"
                             name="moodinput"
                             type="radio"
-                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                           />
                           <img
                             class="ml-3 p-1 h-12 w-12 bg-white rounded-full"
@@ -271,7 +271,7 @@ Edit Report View
                             id="neutral"
                             name="moodinput"
                             type="radio"
-                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                           />
                           <img
                             class="ml-3 p-1 h-12 w-12 bg-white rounded-full"
@@ -285,7 +285,7 @@ Edit Report View
                             id="sad"
                             name="moodinput"
                             type="radio"
-                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 border-gray-300 text-impuls-blue focus:ring-brand-200"
                           />
                           <img
                             class="ml-3 p-1 h-12 w-12 bg-white rounded-full"
@@ -302,7 +302,7 @@ Edit Report View
             <!-- exchange with school/teacher -->
             <div
               v-if="!isSick && inputData.reportActivity !== 'miscellaneous'"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label
                 for="negative"
@@ -319,7 +319,7 @@ Edit Report View
                   name="exchange"
                   rows="3"
                   :value="inputData.exchange"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
@@ -328,14 +328,14 @@ Edit Report View
             <!-- Homework input -->
             <div
               v-if="!isSick && inputData.reportActivity !== 'miscellaneous'"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label class="block text-sm font-medium text-primaryText sm:mt-px sm:pt-2">Hausaufgaben</label>
               <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <!-- German input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Deutsch</span>
                   <input
                     @input="germanFilled"
@@ -352,7 +352,7 @@ Edit Report View
                 <!-- Maths input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Mathe</span>
                   <input
                     @input="mathsFilled"
@@ -369,7 +369,7 @@ Edit Report View
                 <!-- English input -->
                 <div class="flex max-w-lg rounded-md shadow-sm">
                   <span
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   >Englisch</span>
                   <input
                     @input="englishFilled"
@@ -388,7 +388,7 @@ Edit Report View
                   <input
                     @input="individual1NameFilled"
                     :value="homeWorkIndividual1Name"
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   />
                   <input
                     @input="individual1ValueFilled"
@@ -407,7 +407,7 @@ Edit Report View
                   <input
                     @input="individual2NameFilled"
                     :value="homeWorkIndividual2Name"
-                    class="w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
+                    class="w-20 shrink-0 sm:w-24 inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm"
                   />
                   <input
                     @input="individual2ValueFilled"
@@ -424,7 +424,7 @@ Edit Report View
             <!-- Daily report input -->
             <div
               v-if="!isSick"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label
                 for="report"
@@ -437,7 +437,7 @@ Edit Report View
                   name="report"
                   rows="3"
                   :value="inputData.report"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
@@ -446,7 +446,7 @@ Edit Report View
             <!-- Parent report input -->
             <div
               v-if="!isSick && inputData.reportActivity !== 'miscellaneous'"
-              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+              class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
             >
               <label
                 for="parentreport"
@@ -459,14 +459,14 @@ Edit Report View
                   name="parentreport"
                   rows="3"
                   :value="inputData.parentreport"
-                  class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  class="block w-full max-w-lg rounded-lg border-slate-300 shadow-sm focus:border-impuls-blue focus:ring-brand-100 sm:text-sm"
                 />
                 <p class="mt-2 text-sm text-secondaryText">Mehrere Sätze möglich.</p>
               </div>
             </div>
 
             <!-- Signature field for the school guardian -->
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5">
               <div class="col-span-1 sm:col-span-2 md:col-span-1">
                 <SignatureField
                   ref="signatureField"
@@ -481,7 +481,7 @@ Edit Report View
               <div class="flex my-2 text-primaryText gap-2 items-center">
                 <input
                   @click="thruthfullButtonTapped"
-                  class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+                  class="w-4 h-4 text-impuls-blue bg-white border-gray-300 rounded focus:ring-brand-200 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
                   type="checkbox"
                   id="truthfull"
                   value="truthfull"
@@ -509,7 +509,7 @@ Edit Report View
     <!-- required fields reminder -->
     <div
       v-if="!isLoading && errorState === 'none'"
-      class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+      class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-slate-200 sm:pt-5"
     >
       <p class="text-base font-medium text-secondaryText sm:text-sm">*Pflichtfeld</p>
     </div>
@@ -989,6 +989,7 @@ export default {
         return reportActivitytermsRev[inputData.value.reportActivity]
       } catch (error) {
         console.log(error)
+        return null
       }
     })
 

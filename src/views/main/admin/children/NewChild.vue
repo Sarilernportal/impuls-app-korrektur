@@ -12,7 +12,7 @@ Add new carrier
 -->
 
 <template>
-  <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div>
       <success-window
         v-if="createSuccess"
@@ -31,21 +31,21 @@ Add new carrier
       />
     </div>
 
-    <div class="mx-auto flex max-w-6xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:p-5 shadow-sm">
+    <div class="flex w-full flex-col gap-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Verwaltung</p>
-        <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Klient hinzufügen</h1>
+        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Klient hinzufügen</h1>
         <p class="mt-2 max-w-3xl text-sm text-blue-50">
           Stammdaten, Sorgeberechtigte und Trägerzuordnung sauber erfassen, damit Doku, Nachweise und Abrechnung direkt greifen.
         </p>
       </section>
 
-      <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Fallakte anlegen</h2>
-          <p class="mt-1 text-sm text-slate-500">Pflichtdaten zuerst, optionale Kontakt- und Schulinfos danach.</p>
+          <h2 class="font-display text-lg font-bold text-slate-900">Fallakte anlegen</h2>
         </div>
-        <new-child-form
+        <new-child-wizard
+          class="mt-5"
           :isLoading="isLoading"
           @submit-inputs="formSubmitted"
         />
@@ -60,7 +60,7 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 // Component imports
-import NewChildForm from '@/components/Main/Admin/Children/NewChildForm.vue'
+import NewChildWizard from '@/components/Main/Admin/Children/NewChildWizard.vue'
 import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import ErrorWindow from '@/components/UIComponents/Modals/ErrorWindow.vue'
 
@@ -71,7 +71,7 @@ export default {
   name: 'NewChild',
   props: ['type'],
   components: {
-    NewChildForm,
+    NewChildWizard,
     SuccessWindow,
     ErrorWindow
   },

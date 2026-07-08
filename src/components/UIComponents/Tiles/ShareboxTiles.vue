@@ -7,7 +7,7 @@
       <li
         v-for="file in fileList"
         :key="file.name"
-        class="col-span-1 flex rounded-md shadow-sm"
+        class="col-span-1 flex rounded-lg shadow-sm"
       >
         <div
           :class="[
@@ -25,39 +25,41 @@
               ? 'bg-teal-500'
               : file.type === 'jpeg'
               ? 'bg-teal-500'
-              : 'bg-gray-500',
+              : 'bg-slate-400',
             'flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white uppercase'
           ]"
         >
           {{ file.type }}
         </div>
         <div
-          class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white"
+          class="flex flex-1 items-center justify-between truncate rounded-r-lg border-t border-r border-b border-slate-200 bg-white"
         >
           <div class="flex-1 truncate px-4 py-2 text-sm">
             <p
               :title="file.name"
               :href="file.key"
-              class="font-medium text-gray-900"
+              class="font-medium text-slate-900"
             >
               {{ file.name }}
             </p>
 
-            <p class="text-gray-500">{{ file.size + ' ' + file.unit }}</p>
+            <p class="text-slate-500">{{ file.size + ' ' + file.unit }}</p>
           </div>
-          <div class="flex flex-col pr-2">
+          <div class="flex flex-col pr-1 sm:pr-2">
             <button
               v-if="showDelete"
               @click="deleteClicked(file)"
               type="button"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-full text-red-400 hover:text-red-500"
+              aria-label="Datei löschen"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full text-red-500 hover:text-red-600"
             >
               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
             </button>
             <button
               @click="downloadClicked(file)"
               type="button"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+              aria-label="Datei herunterladen"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full text-gray-400 hover:text-slate-500"
             >
               <ArrowDownTrayIcon class="h-6 w-6" aria-hidden="true" />
             </button>
@@ -84,7 +86,7 @@ export default {
     files: {
       type: Array,
       required: true,
-      default: []
+      default: () => []
     },
     showDelete: {
       type: Boolean,

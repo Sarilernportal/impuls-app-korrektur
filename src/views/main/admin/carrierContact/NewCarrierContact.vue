@@ -12,7 +12,7 @@ Add new carrier
 -->
 
 <template>
-  <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div>
       <success-window
         v-if="createSuccess"
@@ -31,19 +31,19 @@ Add new carrier
       />
     </div>
 
-    <div class="mx-auto flex max-w-6xl flex-col gap-5">
-      <section class="rounded-lg bg-impuls-blue p-4 text-white sm:p-5 shadow-sm">
+    <div class="flex w-full flex-col gap-5">
+      <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Verwaltung</p>
-        <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Trägerkontakt hinzufügen</h1>
+        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Kostenträger-Kontakt hinzufügen</h1>
         <p class="mt-2 max-w-3xl text-sm text-blue-50">
-          Ansprechpartner einem Träger zuordnen, damit Rückfragen, Freigaben und Abrechnung schneller geklärt werden.
+          Ansprechpartner einem Kostenträger zuordnen, damit Rückfragen, Freigaben und Abrechnung schneller geklärt werden.
         </p>
       </section>
 
-      <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Kontakt anlegen</h2>
-          <p class="mt-1 text-sm text-slate-500">Name, Kontaktweg und Trägerbezug übersichtlich erfassen.</p>
+          <h2 class="font-display text-lg font-bold text-slate-900">Kontakt anlegen</h2>
+          <p class="mt-1 text-sm text-slate-500">Name, Kontaktweg und Kostenträgerbezug übersichtlich erfassen.</p>
         </div>
         <new-carrier-contact-form
           :isLoading="isLoading"
@@ -89,7 +89,7 @@ export default {
     const customError = computed(() => {
       const errorObject = {
         title: 'Fehlgeschlagen',
-        message: `Das Erstellen des Trägerkontakts ist fehlgeschlagen. ${errorTitle.value} `
+        message: `Das Erstellen des Kostenträger-Kontakts ist fehlgeschlagen. ${errorTitle.value} `
       }
       return errorObject
     })
@@ -98,7 +98,7 @@ export default {
     const customSuccess = computed(() => {
       const successObject = {
         title: 'Erfolgreich angelegt',
-        message: `Trägerkontakt erfolgreich angelegt.`
+        message: `Kostenträger-Kontakt erfolgreich angelegt.`
       }
       return successObject
     })

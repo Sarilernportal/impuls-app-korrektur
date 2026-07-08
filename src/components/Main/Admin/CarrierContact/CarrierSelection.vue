@@ -13,7 +13,7 @@
     <div class="w-full flex gap-8">
       <!-- selected carrier -->
       <div class="w-1/2 flex flex-col md:flex-row gap-2">
-        <p class="text-primaryText font-medium align-middle">Träger:</p>
+        <p class="text-primaryText font-medium align-middle">Kostenträger:</p>
         <div
           v-if="selectedCarrier !== null"
           class="text-primaryText flex gap-2"
@@ -37,7 +37,7 @@
           @click="openCarriers"
           class="w-full text-sm text-center flex justify-center font-medium text-white rounded-xl bg-indigo-600 hover:bg-indigo-700 cursor-pointer py-2 px-4"
         >
-          <div class="self-center">Träger auswählen</div>
+          <div class="self-center">Kostenträger auswählen</div>
         </div>
       </div>
     </div>

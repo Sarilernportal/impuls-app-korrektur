@@ -66,7 +66,7 @@
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
                 />
-                <p class="mr-2 text-secondaryText">Trägerkontakt:</p>
+                <p class="mr-2 text-secondaryText">Kostenträger-Kontakt:</p>
                 <button
                   @click="goToCarrierContact"
                   class="flex-wrap justify-center text-primaryText hover:text-secondaryText break-words border-2 border-indigo-400 hover:border-indigo-600 px-1 inline-flex leading-5 rounded-full"
@@ -98,7 +98,7 @@
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
                 />
-                <p class="mr-2 text-secondaryText">Träger:</p>
+                <p class="mr-2 text-secondaryText">Kostenträger:</p>
                 <button
                   @click="goToCarrier"
                   class="flex-wrap justify-center text-primaryText hover:text-secondaryText break-words border-2 border-indigo-400 hover:border-indigo-600 px-1 inline-flex leading-5 rounded-xl"

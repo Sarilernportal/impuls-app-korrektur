@@ -4,12 +4,20 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "demo": "node scripts/setup-demo.mjs && vite",
+    "setup:demo": "node scripts/setup-demo.mjs",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint \"src/**/*.vue\"",
+    "test": "vitest run tests",
+    "test:watch": "vitest tests",
+    "test:e2e": "playwright test",
     "updateAppsyncOperations": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/AdminQueries8a07980f/src/modules/appsync/graphql",
     "updateResolverGraphQL": "amplify api gql-compile && amplify codegen && babel src/graphql --config-file ./babel.config.js -d ./amplify/backend/function/ChildCareReportResolver/src/modules/appsync/graphql"
   },
   "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@heroicons/vue": "^2.0.12",
     "aws-amplify": "^4.2.0",
     "lodash": "^4.17.21",
@@ -23,17 +31,20 @@
     "@babel/core": "^7.18.13",
     "@babel/preset-env": "^7.18.10",
     "@headlessui/vue": "^1.6.7",
+    "@playwright/test": "^1.48.0",
     "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/postcss7-compat": "^2.0.2",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.23.0",
     "eslint-plugin-vue": "^9.4.0",
+    "jsdom": "^22.1.0",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "vite": "^3.0.7",
-    "vite-plugin-pwa": "^0.13.1"
+    "vite-plugin-pwa": "^0.13.1",
+    "vitest": "^0.34.6"
   }
 }

@@ -49,7 +49,7 @@ export default {
     properties: {
       type: Array,
       required: true,
-      default: ['val1', 'val2']
+      default: () => ['val1', 'val2']
     }
   },
   emits: ['selection'],

@@ -1,6 +1,6 @@
 <template>
   <!-- Nav container -->
-  <nav class="border-t border-tertiaryText px-6 flex items-center justify-between">
+  <nav class="border-t border-slate-200 px-6 flex items-center justify-between">
     <!-- Previous button -->
     <div
       v-if="page != 0"
