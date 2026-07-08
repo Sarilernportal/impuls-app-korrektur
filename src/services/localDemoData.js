@@ -414,7 +414,7 @@ export function listDailyReports() {
   const now = new Date()
   const dayIso = (offset) =>
     new Date(now.getFullYear(), now.getMonth(), now.getDate() - offset, 12).toISOString()
-  const report = (id, name, familyName, offset, hourFrom, hourTo) => ({
+  const report = (id, name, familyName, offset, hourFrom, hourTo, extra = {}) => ({
     id,
     reportType: 'standard',
     reportActivity: 'school',
@@ -429,15 +429,38 @@ export function listDailyReports() {
     reviseDate: null,
     transmitted: false,
     charged: false,
-    homework: { german: '', maths: '', english: '' },
-    report: 'Begleitung im Unterricht, Unterstützung bei der Konzentration und Struktur.',
+    // Vollständige Doku-Felder für die PDF-Vorschau (siehe reportPrint.js)
+    mood: 'happy',
+    school: 'Goetheschule · Klasse 3b',
+    report: 'Begleitung im Unterricht, Unterstützung bei Konzentration und Struktur. Ruhiger Vormittag, gute Mitarbeit.',
+    exchange: 'Kurzer Austausch mit der Klassenlehrerin zu den Pausenregeln.',
+    parentreport: 'Laut Eltern war der Nachmittag entspannt, Hausaufgaben ohne Konflikt erledigt.',
+    homework: {
+      german: 'Lesen S. 24–25',
+      maths: 'Arbeitsblatt Einmaleins',
+      english: 'Vokabeln Unit 3',
+      individual1: { name: '', value: '' },
+      individual2: { name: '', value: '' }
+    },
+    signatureImage: null,
+    ...extra,
     child: { id: `${id}-child`, name, familyName },
     guardian: { id: 'demo-guardian', name: 'Mira', familyName: 'Demir' }
   })
   return [
     report('demo-report-1', 'Lina', 'Beispiel', 1, 8, 12),
-    report('demo-report-2', 'Lina', 'Beispiel', 2, 8, 11),
-    report('demo-report-3', 'Max', 'Muster', 3, 9, 13)
+    report('demo-report-2', 'Lina', 'Beispiel', 2, 8, 11, {
+      mood: 'neutral',
+      report: 'Unruhiger Start, nach der Pause konzentrierter. Unterstützung bei Deutsch.',
+      exchange: 'Rückmeldung an die Schule zu Sitzordnung.',
+      parentreport: 'Abends müde, aber zufrieden.'
+    }),
+    report('demo-report-3', 'Max', 'Muster', 3, 9, 13, {
+      school: 'Pestalozzischule · Klasse 5a',
+      report: 'Ausflug ins Museum begleitet, gute soziale Interaktion mit der Gruppe.',
+      exchange: 'Absprache mit Begleitlehrer zum Ablauf.',
+      parentreport: 'Begeistert vom Ausflug erzählt.'
+    })
   ]
 }
 
