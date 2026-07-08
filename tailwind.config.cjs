@@ -41,15 +41,22 @@ module.exports = {
         tertiaryText: '#9ca3af'
       },
       fontFamily: {
+        // Design-System (DESIGN.md): Body/Data = DM Sans, Display = Satoshi
         sans: [
-          'Inter',
+          'DM Sans',
           'ui-sans-serif',
           'system-ui',
-          '-apple-system',
           'Segoe UI',
           'Roboto',
           'Helvetica Neue',
           'Arial',
+          'sans-serif'
+        ],
+        display: [
+          'Satoshi',
+          'DM Sans',
+          'ui-sans-serif',
+          'system-ui',
           'sans-serif'
         ]
       },
