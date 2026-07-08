@@ -26,7 +26,7 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
   <success-window v-if="customSuccess.isPresent" :title="customSuccess.title" :message="customSuccess.message"
     :open="customSuccess.isPresent" @close="customSuccessConfirmed" />
 
-  <div class="min-h-screen bg-slate-50">
+  <div class="min-h-screen bg-app-bg">
     <div v-if="isLoading" class="flex h-screen w-full items-center justify-center">
       <loading-spinner size="h-16 w-16" />
     </div>

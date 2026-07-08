@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 py-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft sm:px-6 sm:py-7">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">Kostenträger</p>
-            <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Kontakt-Zentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Kontakt-Zentrale</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Ansprechpartner für Kostenträger, Klienten und Rechnungsklärung übersichtlich verbinden.
             </p>
