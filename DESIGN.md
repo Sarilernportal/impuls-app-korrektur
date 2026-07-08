@@ -21,7 +21,13 @@
 - **UI/Labels:** DM Sans (same as body), Labels 11–12px, uppercase, letter-spacing .05–.08em.
 - **Data/Tables:** DM Sans mit `font-variant-numeric: tabular-nums` — Stunden/Beträge scannbar untereinander ausgerichtet.
 - **Code:** JetBrains Mono (falls je benötigt, z.B. IDs/Debug).
-- **Loading:** Satoshi via Fontshare CDN (`api.fontshare.com`), DM Sans via Google Fonts. Bewusst NICHT Inter/`system-ui` als Primärschrift.
+- **Loading:** LOKAL GEBÜNDELT (Offline-PWA, keine externen Font-Server):
+  `@fontsource-variable/dm-sans` (Body/Data) und `@fontsource-variable/plus-jakarta-sans`
+  als OFL-lizenzierter Display-Ersatz für Satoshi (per `src/main.js` importiert,
+  woff2 im Service-Worker-Precache). `Satoshi` steht weiter vorn im
+  `font-display`-Stack: Sobald die Originaldateien von Fontshare (deren Lizenz
+  erlaubt Self-Hosting, aber keinen Weitervertrieb) als `@font-face` eingespielt
+  werden, greift Satoshi automatisch. Bewusst NICHT Inter/`system-ui` als Primärschrift.
 - **Scale (px):** 11 (label) · 12.5 (meta) · 14 (body) · 16 (h3) · 22 (h2) · 26 (h1). Zeilenhöhe Body 1.45.
 
 ## Color

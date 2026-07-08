@@ -1,5 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+// Schriften lokal gebündelt (Offline-PWA, keine externen Font-Server):
+// DM Sans = Body/Data, Plus Jakarta Sans = Display (Satoshi-Ersatz, s. DESIGN.md)
+import '@fontsource-variable/dm-sans'
+import '@fontsource-variable/plus-jakarta-sans'
 import './index.css'
 import 'v-calendar/dist/style.css'
 import router from './router'

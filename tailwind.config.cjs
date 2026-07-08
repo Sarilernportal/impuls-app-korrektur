@@ -43,8 +43,13 @@ module.exports = {
         tertiaryText: '#9ca3af'
       },
       fontFamily: {
-        // Design-System (DESIGN.md): Body/Data = DM Sans, Display = Satoshi
+        // Design-System (DESIGN.md): Body/Data = DM Sans, Display = Satoshi.
+        // Lokal gebündelt via @fontsource (Offline-PWA): 'DM Sans Variable' und
+        // 'Plus Jakarta Sans Variable' (OFL-Ersatz für Satoshi). 'Satoshi'
+        // bleibt vorn im Stack und greift, sobald die Originaldateien
+        // (Fontshare-Lizenz) eingespielt werden.
         sans: [
+          'DM Sans Variable',
           'DM Sans',
           'ui-sans-serif',
           'system-ui',
@@ -56,7 +61,8 @@ module.exports = {
         ],
         display: [
           'Satoshi',
-          'DM Sans',
+          'Plus Jakarta Sans Variable',
+          'DM Sans Variable',
           'ui-sans-serif',
           'system-ui',
           'sans-serif'

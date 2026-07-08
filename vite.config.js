@@ -26,6 +26,11 @@ export default defineConfig({
       // filename: 'service-worker.js',
       // strategies: 'injectManifest',
       registerType: 'autoUpdate',
+      workbox: {
+        // Fonts (woff2) mit vorab cachen – die App lädt KEINE externen
+        // Font-Server mehr (Offline-PWA), siehe DESIGN.md.
+        globPatterns: ['**/*.{js,css,html,ico,svg,woff2}']
+      },
       manifest: {
         name: 'Impuls Erziehungshilfen',
         short_name: 'Impuls',
