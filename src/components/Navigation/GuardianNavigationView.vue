@@ -20,7 +20,7 @@
               <p class="text-xs font-medium uppercase tracking-wide text-slate-500">
                 Mitarbeiter
               </p>
-              <h1 class="text-xl font-bold text-impuls-blue">Impuls</h1>
+              <h1 class="font-display text-xl font-black tracking-tight text-impuls-blue">Impuls</h1>
             </div>
           </button>
           <DisclosureButton

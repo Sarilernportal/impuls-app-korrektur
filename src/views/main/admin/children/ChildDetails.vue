@@ -24,7 +24,7 @@ Children Details
   <!-- Success modal -->
   <success-window v-if="customSuccess.isPresent" :title="customSuccess.title" :message="customSuccess.message"
     :open="customSuccess.isPresent" @close="customSuccessConfirmed" />
-  <div class="min-h-screen overflow-y-auto bg-slate-50 flex">
+  <div class="min-h-screen overflow-y-auto bg-app-bg flex">
     <!-- Content area -->
     <!-- Loading spinner -->
     <div v-if="isLoading" class="w-full flex justify-center items-center">
@@ -36,8 +36,8 @@ Children Details
         <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
           <div class="grid gap-6 lg:grid-cols-2">
             <!-- Profil -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
               <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Klienten.</p>
               <div class="mt-5">
                 <children-detail-data-info :child="child" :isLoading="propertyIsLoading"
@@ -46,8 +46,8 @@ Children Details
             </section>
 
             <!-- Mutter -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Mutter</h3>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Mutter</h3>
               <p class="mt-1 text-sm text-slate-500">Informationen über die Mutter des Klienten.</p>
               <div class="mt-5">
                 <ChildrenDetailContactInfo :child="child" contactType="mother" :isLoading="contactPropertyIsLoading"
@@ -56,8 +56,8 @@ Children Details
             </section>
 
             <!-- Vater -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Vater</h3>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Vater</h3>
               <p class="mt-1 text-sm text-slate-500">Informationen über den Vater des Klienten.</p>
               <div class="mt-5">
                 <ChildrenDetailContactInfo :child="child" contactType="father" :isLoading="contactPropertyIsLoading"
@@ -66,8 +66,8 @@ Children Details
             </section>
 
             <!-- Schulkontakt -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Schulkontakt</h3>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Schulkontakt</h3>
               <p class="mt-1 text-sm text-slate-500">Informationen über den Schulkontakt des Klienten.</p>
               <div class="mt-5">
                 <ChildrenDetailContactInfo :child="child" contactType="schoolContact"
@@ -78,7 +78,7 @@ Children Details
             <!-- Verbindungen (volle Breite) -->
             <section
               v-if="child.archiveStatus === 'unarchived' || !child.archiveStatus"
-              class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2"
+              class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2"
             >
               <ChildrenDetailConnectionsInfo :child="child" :isLoading="propertyIsLoading"
                 @connection-selected="changeSubmitted" @guardian-connection-selected="guardianSelected"
@@ -86,7 +86,7 @@ Children Details
             </section>
 
             <!-- Konto (volle Breite) -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
               <children-detail-account-info :child="child" :archiveIsLoading="archiveIsLoading"
                 :userStateIsLoading="userStateIsLoading" @archive-child-tapped="archiveChildTapped" />
             </section>

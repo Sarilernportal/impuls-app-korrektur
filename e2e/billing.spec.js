@@ -15,7 +15,7 @@ async function openBilling(page) {
   await demoButton.click()
   await page.waitForURL(/\/admin/, { timeout: 15000 })
   await page.goto('/admin/billing')
-  await expect(page.getByRole('heading', { name: 'Abrechnungszentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Abrechnung', exact: true })).toBeVisible()
 }
 
 test.describe('Abrechnungszentrale', () => {
@@ -32,7 +32,7 @@ test.describe('Abrechnungszentrale', () => {
     // Detail (rechts) für die vorausgewählte Zeile mit KPI-Feldern
     const detail = page.getByTestId('billing-detail')
     await expect(detail).toBeVisible()
-    await expect(detail.getByRole('heading', { name: 'Lina Beispiel' })).toBeVisible()
+    await expect(detail.getByRole('heading', { name: 'Lina Beispiel', exact: true })).toBeVisible()
     await expect(detail.getByText('2.366,00', { exact: false })).toBeVisible()
     for (const kpi of ['Soll', 'Geleistet', 'Abrechenbar']) {
       await expect(detail.getByText(kpi, { exact: true }).first()).toBeVisible()
@@ -69,7 +69,7 @@ test.describe('Abrechnungszentrale', () => {
     await page.getByText('Sara Yıldız').first().click()
     await page.getByTestId('overhang-correct').click()
 
-    await expect(page.getByRole('heading', { name: 'Überhang korrigieren' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Überhang korrigieren', exact: true })).toBeVisible()
     await expect(page.getByText('Deckeln', { exact: true })).toBeVisible()
     await expect(page.getByText('Freigeben', { exact: true })).toBeVisible()
     await expect(page.getByText('In Folgemonat verschieben', { exact: true })).toBeVisible()
@@ -85,7 +85,7 @@ test.describe('Abrechnungszentrale', () => {
     await batchBtn.click()
 
     // Bestätigungs-Dialog gruppiert pro Kostenträger
-    await expect(page.getByRole('heading', { name: 'Ausgewählte abrechnen' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ausgewählte abrechnen', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: /Rechnung(en)? erstellen/ })).toBeVisible()
   })
 

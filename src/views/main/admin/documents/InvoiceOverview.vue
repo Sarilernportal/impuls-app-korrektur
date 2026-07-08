@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p class="text-sm font-medium text-blue-100">GF und Verwaltung</p>
-            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Rechnungszentrale</h1>
+            <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Rechnungen</h1>
             <p class="mt-2 max-w-3xl text-sm text-blue-100">
               Echte Rechnungen aus Nachweisen prüfen, offene Läufe sehen und Versand oder Freigabe vorbereiten.
             </p>

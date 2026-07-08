@@ -17,20 +17,20 @@
       @close="closeSuccessModal"
     />
   </div>
-  <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Dokumentation</p>
-        <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Doku erstellen</h1>
+        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Doku erstellen</h1>
         <p class="mt-2 max-w-2xl text-sm text-blue-50">
           Eine fehlende Tagesdokumentation für Mitarbeitende vorbereiten.
         </p>
       </section>
 
-      <section class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_300px]">
-        <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
           <div class="border-b border-slate-100 pb-4">
-            <h2 class="text-lg font-semibold text-slate-900">Daten auswählen</h2>
+            <h2 class="font-display text-lg font-bold text-slate-900">Daten auswählen</h2>
             <p class="mt-1 text-sm text-slate-500">
               Betreuer, Klient, Gesundheitsstatus und Tag in einem Ablauf erfassen.
             </p>
@@ -116,24 +116,6 @@
             </div>
           </div>
         </div>
-
-        <aside class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 class="text-lg font-semibold text-slate-900">Prüfung</h2>
-          <div class="mt-4 space-y-3 text-sm text-slate-600">
-            <p>
-              <span class="font-semibold text-slate-900">1. Zuordnung</span><br />
-              Betreuer und Klient müssen zusammengehören.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">2. Kostenträgerdaten</span><br />
-              Ohne Kostenträger-Kontakt kann die Abrechnung später nicht sauber laufen.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">3. Datum</span><br />
-              Der Tag bestimmt, in welchem Nachweis die Doku später erscheint.
-            </p>
-          </div>
-        </aside>
       </section>
     </div>
   </div>
@@ -148,7 +130,6 @@ import { useRouter } from 'vue-router'
 // component imports
 import DocumentGuardianSelection from '@/components/Main/Admin/Documents/DocumentGuardianSelection.vue'
 import DocumentChildByGuardianSelection from '@/components/Main/Admin/Documents/DocumentChildByGuardianSelection.vue'
-import SimpleDropdown from '@/components/UIComponents/Dropdowns/SimpleDropdown.vue'
 import SwitchableInfo from '@/components/UIComponents/Selections/SwitchableInfo.vue'
 import CalendarUnlimited from '@/components/UIComponents/Inputs/CalendarUnlimited.vue'
 import StandardButton from '@/components/UIComponents/Buttons/StandardButton.vue'
@@ -160,7 +141,6 @@ export default {
   components: {
     DocumentGuardianSelection,
     DocumentChildByGuardianSelection,
-    SimpleDropdown,
     SwitchableInfo,
     CalendarUnlimited,
     StandardButton,

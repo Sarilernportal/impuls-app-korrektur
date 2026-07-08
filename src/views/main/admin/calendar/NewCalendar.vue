@@ -30,11 +30,11 @@ New Calendar
       @close="closeSuccessModal"
     />
   </div>
-  <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-app-bg px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Kalender</p>
-        <h1 class="mt-1 text-2xl font-bold sm:text-3xl">Kalender erstellen</h1>
+        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Kalender erstellen</h1>
         <p class="mt-2 max-w-2xl text-sm text-blue-50">
           Eine Kalendergruppe für Betreuung, Teamtermine oder interne Planung anlegen.
         </p>
@@ -42,10 +42,10 @@ New Calendar
 
       <form
         @submit.prevent="confirmButtonTapped"
-        class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
+        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card"
       >
         <div class="border-b border-slate-100 pb-4">
-          <h2 class="text-lg font-semibold text-slate-900">Kalenderdaten</h2>
+          <h2 class="font-display text-lg font-bold text-slate-900">Kalenderdaten</h2>
           <p class="mt-1 text-sm text-slate-500">Titel, Beschreibung und Farbe für die spätere Wiedererkennung.</p>
         </div>
 
@@ -90,7 +90,7 @@ New Calendar
                 v-model="calendarColor"
               />
               <div>
-                <p class="text-sm font-semibold text-slate-900">{{ calendarColor }}</p>
+                <p class="text-sm font-semibold uppercase tabular-nums text-slate-900">{{ calendarColor }}</p>
                 <p class="text-sm text-slate-500">Diese Farbe erscheint später in der Kalenderliste.</p>
               </div>
             </div>

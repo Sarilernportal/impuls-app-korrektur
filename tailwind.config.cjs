@@ -9,6 +9,8 @@ module.exports = {
         'impuls-red': '#d10019',
         // Warm-neutrale App-Fläche (DESIGN.md)
         'app-bg': '#f6f5f2',
+        // Sand – warme Seitenleiste
+        sand: '#e9e3d5',
         // Full brand-blue scale for new components.
         brand: {
           50: '#eef4fa',

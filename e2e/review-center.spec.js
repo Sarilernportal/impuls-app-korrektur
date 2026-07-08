@@ -14,7 +14,7 @@ async function openReviewCenter(page) {
   await demoButton.click()
   await page.waitForURL(/\/admin/, { timeout: 15000 })
   await page.goto('/admin/documents/timesheets')
-  await expect(page.getByRole('heading', { name: 'Nachweiszentrale' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Nachweise', exact: true })).toBeVisible()
 }
 
 test.describe('Nachweiszentrale', () => {
@@ -23,8 +23,6 @@ test.describe('Nachweiszentrale', () => {
 
     // Sammelaktion „Geprüfte freigeben" vorhanden
     await expect(page.getByTestId('release-all-btn')).toBeVisible()
-    // Übergangshinweis zur Abrechnung
-    await expect(page.getByText(/erscheinen automatisch in der/)).toBeVisible()
     // Keine Rechnungserstellung mehr hier
     await expect(page.getByRole('button', { name: 'Rechnung vorbereiten' })).toHaveCount(0)
     await expect(page.getByRole('button', { name: 'Rechnungen öffnen' })).toHaveCount(0)

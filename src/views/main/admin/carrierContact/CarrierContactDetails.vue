@@ -39,7 +39,7 @@ Carrier Contact Details
     :open="customSuccess.isPresent"
     @close="customSuccessConfirmed"
   />
-  <div class="min-h-screen overflow-y-auto bg-slate-50 flex">
+  <div class="min-h-screen overflow-y-auto bg-app-bg flex">
     <!-- Content area -->
     <!-- Loading spinner -->
     <div
@@ -57,8 +57,8 @@ Carrier Contact Details
         <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
           <div class="grid gap-6 lg:grid-cols-2">
             <!-- Profil -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Profil</h3>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
               <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
               <div class="mt-5">
                 <carrier-contact-data-info
@@ -70,8 +70,8 @@ Carrier Contact Details
             </section>
 
             <!-- Kostenträger-Zuordnung -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="text-lg font-semibold text-slate-900">Kostenträger</h3>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <h3 class="font-display text-lg font-bold text-slate-900">Kostenträger</h3>
               <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
               <div class="mt-5">
                 <CarrierSelection
@@ -83,7 +83,7 @@ Carrier Contact Details
             </section>
 
             <!-- Verknüpfte Klienten (volle Breite) -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
               <CarrierContactDetailChildrenList
                 @child-selected="addChild"
                 @remove-child="removeChild"
@@ -92,7 +92,7 @@ Carrier Contact Details
             </section>
 
             <!-- Konto (volle Breite) -->
-            <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
               <carrier-contact-detail-account-info
                 :carrier="carrierContact"
                 :deleteIsLoading="deleteIsLoading"
