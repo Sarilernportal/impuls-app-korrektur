@@ -9,39 +9,27 @@
       class="w-full"
     >
       <!-- event title -->
-      <div class="flex flex-col mb-2">
-        <h3 class="w-full font-semibold text-primaryText">Titel</h3>
-        <p class="w-full text-secondaryText">
-          {{ event.title }}
-        </p>
-      </div>
+      <h3 class="mb-1 break-words font-display text-base font-bold text-slate-900">
+        {{ event.title || 'Termin' }}
+      </h3>
       <!-- event description -->
-      <div class="flex flex-col mb-2">
-        <h3 class="w-full font-semibold text-primaryText">Beschreibung</h3>
-        <p class="w-full text-secondaryText whitespace-pre-line">
-          {{ event.description }}
-        </p>
-      </div>
+      <p
+        v-if="event.description"
+        class="mb-2 whitespace-pre-line text-sm text-slate-500"
+      >{{ event.description }}</p>
+      <!-- event date -->
+      <p class="mb-2 text-xs text-slate-400">{{ eventDate }}</p>
       <!-- event link -->
       <div
         v-if="event.link !== '' && event.link"
-        class="flex flex-col mb-2"
+        class="mb-2"
       >
-        <h3 class="w-full font-semibold text-primaryText">Link</h3>
-        <p class="w-full text-blue-500 hover:text-blue-400 break-all">
-          <a
-            :href="event.link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ event.link }}</a>
-        </p>
-      </div>
-      <!-- event date -->
-      <div class="flex flex-col mb-2">
-        <h3 class="w-full font-semibold text-primaryText">Datum</h3>
-        <p class="w-full text-secondaryText">
-          {{ eventDate }}
-        </p>
+        <a
+          :href="event.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="break-all text-sm font-medium text-impuls-blue hover:underline"
+        >{{ event.link }}</a>
       </div>
       <!-- participants -->
       <div class="border-t border-slate-200 flex pt-2 gap-2 flex-wrap">

@@ -36,6 +36,14 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
       <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div class="flex items-center gap-4">
+            <button
+              type="button"
+              @click="goBack"
+              title="Zurück zur Übersicht"
+              class="shrink-0 rounded-lg border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-50 hover:text-slate-800"
+            >
+              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+            </button>
             <InitialsAvatar :name="fullName" size-class="h-14 w-14 text-lg" />
             <div>
               <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">{{ fullName || 'Nicht angegeben' }}</h1>
@@ -245,7 +253,7 @@ import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import LoadingSpinner from '@/components/UIComponents/Utilities/LoadingSpinner.vue'
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import {
-  PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon
+  PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, ArrowLeftIcon
 } from '@heroicons/vue/24/outline'
 import { createErrorMessage, createErrorTitle } from '@/utilities/auth/errorCreator.js'
 
@@ -267,7 +275,7 @@ export default {
   components: {
     UserDetailAccountInfo, CriticalAction, LoadingSpinner, SuccessWindow, ErrorWindow,
     InitialsAvatar, Field,
-    PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon
+    PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, ArrowLeftIcon
   },
   props: ['id'],
   setup() {
@@ -318,6 +326,25 @@ export default {
     })
     const displayQualification = computed(() => userObject.value?.qualification || '')
     const displayJobFunction = computed(() => userObject.value?.jobFunction || form.jobFunction || '')
+
+    // --- Profil-Header (Anzeige) ---
+    const statusLabel = computed(() => (isActive.value ? 'Aktiv' : 'Inaktiv'))
+    const statusClass = computed(() =>
+      isActive.value ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'
+    )
+    const chips = computed(() => {
+      const list = []
+      const email = attr(['email'])
+      if (email) list.push(email)
+      if (isGuardian.value) list.push(userObject.value?.professional ? 'Fachkraft' : 'Nicht-Fachkraft')
+      if (displayJobFunction.value) list.push(displayJobFunction.value)
+      const phone = attr(['phone_number'])
+      if (phone) list.push(phone)
+      return list
+    })
+    function goBack() {
+      router.push({ name: 'UserOverview' })
+    }
 
     // § 72a-Status mit Warnfarben
     const certificateBox = computed(() => {
@@ -565,7 +592,7 @@ export default {
       user, userObject, isLoading, userStateIsLoading, deleteIsLoading, deleteSelected,
       childRemoveSelected, children, editing, savingEdit, form,
       customError, customSuccess,
-      isGuardian, isActive, fullName,
+      isGuardian, isActive, fullName, chips, statusLabel, statusClass, goBack,
       displayName, displayFamilyName, displayEmail, displayPhone, displayGender,
       displayQualification, displayJobFunction, certificateBox, clientRows,
       startEdit, cancelEdit, saveEdit, openChild,
