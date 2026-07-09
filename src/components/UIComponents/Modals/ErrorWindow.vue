@@ -42,7 +42,7 @@ Error Window Component
           leave-to="opacity-0"
         >
           <DialogOverlay
-            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            class="fixed inset-0 bg-slate-900/40 transition-opacity"
           />
         </TransitionChild>
 
@@ -66,9 +66,9 @@ Error Window Component
               inline-block
               align-bottom
               bg-white
-              rounded-lg
+              rounded-2xl
+              p-6
               text-left
-              overflow-hidden
               shadow-xl
               transform
               transition-all
@@ -76,47 +76,43 @@ Error Window Component
             "
           >
             <!-- Header area -->
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div class="sm:flex sm:items-start">
-                <div
-                  class="
-                    mx-auto
-                    flex-shrink-0 flex
-                    items-center
-                    justify-center
-                    h-12
-                    w-12
-                    rounded-full
-                    bg-red-100
-                    sm:mx-0 sm:h-10 sm:w-10
-                  "
+            <div class="sm:flex sm:items-start">
+              <div
+                class="
+                  mx-auto
+                  flex-shrink-0 flex
+                  items-center
+                  justify-center
+                  h-12
+                  w-12
+                  rounded-full
+                  bg-red-100
+                  sm:mx-0 sm:h-10 sm:w-10
+                "
+              >
+                <ExclamationTriangleIcon
+                  class="h-6 w-6 text-red-600"
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <DialogTitle
+                  as="h3"
+                  class="text-lg leading-6 font-display font-bold text-slate-900"
                 >
-                  <ExclamationTriangleIcon
-                    class="h-6 w-6 text-red-600"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <DialogTitle
-                    as="h3"
-                    class="text-lg leading-6 font-medium text-gray-900"
-                  >
-                    {{ title }}
-                  </DialogTitle>
-                  <div class="mt-2">
-                    <slot name="message">
-                      <p class="text-sm text-gray-500">
-                        {{ message }}
-                      </p>
-                    </slot>
-                  </div>
+                  {{ title }}
+                </DialogTitle>
+                <div class="mt-2">
+                  <slot name="message">
+                    <p class="text-sm text-slate-500">
+                      {{ message }}
+                    </p>
+                  </slot>
                 </div>
               </div>
             </div>
             <!-- Action area -->
-            <menu
-              class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-            >
+            <menu class="mt-6 px-0 py-0 sm:flex sm:flex-row-reverse">
               <slot name="actions">
                 <button
                   type="button"
@@ -125,21 +121,19 @@ Error Window Component
                     w-full
                     inline-flex
                     justify-center
-                    rounded-md
-                    border border-gray-300
-                    shadow-sm
+                    rounded-lg
+                    border border-slate-200
                     px-4
                     py-2
-                    bg-white
-                    text-base
-                    font-medium
-                    text-gray-700
-                    hover:bg-gray-50
+                    text-sm
+                    font-semibold
+                    text-slate-700
+                    hover:bg-slate-50
                     focus:outline-none
                     focus:ring-2
                     focus:ring-offset-2
                     focus:ring-brand-500
-                    sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
+                    sm:mt-0 sm:ml-3 sm:w-auto
                   "
                   @click="$emit('close')"
                   ref="cancelButtonRef"

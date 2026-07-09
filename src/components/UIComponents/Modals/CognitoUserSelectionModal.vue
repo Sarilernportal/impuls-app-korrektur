@@ -19,7 +19,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" />
+        <div class="fixed inset-0 bg-slate-900/40 transition-opacity" />
       </TransitionChild>
       <div class="fixed ml-0 md:ml-52 inset-0 z-10 overflow-y-auto p-6 sm:p-6 md:p-20 grid place-items-center">
         <TransitionChild
@@ -33,7 +33,7 @@
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto flex max-h-[80vh] w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 transition-all"
+            class="mx-auto flex max-h-[80vh] w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-slate-200 transition-all"
           >
             <Combobox v-slot="{ activeOption }">
               <div class="flex flex-col h-full grow">
@@ -56,7 +56,7 @@
                 </div>
                 <ComboboxOptions
                   v-if="query === '' || filteredPeople.length > 0"
-                  class="flex flex-col overflow-y-auto sm:flex-row divide-x divide-gray-100"
+                  class="flex flex-col overflow-y-auto sm:flex-row divide-x divide-slate-100"
                   as="div"
                   static
                   hold
@@ -103,33 +103,33 @@
                   <!-- right side -> user viewer -->
                   <div
                     v-if="activeOption"
-                    class="w-full sm:w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sflex"
+                    class="w-full sm:w-1/2 flex-none flex-col divide-y divide-slate-100 overflow-y-auto sflex"
                   >
                     <!-- name -->
                     <div class="flex-none p-6 text-center">
-                      <h2 class="mt-3 font-semibold text-gray-900">
+                      <h2 class="mt-3 font-display font-bold text-slate-900">
                         {{ getName(activeOption) }}
                       </h2>
                     </div>
                     <!-- user info -->
                     <div class="flex flex-auto flex-col justify-between p-6">
-                      <dl class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700">
+                      <dl class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-slate-600">
                         <!-- phone -->
-                        <dt class="col-end-1 font-semibold text-gray-900">
+                        <dt class="col-end-1 font-semibold text-slate-900">
                           Telefon
                         </dt>
                         <dd>
                           {{ getPhone(activeOption) }}
                         </dd>
                         <!-- email -->
-                        <dt class="col-end-1 font-semibold text-gray-900">
+                        <dt class="col-end-1 font-semibold text-slate-900">
                           Email
                         </dt>
                         <dd class="truncate">
                           <a
                             v-if="getEmail(activeOption)"
                             :href="`mailto:${getEmail(activeOption)}`"
-                            class="text-indigo-600 underline"
+                            class="text-impuls-blue underline"
                           >
                             {{ getEmail(activeOption) }}
                           </a>
@@ -139,7 +139,7 @@
                       <div class="mt-6 flex justify-center">
                         <button
                           @click="onSelect(activeOption)"
-                          class="w-full rounded-xl bg-impuls-blue px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
+                          class="w-full rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
                         >
                           Auswählen
                         </button>
@@ -152,13 +152,13 @@
                   class="py-14 px-6 text-center text-sm sm:px-14"
                 >
                   <UsersIcon
-                    class="mx-auto h-6 w-6 text-gray-400"
+                    class="mx-auto h-6 w-6 text-slate-400"
                     aria-hidden="true"
                   />
-                  <p class="mt-4 font-semibold text-gray-900">
+                  <p class="mt-4 font-display font-bold text-slate-900">
                     Keine Personen gefunden
                   </p>
-                  <p class="mt-2 text-gray-500">
+                  <p class="mt-2 text-slate-500">
                     Wir konnten leider keine Personen mit diesem Namen finden.
                   </p>
                 </div>
