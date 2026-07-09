@@ -518,10 +518,6 @@ export default {
     }
 
     function openReport(report, index) {
-      if (report.id?.startsWith('demo-')) {
-        return
-      }
-
       router.push({
         name: 'ReportDetails',
         params: { id: report.id },
