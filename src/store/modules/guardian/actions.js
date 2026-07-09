@@ -20,6 +20,7 @@ import {
   closestEvent as localClosestEvent,
   getGuardian as getLocalGuardian,
   listDailyReports as listLocalDailyReports,
+  listSpecialDailyReports as listLocalSpecialDailyReports,
   listEvents as listLocalEvents,
   listFiles as listLocalFiles,
   listTimesheets as listLocalTimesheets
@@ -363,6 +364,9 @@ export default {
     return response
   },
   async listSpecialDailyReportsByGuardian(_, payload) {
+    if (isLocalAuthMode) {
+      return listLocalSpecialDailyReports()
+    }
     // get data from payload
     const { nextToken } = payload
     // get daily reports of guardian with reportActivity being special-case

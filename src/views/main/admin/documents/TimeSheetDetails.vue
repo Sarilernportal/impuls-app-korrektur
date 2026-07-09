@@ -37,7 +37,7 @@ TimeSheet Details
       <div class="mb-4 w-full h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card sm:mb-0 sm:mr-4">
         <iframe
           :src="pdf"
-          class="w-full h-full"
+          class="h-[78vh] min-h-[420px] w-full"
         ></iframe>
       </div>
     </div>
@@ -51,6 +51,8 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
+import { isLocalAuthMode } from '@/services/authService.js'
+import { buildTimesheetHtml } from '@/utilities/documents/timesheetPrint.js'
 
 export default {
   components: {
@@ -108,6 +110,42 @@ export default {
         const response = await store.dispatch('getSingleTimeSheet', { id })
         // Fetch the pdf
         document.value = response
+        if (isLocalAuthMode) {
+          // Demo: Stundennachweis-PDF clientseitig bauen und in den iframe laden
+          const html = buildTimesheetHtml({
+            preview: false,
+            child: {
+              data: {
+                name: response.child?.name || '',
+                familyName: response.child?.familyName || '',
+                weeklyHours: response.weeklyHours || response.child?.weeklyHours || 0,
+                weeklyHoursByPlan: false
+              },
+              guardian: {
+                name: response.guardian?.name || '',
+                familyName: response.guardian?.familyName || ''
+              },
+              dateOfRegistration: response.dateOfRegistration || ''
+            },
+            month: response.month || '',
+            documentYear: response.year || '',
+            documents: (response.dailyReport?.items || []).map((report) => ({
+              documentDate: report.documentDate,
+              hourFrom: report.hourFrom,
+              minuteFrom: report.minuteFrom,
+              hourTo: report.hourTo,
+              minuteTo: report.minuteTo,
+              sick: report.sick,
+              sickOnTime: report.sickOnTime,
+              reportActivity: report.reportActivity
+            })),
+            signatureImage: null
+          })
+          const blob = new Blob([html], { type: 'text/html' })
+          if (pdf.value) URL.revokeObjectURL(pdf.value)
+          pdf.value = URL.createObjectURL(blob)
+          return
+        }
         await getPDF(response.key)
       } catch (err) {
         console.log('Err'.err)

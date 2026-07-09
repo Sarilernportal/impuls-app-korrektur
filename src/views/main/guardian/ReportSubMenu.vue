@@ -54,22 +54,35 @@
       </div>
 
       <div v-else data-testid="my-reports" class="divide-y divide-slate-100">
-        <button
+        <div
           v-for="report in sortedReports"
           :key="report.id"
-          type="button"
-          @click="openReport(report)"
-          class="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-slate-50 sm:px-5"
+          class="flex w-full items-center gap-2 px-4 py-3 sm:px-5"
         >
-          <InitialsAvatar :name="childName(report)" size-class="h-9 w-9 text-xs" />
-          <span class="min-w-0 flex-1">
-            <span class="block truncate font-display font-bold text-slate-900">{{ childName(report) }}</span>
-            <span class="block truncate text-xs text-slate-500">{{ formatDate(report.documentDate) }} · {{ timeRange(report) }}</span>
-          </span>
+          <button
+            type="button"
+            @click="openPdf(report)"
+            title="Dokumentation als PDF ansehen"
+            class="flex min-w-0 flex-1 items-center gap-3 rounded-lg text-left"
+          >
+            <InitialsAvatar :name="titleFor(report)" size-class="h-9 w-9 text-xs" />
+            <span class="min-w-0 flex-1">
+              <span class="block truncate font-display font-bold text-slate-900">{{ titleFor(report) }}</span>
+              <span class="block truncate text-xs text-slate-500">{{ formatDate(report.documentDate) }} · {{ timeRange(report) }}</span>
+            </span>
+          </button>
           <span :class="['shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold', isSpecial(report) ? 'bg-violet-100 text-violet-700' : 'bg-emerald-100 text-emerald-700']">
             {{ isSpecial(report) ? 'Sonderzeit' : 'Dokumentation' }}
           </span>
-        </button>
+          <button
+            type="button"
+            @click="openReport(report)"
+            title="Bearbeiten"
+            class="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+          >
+            <PencilSquareIcon class="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </section>
   </div>
@@ -79,8 +92,10 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { DocumentTextIcon, StarIcon } from '@heroicons/vue/24/outline'
+import { DocumentTextIcon, StarIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
+import { openReportPdf } from '@/utilities/documents/reportPrint.js'
+import { openSpecialReportPdf } from '@/utilities/documents/specialReportPrint.js'
 
 const SPECIAL_ACTIVITIES = [
   'holiday',
@@ -91,10 +106,22 @@ const SPECIAL_ACTIVITIES = [
   'miscellaneous'
 ]
 
+const ACTIVITY_LABEL = {
+  holiday: 'Feiertag',
+  vacation: 'Urlaub',
+  employeeSickness: 'Krankmeldung',
+  other: 'Sonstiges',
+  supervision: 'Supervision',
+  teamMeeting: 'Teamsitzung',
+  furtherEducation: 'Fortbildung',
+  miscellaneous: 'Sonstiges'
+}
+
 export default {
   components: {
     DocumentTextIcon,
     StarIcon,
+    PencilSquareIcon,
     InitialsAvatar
   },
   setup() {
@@ -124,8 +151,13 @@ export default {
     async function loadReports() {
       try {
         isLoading.value = true
-        const result = await store.dispatch('getDailyReports')
-        reports.value = Array.isArray(result) ? result : result?.items || []
+        const [normal, special] = await Promise.all([
+          store.dispatch('getDailyReports'),
+          store.dispatch('listSpecialDailyReportsByGuardian', { nextToken: null })
+        ])
+        const normalList = Array.isArray(normal) ? normal : normal?.items || []
+        const specialList = special?.items || []
+        reports.value = [...normalList, ...specialList]
       } catch (error) {
         console.log(error)
         reports.value = []
@@ -150,6 +182,14 @@ export default {
       const child = report.child
       if (!child?.name) return 'Ohne Klient'
       return `${child.name} ${child.familyName || ''}`.trim()
+    }
+
+    // Titel: bei Sonderzeiten die Tätigkeit, sonst der Klient.
+    function titleFor(report) {
+      if (isSpecial(report)) {
+        return ACTIVITY_LABEL[report.reportActivity] || 'Sonderzeit'
+      }
+      return childName(report)
     }
 
     function pad(value) {
@@ -181,6 +221,30 @@ export default {
       })
     }
 
+    function openPdf(report) {
+      if (isSpecial(report)) {
+        openSpecialReportPdf({
+          schoolguardian: report.schoolguardian || fullNameOf(report.guardian),
+          date: report.documentDate,
+          endDate: report.documentEndDate,
+          reportActivity: report.reportActivity,
+          hourFrom: report.hourFrom,
+          minuteFrom: report.minuteFrom,
+          hourTo: report.hourTo,
+          minuteTo: report.minuteTo,
+          report: report.report,
+          signatureImage: report.signatureImage
+        })
+      } else {
+        openReportPdf(report)
+      }
+    }
+
+    function fullNameOf(person) {
+      if (!person) return ''
+      return `${person.name || ''} ${person.familyName || ''}`.trim()
+    }
+
     return {
       options,
       reports,
@@ -188,10 +252,12 @@ export default {
       sortedReports,
       isSpecial,
       childName,
+      titleFor,
       timeRange,
       formatDate,
       optionTapped,
-      openReport
+      openReport,
+      openPdf
     }
   }
 }

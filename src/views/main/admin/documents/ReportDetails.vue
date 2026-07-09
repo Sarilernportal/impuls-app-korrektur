@@ -43,7 +43,7 @@ Report Details
         <iframe
           v-else
           :src="pdf"
-          class="h-full w-full"
+          class="h-[78vh] min-h-[420px] w-full"
         ></iframe>
       </div>
     </div>
@@ -57,6 +57,8 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
+import { isLocalAuthMode } from '@/services/authService.js'
+import { buildReportHtml } from '@/utilities/documents/reportPrint.js'
 
 export default {
   components: {
@@ -113,7 +115,12 @@ export default {
         const response = await store.dispatch('getSingleDailyReport', { id })
         // Fetch the pdf
         document.value = response
-        if (!response.retrospectively) {
+        if (isLocalAuthMode) {
+          // Demo: PDF clientseitig aus dem Report erzeugen und in den iframe laden
+          const blob = new Blob([buildReportHtml(response)], { type: 'text/html' })
+          if (pdf.value) URL.revokeObjectURL(pdf.value)
+          pdf.value = URL.createObjectURL(blob)
+        } else if (!response.retrospectively) {
           await getPDF(response.key)
         }
       } catch (err) {

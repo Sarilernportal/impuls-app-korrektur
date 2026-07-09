@@ -12,80 +12,59 @@ Editable User Info Phone Row
 -->
 
 <template>
-  <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+  <div class="group grid gap-1 py-3.5 sm:grid-cols-3 sm:gap-4">
     <!-- Title -->
-    <dt class="text-sm font-medium text-primaryText">{{ title }}</dt>
+    <dt class="text-sm text-slate-500">{{ title }}</dt>
     <!-- Value and Editing Section -->
-    <dd class="mt-1 flex text-sm text-primaryText sm:mt-0 sm:col-span-2">
-      <!-- Value -->
-      <span
-        v-if="!editModeActive"
-        class="flex-grow"
-      >{{ value || placeholder }}</span>
-      <!-- Phone Textfield for editing -->
-      <phone-textfield
-        v-else
-        class="flex-grow -mt-2.5"
-        ref="phoneTextfield"
-        elementID="phone"
-        name="phone"
-        enterButtonEvent="emitEvent"
-        @input-value="setPhone"
-        @is-valid="setPhoneValidation"
-        @enter-tapped="phoneTextfieldEnterTapped"
-        :placeholder="value"
-        :value="value"
-      />
-      <span class="ml-4 flex-shrink-0">
-        <!-- Button to activate the editing mode -->
+    <dd class="flex items-center justify-between gap-3 text-sm sm:col-span-2">
+      <!-- Read mode -->
+      <template v-if="!editModeActive">
+        <span :class="['min-w-0 flex-grow break-words', value ? 'font-medium text-slate-900' : 'text-slate-400']">{{ value || placeholder }}</span>
         <button
-          v-if="!editModeActive"
           type="button"
           @click="editModeActive = true"
-          class="inline-flex items-center rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          :title="buttonTitle || 'Bearbeiten'"
+          class="shrink-0 rounded-lg p-1.5 text-slate-300 transition hover:bg-slate-100 hover:text-slate-600 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-brand-100 group-hover:text-slate-400"
         >
-          {{ buttonTitle }}
+          <PencilSquareIcon class="h-4 w-4" aria-hidden="true" />
         </button>
-        <!-- Buttons while editing is active -->
-        <div
-          v-else
-          class="flex flex-row items-center space-x-2"
-        >
-          <!-- Return button -->
+      </template>
+      <!-- Edit mode -->
+      <template v-else>
+        <phone-textfield
+          class="-mt-2.5 flex-grow"
+          ref="phoneTextfield"
+          elementID="phone"
+          name="phone"
+          enterButtonEvent="emitEvent"
+          :value="value"
+          :placeholder="value"
+          @input-value="setPhone"
+          @is-valid="setPhoneValidation"
+          @enter-tapped="phoneTextfieldEnterTapped"
+        />
+        <div class="flex shrink-0 items-center gap-1.5">
           <button
             type="button"
             @click="editModeActive = false"
+            title="Abbrechen"
             class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-100"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <XMarkIcon class="h-5 w-5" aria-hidden="true" />
           </button>
-          <!-- Loading Spinner -->
-          <div v-if="isLoading">
-            <loading-spinner size="h-5 w-5" />
-          </div>
-          <!-- Confirm Button for the update -->
+          <loading-spinner v-if="isLoading" size="h-5 w-5" />
           <button
             v-else
             type="button"
             :disabled="!inputIsValid"
             @click="submitChange"
-            class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            title="Speichern"
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Aktualisieren
+            <CheckIcon class="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
-      </span>
+      </template>
     </dd>
   </div>
 </template>
@@ -96,6 +75,7 @@ import { ref, watch } from 'vue'
 // Component imports
 import LoadingSpinner from '@/components/UIComponents/Utilities/LoadingSpinner.vue'
 import PhoneTextfield from '@/components/UIComponents/Inputs/PhoneTextfield.vue'
+import { PencilSquareIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/20/solid'
 
 export default {
   name: 'EditableUserInfoPhoneRow',
@@ -132,7 +112,10 @@ export default {
   },
   components: {
     LoadingSpinner,
-    PhoneTextfield
+    PhoneTextfield,
+    PencilSquareIcon,
+    CheckIcon,
+    XMarkIcon
   },
   setup(props, ctx) {
     // Initialize refs
