@@ -1626,21 +1626,42 @@ export default {
     if (isLocalAuthMode) {
       const guardian = getLocalGuardian('demo-guardian-1')
       const child = getLocalChild('demo-child-1')
+      const now = new Date()
+      const monthNames = [
+        'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+        'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+      ]
+      const day = (offset, hour) =>
+        new Date(now.getFullYear(), now.getMonth(), Math.max(1, now.getDate() - offset), hour).toISOString()
+      const item = (id, offset, hourFrom, hourTo) => ({
+        id,
+        flag: null,
+        child,
+        guardian,
+        documentDate: day(offset, hourFrom),
+        hourFrom,
+        minuteFrom: 0,
+        hourTo,
+        minuteTo: 0,
+        sick: false,
+        sickOnTime: null,
+        reportActivity: 'school'
+      })
       return {
         id: payload.id,
         key: 'demo-timesheet.pdf',
         type: 'timeSheet',
+        month: monthNames[now.getMonth()],
+        year: now.getFullYear(),
+        dateOfRegistration: '01.03.2026',
+        weeklyHours: child?.weeklyHours || 15,
         guardian,
         child,
         carrier: getLocalCarrier('demo-carrier-1'),
         dailyReport: {
           items: [
-            {
-              id: 'demo-report-1',
-              flag: null,
-              child,
-              guardian
-            }
+            item('demo-report-1', 3, 8, 12),
+            item('demo-report-2', 2, 8, 11)
           ]
         }
       }
