@@ -114,32 +114,17 @@ export default {
     // Get the date of event
     const eventDate = computed(() => {
       try {
-        // Get the day name to a locale string
-        const dayName = new Date(props.event.startDate).toLocaleDateString(
-          'de-DE'
-        )
-        // Convert the timestamp to a more readable date
-        const convertedStartTimeStamp = props.event.startDate
-          .split('T')[1]
-          .split('.')[0]
-
-        // Create start hour and minutes with the offset
-        const offset = new Date(props.event.startDate).getTimezoneOffset() / 60
-        const startHour = new Date(props.event.startDate).getHours() + offset
-        const startMinutes = new Date(props.event.startDate).getMinutes()
-
-        // get duration values from event
-        const durationHours = Math.floor(props.event.durationInHours)
-        const durationMinutes = (props.event.durationInHours % 1) * 60
-
-        // create end hours and minutes
-        const endHours = startHour + durationHours
-        const endMinutes = startMinutes + durationMinutes
-
-        // Create the date string
-        const friendlyDate = `${dayName}, ${convertedStartTimeStamp} - ${endHours}:${endMinutes < 10 ? '0' + endMinutes : endMinutes
-          }:00`
-        return friendlyDate
+        const dayName = new Date(props.event.startDate).toLocaleDateString('de-DE')
+        const pad = (n) => (n < 10 ? `0${n}` : `${n}`)
+        // Startzeit in Minuten seit Mitternacht direkt aus dem ISO-Zeitanteil
+        // (kein Zeitzonen-Hack), damit die Anzeige stabil bleibt.
+        const [hours, minutes] = props.event.startDate.split('T')[1].split(':')
+        const startTotal = Number(hours) * 60 + Number(minutes)
+        const duration = Math.round((Number(props.event.durationInHours) || 0) * 60)
+        const endTotal = startTotal + duration
+        // korrekter Minuten-/Stunden-Ueberlauf (behebt z.B. "10:60")
+        const fmt = (total) => `${pad(Math.floor(total / 60) % 24)}:${pad(total % 60)}`
+        return `${dayName}, ${fmt(startTotal)} - ${fmt(endTotal)} Uhr`
       } catch (error) {
         console.log(error)
         // Fallback

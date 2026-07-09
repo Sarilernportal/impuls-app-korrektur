@@ -41,13 +41,13 @@ Edit Report View
     <!-- Form wrapper -->
     <form :class="[
       isLoading ? 'hidden' : 'block',
-      'space-y-8 divide-y divide-slate-200'
+      'rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-7'
     ]">
       <div class="space-y-8 divide-y divide-slate-200 sm:space-y-5">
         <div class="space-y-6 sm:space-y-5">
           <!-- Header -->
           <div>
-            <h3 class="text-lg font-medium leading-6 text-primaryText">
+            <h3 class="font-display text-xl font-bold leading-6 text-slate-900">
               Dokumentation überarbeiten
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-secondaryText">
