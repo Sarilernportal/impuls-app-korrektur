@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "demo": "node scripts/setup-demo.mjs && vite",
+    "real": "node scripts/check-real.mjs && vite --host",
     "setup:demo": "node scripts/setup-demo.mjs",
     "build": "vite build",
     "preview": "vite preview",
