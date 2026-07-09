@@ -59,10 +59,12 @@ Children Details
               </div>
             </div>
           </header>
-          <div class="grid gap-6 lg:grid-cols-2">
-            <!-- Profil -->
+          <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+            <!-- Hauptinhalt: gestapelte Sektionen -->
+            <div class="min-w-0 space-y-6">
+            <!-- Stammdaten -->
             <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+              <h3 class="font-display text-lg font-bold text-slate-900">Stammdaten</h3>
               <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Klienten.</p>
               <div class="mt-5">
                 <children-detail-data-info :child="child" :isLoading="propertyIsLoading"
@@ -110,11 +112,65 @@ Children Details
                 @delete-care-asignment="DeleteCareAssignment" />
             </section>
 
-            <!-- Konto (volle Breite) -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+            <!-- Konto -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
               <children-detail-account-info :child="child" :archiveIsLoading="archiveIsLoading"
                 :userStateIsLoading="userStateIsLoading" @archive-child-tapped="archiveChildTapped" />
             </section>
+            </div>
+            <!-- Schnellzugriff (rechts, sticky) -->
+            <aside class="space-y-6 lg:sticky lg:top-8 lg:self-start">
+              <!-- Aktionen -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                <h3 class="font-display text-base font-bold text-slate-900">Schnellzugriff</h3>
+                <div class="mt-4 space-y-2">
+                  <button type="button" @click="goToDocs"
+                    class="flex w-full items-center gap-3 rounded-xl bg-impuls-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">
+                    <DocumentTextIcon class="h-5 w-5" aria-hidden="true" /> Dokumentation erstellen
+                  </button>
+                  <button type="button" @click="goToProofs"
+                    class="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <ClipboardDocumentCheckIcon class="h-5 w-5 text-slate-400" aria-hidden="true" /> Nachweis
+                  </button>
+                  <button type="button" @click="goToCalendar"
+                    class="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <CalendarDaysIcon class="h-5 w-5 text-slate-400" aria-hidden="true" /> Termin anlegen
+                  </button>
+                  <button type="button" @click="archiveChildTapped"
+                    class="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50">
+                    <ArchiveBoxIcon class="h-5 w-5" aria-hidden="true" /> Klient archivieren
+                  </button>
+                </div>
+              </div>
+              <!-- Kennzahlen -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                <h3 class="font-display text-base font-bold text-slate-900">Kennzahlen</h3>
+                <dl class="mt-4 space-y-3 text-sm">
+                  <div class="flex items-center justify-between">
+                    <dt class="text-slate-500">Wochenstunden</dt>
+                    <dd class="font-semibold tabular-nums text-slate-900">{{ child.weeklyHours || '—' }}</dd>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <dt class="text-slate-500">Alter</dt>
+                    <dd class="font-semibold tabular-nums text-slate-900">{{ age ? age + ' J.' : '—' }}</dd>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <dt class="text-slate-500">Beginn der Hilfe</dt>
+                    <dd class="font-semibold tabular-nums text-slate-900">{{ child.dateOfRegistration || '—' }}</dd>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <dt class="text-slate-500">Stundenmodell</dt>
+                    <dd class="font-semibold text-slate-900">{{ child.weeklyHoursByPlan === true ? 'Stundenplan' : 'Wochenstunden' }}</dd>
+                  </div>
+                </dl>
+              </div>
+              <!-- Leistung (§35a) -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                <h3 class="font-display text-base font-bold text-slate-900">Leistung</h3>
+                <p class="mt-2 text-sm font-medium text-slate-700">Schulbegleitung / Teilhabeassistenz</p>
+                <p class="text-xs text-slate-400">§35a SGB VIII</p>
+              </div>
+            </aside>
           </div>
         </div>
       </main>
@@ -127,7 +183,7 @@ Children Details
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
+import { ArrowLeftIcon, DocumentTextIcon, ClipboardDocumentCheckIcon, CalendarDaysIcon, ArchiveBoxIcon } from '@heroicons/vue/24/outline'
 // Component imports
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import ChildrenDetailDataInfo from '@/components/Main/Admin/Children/ChildrenDetailDataInfo.vue'
@@ -155,7 +211,11 @@ export default {
     SuccessWindow,
     ErrorWindow,
     InitialsAvatar,
-    ArrowLeftIcon
+    ArrowLeftIcon,
+    DocumentTextIcon,
+    ClipboardDocumentCheckIcon,
+    CalendarDaysIcon,
+    ArchiveBoxIcon
   },
   props: ['id'],
   setup() {
@@ -223,6 +283,16 @@ export default {
     )
     function goBack() {
       router.push({ name: 'ChildrenOverview' })
+    }
+    // Schnellzugriff-Navigation
+    function goToDocs() {
+      router.push('/admin/documents/reports')
+    }
+    function goToProofs() {
+      router.push('/admin/documents/timesheets')
+    }
+    function goToCalendar() {
+      router.push({ name: 'CalendarOverview' })
     }
 
     // Mounted Hook
@@ -440,10 +510,14 @@ export default {
       contactPropertyIsLoading,
       child,
       fullName,
+      age,
       chips,
       statusLabel,
       statusClass,
       goBack,
+      goToDocs,
+      goToProofs,
+      goToCalendar,
       archiveSelected,
       customError,
       customSuccess,
