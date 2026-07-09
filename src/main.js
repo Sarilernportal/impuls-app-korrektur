@@ -12,7 +12,19 @@ import Amplify from 'aws-amplify'
 import aws_exports from './aws-exports.js'
 import { registerSW } from 'virtual:pwa-register'
 
-registerSW({ immediate: true })
+// Service Worker NUR in Produktion registrieren. Im lokalen Dev/Demo würde er
+// alte Versionen aus dem Cache ausliefern ("Klick passiert nix" nach Änderungen).
+// Zusätzlich einen evtl. vorhandenen SW im Dev einmalig entfernen (Selbstheilung).
+if (import.meta.env.PROD) {
+  registerSW({ immediate: true })
+} else if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((registration) => registration.unregister())
+  })
+  if (window.caches?.keys) {
+    window.caches.keys().then((keys) => keys.forEach((key) => window.caches.delete(key)))
+  }
+}
 
 // Configure the AWS Amplify backend
 Amplify.configure(aws_exports)
