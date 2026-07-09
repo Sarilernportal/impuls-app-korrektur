@@ -1442,12 +1442,34 @@ export default {
   },
   async getSingleDailyReport(_, payload) {
     if (isLocalAuthMode) {
+      // Vollständiger Demo-Report, damit die Detailansicht das PDF (clientseitig)
+      // rendern kann (retrospectively:false statt "keine PDF hinterlegt").
       return {
         id: payload.id,
         key: 'demo-report.pdf',
         type: 'dailyReport',
-        retrospectively: true,
+        reportType: 'standard',
+        reportActivity: 'school',
+        retrospectively: false,
         documentDate: new Date().toISOString(),
+        mood: 'happy',
+        school: 'Goetheschule · Klasse 3b',
+        report:
+          'Begleitung im Unterricht, Unterstützung bei Konzentration und Struktur. Ruhiger Vormittag, gute Mitarbeit.',
+        exchange: 'Kurzer Austausch mit der Klassenlehrerin zu den Pausenregeln.',
+        parentreport: 'Laut Eltern war der Nachmittag entspannt.',
+        homework: {
+          german: 'Lesen S. 24–25',
+          maths: 'Arbeitsblatt Einmaleins',
+          english: 'Vokabeln Unit 3',
+          individual1: { name: '', value: '' },
+          individual2: { name: '', value: '' }
+        },
+        hourFrom: 8,
+        minuteFrom: 0,
+        hourTo: 12,
+        minuteTo: 0,
+        signatureImage: null,
         child: getLocalChild('demo-child-1'),
         guardian: getLocalGuardian('demo-guardian-1'),
         charged: false
