@@ -1442,12 +1442,34 @@ export default {
   },
   async getSingleDailyReport(_, payload) {
     if (isLocalAuthMode) {
+      // Vollständiger Demo-Report, damit die Detailansicht das PDF (clientseitig)
+      // rendern kann (retrospectively:false statt "keine PDF hinterlegt").
       return {
         id: payload.id,
         key: 'demo-report.pdf',
         type: 'dailyReport',
-        retrospectively: true,
+        reportType: 'standard',
+        reportActivity: 'school',
+        retrospectively: false,
         documentDate: new Date().toISOString(),
+        mood: 'happy',
+        school: 'Goetheschule · Klasse 3b',
+        report:
+          'Begleitung im Unterricht, Unterstützung bei Konzentration und Struktur. Ruhiger Vormittag, gute Mitarbeit.',
+        exchange: 'Kurzer Austausch mit der Klassenlehrerin zu den Pausenregeln.',
+        parentreport: 'Laut Eltern war der Nachmittag entspannt.',
+        homework: {
+          german: 'Lesen S. 24–25',
+          maths: 'Arbeitsblatt Einmaleins',
+          english: 'Vokabeln Unit 3',
+          individual1: { name: '', value: '' },
+          individual2: { name: '', value: '' }
+        },
+        hourFrom: 8,
+        minuteFrom: 0,
+        hourTo: 12,
+        minuteTo: 0,
+        signatureImage: null,
         child: getLocalChild('demo-child-1'),
         guardian: getLocalGuardian('demo-guardian-1'),
         charged: false
@@ -1604,21 +1626,42 @@ export default {
     if (isLocalAuthMode) {
       const guardian = getLocalGuardian('demo-guardian-1')
       const child = getLocalChild('demo-child-1')
+      const now = new Date()
+      const monthNames = [
+        'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+        'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+      ]
+      const day = (offset, hour) =>
+        new Date(now.getFullYear(), now.getMonth(), Math.max(1, now.getDate() - offset), hour).toISOString()
+      const item = (id, offset, hourFrom, hourTo) => ({
+        id,
+        flag: null,
+        child,
+        guardian,
+        documentDate: day(offset, hourFrom),
+        hourFrom,
+        minuteFrom: 0,
+        hourTo,
+        minuteTo: 0,
+        sick: false,
+        sickOnTime: null,
+        reportActivity: 'school'
+      })
       return {
         id: payload.id,
         key: 'demo-timesheet.pdf',
         type: 'timeSheet',
+        month: monthNames[now.getMonth()],
+        year: now.getFullYear(),
+        dateOfRegistration: '01.03.2026',
+        weeklyHours: child?.weeklyHours || 15,
         guardian,
         child,
         carrier: getLocalCarrier('demo-carrier-1'),
         dailyReport: {
           items: [
-            {
-              id: 'demo-report-1',
-              flag: null,
-              child,
-              guardian
-            }
+            item('demo-report-1', 3, 8, 12),
+            item('demo-report-2', 2, 8, 11)
           ]
         }
       }

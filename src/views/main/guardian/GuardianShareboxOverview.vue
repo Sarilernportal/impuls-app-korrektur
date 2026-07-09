@@ -43,6 +43,8 @@ import { useStore } from 'vuex'
 import { ArchiveBoxIcon } from '@heroicons/vue/24/outline'
 import LoadingSpinner from '@/components/UIComponents/Utilities/LoadingSpinner.vue'
 import ShareboxTiles from '@/components/UIComponents/Tiles/ShareboxTiles.vue'
+import { isLocalAuthMode } from '@/services/authService.js'
+import { openGenericDoc } from '@/utilities/documents/genericDocPrint.js'
 
 export default {
   name: 'ShareboxOverview',
@@ -70,6 +72,15 @@ export default {
     }
 
     async function downloadFileTapped(file) {
+      // Im Demo ein gebrandetes Beispiel-Dokument öffnen (kein S3-Download).
+      if (isLocalAuthMode) {
+        openGenericDoc({
+          title: file.name.replace(/\.[^.]+$/, ''),
+          subtitle: 'Freigegebenes Dokument · Sharebox (Demo)',
+          body: file.demoBody || 'Dies ist ein Demo-Dokument der Sharebox.'
+        })
+        return
+      }
       try {
         const shareboxItem = await store.dispatch('downloadFromSharebox', {
           key: file.key

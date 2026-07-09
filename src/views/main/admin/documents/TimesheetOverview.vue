@@ -173,7 +173,7 @@
       :time-sheet="reviewTimeSheet"
       :status="reviewTimeSheet ? statusFor(reviewTimeSheet) : ''"
       :releasable="reviewTimeSheet ? canReleaseRow(reviewTimeSheet) : false"
-      :show-details-link="reviewTimeSheet ? !reviewTimeSheet.id?.startsWith('demo-') : false"
+      :show-details-link="!!reviewTimeSheet"
       @close="reviewDialogOpen = false"
       @release="releaseFromDialog"
       @query="queryFromDialog"
@@ -450,7 +450,6 @@ export default {
     }
 
     function openTimeSheetDetails(timeSheet) {
-      if (timeSheet.id?.startsWith('demo-')) return
       router.push({
         name: 'TimeSheetDetails',
         params: { id: timeSheet.id },

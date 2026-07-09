@@ -55,51 +55,127 @@ Carrier Contact Details
     >
       <main class="flex-1 focus:outline-none">
         <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
-          <div class="grid gap-6 lg:grid-cols-2">
-            <!-- Profil -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
-              <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
-              <div class="mt-5">
-                <carrier-contact-data-info
+          <!-- Profil-Header -->
+          <header class="mb-6 flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+            <button
+              type="button"
+              @click="goBack"
+              title="Zurück zur Übersicht"
+              class="shrink-0 rounded-lg border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-50 hover:text-slate-800"
+            >
+              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+            </button>
+            <InitialsAvatar :name="fullName" size-class="h-14 w-14 text-lg" />
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">{{ fullName }}</h1>
+              </div>
+              <div v-if="chips.length" class="mt-2 flex flex-wrap gap-2">
+                <span
+                  v-for="chip in chips"
+                  :key="chip"
+                  class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600"
+                >{{ chip }}</span>
+              </div>
+            </div>
+          </header>
+          <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+            <!-- Hauptinhalt: gestapelte Sektionen -->
+            <div class="min-w-0 space-y-6">
+              <!-- Profil -->
+              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+                <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+                <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
+                <div class="mt-5">
+                  <carrier-contact-data-info
+                    :carrierContact="carrierContact"
+                    :isLoading="propertyIsLoading"
+                    @change-submit="changeSubmitted"
+                  />
+                </div>
+              </section>
+
+              <!-- Kostenträger-Zuordnung -->
+              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+                <h3 class="font-display text-lg font-bold text-slate-900">Kostenträger</h3>
+                <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
+                <div class="mt-5">
+                  <CarrierSelection
+                    :preSelected="carrierContact.carrier"
+                    @carrier-selected="setCarrier"
+                    @carrier-removed="removeCarrier"
+                  />
+                </div>
+              </section>
+
+              <!-- Verknüpfte Klienten -->
+              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+                <CarrierContactDetailChildrenList
+                  @child-selected="addChild"
+                  @remove-child="removeChild"
                   :carrierContact="carrierContact"
-                  :isLoading="propertyIsLoading"
-                  @change-submit="changeSubmitted"
                 />
-              </div>
-            </section>
+              </section>
 
-            <!-- Kostenträger-Zuordnung -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-              <h3 class="font-display text-lg font-bold text-slate-900">Kostenträger</h3>
-              <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
-              <div class="mt-5">
-                <CarrierSelection
-                  :preSelected="carrierContact.carrier"
-                  @carrier-selected="setCarrier"
-                  @carrier-removed="removeCarrier"
+              <!-- Konto -->
+              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+                <carrier-contact-detail-account-info
+                  :carrier="carrierContact"
+                  :deleteIsLoading="deleteIsLoading"
+                  :userStateIsLoading="userStateIsLoading"
+                  @delete-carrier-contact-tapped="deleteCarrierContactTapped"
                 />
+              </section>
+            </div>
+            <!-- Schnellzugriff (rechts, sticky) -->
+            <aside class="space-y-6 lg:sticky lg:top-8 lg:self-start">
+              <!-- Aktionen -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                <h3 class="font-display text-base font-bold text-slate-900">Schnellzugriff</h3>
+                <div class="mt-4 space-y-2">
+                  <button v-if="carrierContact.email" type="button" @click="writeEmail"
+                    class="flex w-full items-center gap-3 rounded-xl bg-impuls-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">
+                    <EnvelopeIcon class="h-5 w-5" aria-hidden="true" /> E-Mail schreiben
+                  </button>
+                  <button v-if="carrierContact.carrier && carrierContact.carrier.id" type="button" @click="goToCarrier"
+                    class="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    <BuildingOffice2Icon class="h-5 w-5 text-slate-400" aria-hidden="true" /> Zum Kostenträger
+                  </button>
+                  <button type="button" @click="deleteCarrierContactTapped"
+                    class="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50">
+                    <TrashIcon class="h-5 w-5" aria-hidden="true" /> Kontakt löschen
+                  </button>
+                </div>
               </div>
-            </section>
-
-            <!-- Verknüpfte Klienten (volle Breite) -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
-              <CarrierContactDetailChildrenList
-                @child-selected="addChild"
-                @remove-child="removeChild"
-                :carrierContact="carrierContact"
-              />
-            </section>
-
-            <!-- Konto (volle Breite) -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
-              <carrier-contact-detail-account-info
-                :carrier="carrierContact"
-                :deleteIsLoading="deleteIsLoading"
-                :userStateIsLoading="userStateIsLoading"
-                @delete-carrier-contact-tapped="deleteCarrierContactTapped"
-              />
-            </section>
+              <!-- Kennzahlen -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                <h3 class="font-display text-base font-bold text-slate-900">Kennzahlen</h3>
+                <dl class="mt-4 space-y-3 text-sm">
+                  <div class="flex items-center justify-between gap-3">
+                    <dt class="text-slate-500">E-Mail</dt>
+                    <dd class="truncate font-semibold text-slate-900">{{ carrierContact.email || '—' }}</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3">
+                    <dt class="text-slate-500">Telefon</dt>
+                    <dd class="font-semibold tabular-nums text-slate-900">{{ carrierContact.phone || '—' }}</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3">
+                    <dt class="text-slate-500">Kostenträger</dt>
+                    <dd class="truncate font-semibold text-slate-900">{{ carrierContact.carrier?.name || '—' }}</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3">
+                    <dt class="text-slate-500">Klienten</dt>
+                    <dd class="font-semibold tabular-nums text-slate-900">{{ childCount }}</dd>
+                  </div>
+                </dl>
+              </div>
+              <!-- Kontext -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                <h3 class="font-display text-base font-bold text-slate-900">Ansprechpartner Kostenträger</h3>
+                <p class="mt-2 text-sm font-medium text-slate-700">{{ fullName }}</p>
+                <p class="text-xs text-slate-400">{{ carrierContact.carrier?.name || 'Kein Kostenträger zugeordnet' }}</p>
+              </div>
+            </aside>
           </div>
         </div>
       </main>
@@ -109,10 +185,12 @@ Carrier Contact Details
 
 <script>
 // Vue imports
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { ArrowLeftIcon, EnvelopeIcon, BuildingOffice2Icon, TrashIcon } from '@heroicons/vue/24/outline'
 // Component imports
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import CarrierContactDataInfo from '@/components/Main/Admin/CarrierContact/CarrierContactDataInfo.vue'
 import CarrierContactDetailChildrenList from '@/components/Main/Admin/CarrierContact/CarrierContactDetailChildrenList.vue'
 import CarrierContactDetailAccountInfo from '@/components/Main/Admin/CarrierContact/CarrierContactDetailAccountInfo.vue'
@@ -136,7 +214,12 @@ export default {
     LoadingSpinner,
     SuccessWindow,
     ErrorWindow,
-    CarrierSelection
+    CarrierSelection,
+    InitialsAvatar,
+    ArrowLeftIcon,
+    EnvelopeIcon,
+    BuildingOffice2Icon,
+    TrashIcon
   },
   props: ['id'],
   setup() {
@@ -167,6 +250,41 @@ export default {
     const router = useRouter()
     // Initialze Store
     const store = useStore()
+
+    // --- Profil-Header (Anzeige) ---
+    const fullName = computed(() => {
+      const c = carrierContact.value
+      if (!c) return ''
+      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'Kostenträger-Kontakt'
+    })
+    const chips = computed(() => {
+      const c = carrierContact.value || {}
+      const list = []
+      if (c.carrier?.name) list.push(c.carrier.name)
+      if (c.email) list.push(c.email)
+      if (c.phone) list.push(c.phone)
+      return list
+    })
+    const childCount = computed(
+      () => carrierContact.value?.children?.items?.length ?? 0
+    )
+    function goBack() {
+      router.push({ name: 'CarrierContactOverview' })
+    }
+    // Schnellzugriff-Aktionen
+    function writeEmail() {
+      if (carrierContact.value?.email) {
+        window.location.href = `mailto:${carrierContact.value.email}`
+      }
+    }
+    function goToCarrier() {
+      if (carrierContact.value?.carrier?.id) {
+        router.push({
+          name: 'CarrierDetails',
+          params: { id: carrierContact.value.carrier.id }
+        })
+      }
+    }
 
     // Mounted Hook
     onMounted(async () => {
@@ -344,6 +462,12 @@ export default {
       deleteIsLoading,
       propertyIsLoading,
       carrierContact,
+      fullName,
+      chips,
+      childCount,
+      goBack,
+      writeEmail,
+      goToCarrier,
       deleteSelected,
       customError,
       customSuccess,

@@ -10,7 +10,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" />
+        <div class="fixed inset-0 bg-slate-900/40 transition-opacity" />
       </TransitionChild>
       <div
         class="fixed ml-0 md:ml-52 inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20 grid place-items-center"
@@ -26,7 +26,7 @@
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto flex max-h-[80vh] w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 transition-all"
+            class="mx-auto flex max-h-[80vh] w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-slate-200 transition-all"
           >
             <Combobox v-slot="{ activeOption }">
               <div class="flex h-full grow flex-col">
@@ -107,7 +107,7 @@
                   >
                     <div class="flex flex-col items-center p-6 text-center">
                       <InitialsAvatar :name="displayName(activeOption)" size-class="h-16 w-16 text-lg" />
-                      <h2 class="mt-3 font-semibold text-slate-900">{{ displayName(activeOption) }}</h2>
+                      <h2 class="mt-3 font-display font-bold text-slate-900">{{ displayName(activeOption) }}</h2>
                     </div>
                     <div class="flex flex-auto flex-col justify-between px-6 pb-6">
                       <dl class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-slate-700">
@@ -138,7 +138,7 @@
                       <div class="mt-6 flex justify-center">
                         <button
                           @click="onSelect(activeOption)"
-                          class="w-full rounded-xl bg-impuls-blue px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
+                          class="w-full rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
                         >
                           Auswählen
                         </button>

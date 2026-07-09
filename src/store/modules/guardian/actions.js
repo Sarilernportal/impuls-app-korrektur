@@ -20,6 +20,7 @@ import {
   closestEvent as localClosestEvent,
   getGuardian as getLocalGuardian,
   listDailyReports as listLocalDailyReports,
+  listSpecialDailyReports as listLocalSpecialDailyReports,
   listEvents as listLocalEvents,
   listFiles as listLocalFiles,
   listTimesheets as listLocalTimesheets
@@ -363,6 +364,9 @@ export default {
     return response
   },
   async listSpecialDailyReportsByGuardian(_, payload) {
+    if (isLocalAuthMode) {
+      return listLocalSpecialDailyReports()
+    }
     // get data from payload
     const { nextToken } = payload
     // get daily reports of guardian with reportActivity being special-case
@@ -399,9 +403,22 @@ export default {
   },
   async checkCreatedReportsCounts() {
     if (isLocalAuthMode) {
+      // Zähler aus den Demo-Dokumentationen ableiten (bleibt in Sync).
+      const reports = listLocalDailyReports()
+      const specialActivities = [
+        'holiday',
+        'vacation',
+        'employeeSickness',
+        'teamMeeting',
+        'furtherEducation',
+        'miscellaneous'
+      ]
+      const special = reports.filter((report) =>
+        specialActivities.includes(report.reportActivity)
+      ).length
       return {
-        standard: 0,
-        special: 0
+        standard: reports.length - special,
+        special
       }
     }
 

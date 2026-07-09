@@ -1,59 +1,37 @@
 <template>
-  <!-- main container -->
-  <div class="w-full md:w-3/4 flex gap-2 bg-white border border-gray-600 p-2 rounded-lg">
-    <!-- info section -->
-    <div class="w-full">
-      <!-- event title -->
-      <div class="flex flex-col mb-2">
-        <p class="w-full font-semibold text-primaryText">Titel</p>
-        <p class="w-full text-secondaryText">
-          {{ event.title }}
-        </p>
-      </div>
-      <!-- event description -->
-      <div class="flex flex-col mb-2">
-        <p class="w-full font-semibold text-primaryText">Beschreibung</p>
-        <p class="w-full text-secondaryText">
-          {{ event.description }}
-        </p>
-      </div>
-      <!-- event link -->
-      <div
-        v-if="event.link !== '' && event.link"
-        class="flex flex-col mb-2"
-      >
-        <p class="w-full font-semibold text-primaryText">Link</p>
-        <p class="w-full text-blue-500 break-words">
-          <a
-            :href="event.link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ event.link }}</a>
-        </p>
-      </div>
-      <!-- event date -->
-      <div class="flex flex-col mb-2">
-        <p class="w-full font-semibold text-primaryText">Datum</p>
-        <p class="w-full text-secondaryText">
-          {{ eventDate }}
-        </p>
-      </div>
+  <!-- Termin-Karte -->
+  <div class="w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-card">
+    <div class="flex items-start justify-between gap-3">
+      <h3 class="min-w-0 break-words font-display text-base font-bold text-slate-900">
+        {{ event.title || 'Termin' }}
+      </h3>
+      <span
+        v-if="timeRange"
+        class="shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium tabular-nums text-slate-600"
+      >{{ timeRange }}</span>
     </div>
+    <p
+      v-if="event.description"
+      class="mt-1 text-sm text-slate-500"
+    >{{ event.description }}</p>
+    <p
+      v-if="dayLabel"
+      class="mt-2 text-xs text-slate-400"
+    >{{ dayLabel }}</p>
+    <a
+      v-if="event.link"
+      :href="event.link"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-2 inline-flex items-center break-all text-sm font-medium text-impuls-blue hover:underline"
+    >{{ event.link }}</a>
   </div>
 </template>
 
 <script>
-// vue imports
 import { computed } from 'vue'
-import { useStore } from 'vuex'
-
-// component imports
-import CalendarDetailsParticipationTile from '@/components/Main/Admin/Calendar/CalendarDetailsParticipationTile.vue'
 
 export default {
-  components: {
-    CalendarDetailsParticipationTile
-  },
   props: {
     event: {
       type: Object,
@@ -61,47 +39,46 @@ export default {
     }
   },
   setup(props) {
-    // initialize soter
-    const store = useStore()
+    const pad = (n) => (n < 10 ? `0${n}` : `${n}`)
 
-    // Get the date of event
-    const eventDate = computed(() => {
+    // Startzeit in Minuten seit Mitternacht – direkt aus dem ISO-Zeitanteil,
+    // damit keine Zeitzonen-Verschiebung entsteht.
+    const startMinutes = computed(() => {
       try {
-        // Get the day name to a locale string
-        const dayName = new Date(props.event.startDate).toLocaleDateString(
-          'de-DE'
-        )
-        // Convert the timestamp to a more readable date
-        const convertedStartTimeStamp = props.event.startDate
+        const [hours, minutes] = props.event.startDate
           .split('T')[1]
-          .split('.')[0]
-
-        // Create start hour and minutes with the offset
-        const offset = new Date(props.event.startDate).getTimezoneOffset() / 60
-        const startHour = new Date(props.event.startDate).getHours() + offset
-        const startMinutes = new Date(props.event.startDate).getMinutes()
-
-        // get duration values from event
-        const durationHours = Math.floor(props.event.durationInHours)
-        const durationMinutes = (props.event.durationInHours % 1) * 60
-
-        // create end hours and minutes
-        const endHours = startHour + durationHours
-        const endMinutes = startMinutes + durationMinutes
-
-        // Create the date string
-        const friendlyDate = `${dayName}, ${convertedStartTimeStamp} - ${endHours}:${endMinutes < 10 ? '0' + endMinutes : endMinutes
-          }:00`
-        return friendlyDate
+          .split(':')
+        return Number(hours) * 60 + Number(minutes)
       } catch (error) {
-        console.log(error)
-        // Fallback
-        return 'Keine Angabe'
+        return null
+      }
+    })
+
+    // Zeitspanne "HH:MM – HH:MM Uhr" mit korrektem Minuten-/Stunden-Überlauf.
+    const timeRange = computed(() => {
+      if (startMinutes.value === null) return ''
+      const duration = Math.round((Number(props.event.durationInHours) || 0) * 60)
+      const end = startMinutes.value + duration
+      const fmt = (total) => `${pad(Math.floor(total / 60) % 24)}:${pad(total % 60)}`
+      return `${fmt(startMinutes.value)} – ${fmt(end)} Uhr`
+    })
+
+    const dayLabel = computed(() => {
+      try {
+        return new Date(props.event.startDate).toLocaleDateString('de-DE', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        })
+      } catch (error) {
+        return ''
       }
     })
 
     return {
-      eventDate
+      timeRange,
+      dayLabel
     }
   }
 }

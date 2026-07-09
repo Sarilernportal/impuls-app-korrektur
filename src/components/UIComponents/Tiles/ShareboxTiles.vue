@@ -126,7 +126,8 @@ export default {
             size: fileSize,
             type: fileType,
             unit: fileUnit,
-            key: file.Key
+            key: file.Key,
+            demoBody: file.demoBody
           })
         }
         return fileList

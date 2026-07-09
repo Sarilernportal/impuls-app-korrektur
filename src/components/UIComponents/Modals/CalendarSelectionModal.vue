@@ -10,9 +10,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div
-          class="fixed inset-0 bg-gray-800 bg-opacity-80 transition-opacity"
-        />
+        <div class="fixed inset-0 bg-slate-900/40 transition-opacity" />
       </TransitionChild>
       <div
         class="fixed ml-0 md:ml-52 inset-0 z-10 overflow-y-auto p-6 sm:p-6 md:p-20 grid place-items-center"
@@ -28,24 +26,24 @@
           leave-to="opacity-0 scale-95"
         >
           <DialogPanel
-            class="mx-auto max-w-3xl h-full sm:h-1/2 transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
+            class="mx-auto max-w-3xl h-full sm:h-1/2 transform divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white shadow-xl transition-all"
           >
             <Combobox v-slot="{ activeOption }">
               <div class="flex flex-col h-full grow">
                 <div class="flex mt-2 items-center px-2 pb-1">
                   <MagnifyingGlassIcon
-                    class="pointer-events-none h-5 w-5 text-gray-400"
+                    class="pointer-events-none h-5 w-5 text-slate-400"
                     aria-hidden="true"
                   />
                   <ComboboxInput
-                    class="h-12 w-full border-0 bg-transparent pr-4 text-gray-800 placeholder-gray-400 sm:text-sm"
+                    class="h-12 w-full border-0 bg-transparent pr-4 text-slate-800 placeholder-slate-400 sm:text-sm"
                     placeholder="Suche nach Namen"
                     @change="query = $event.target.value"
                   />
                   <!-- close icon -->
                   <div class="flex items-center mr-2">
                     <button
-                      class="h-7 w-7 text-gray-400 hover:text-gray-300 cursor-pointer"
+                      class="h-7 w-7 text-slate-400 hover:text-slate-500 cursor-pointer"
                       @click="closeModal"
                     >
                       <XMarkIcon />
@@ -54,7 +52,7 @@
                 </div>
                 <ComboboxOptions
                   v-if="query === '' || filteredCalendars.length > 0"
-                  class="flex flex-col overflow-y-auto sm:flex-row divide-x divide-gray-100"
+                  class="flex flex-col overflow-y-auto sm:flex-row divide-x divide-slate-100"
                   as="div"
                   static
                   hold
@@ -65,7 +63,7 @@
                       ' min-w-0 flex-auto scroll-py-4 overflow-y-auto px-6 py-4'
                     ]"
                   >
-                    <div hold class="-mx-2 text-sm text-gray-700">
+                    <div hold class="-mx-2 text-sm text-slate-600">
                       <ComboboxOption
                         v-for="calendar in filteredCalendars"
                         :key="calendar.id"
@@ -76,7 +74,7 @@
                         <div
                           :class="[
                             'group flex cursor-default select-none items-center rounded-md p-2',
-                            active && 'bg-gray-100 text-gray-900'
+                            active && 'bg-slate-100 text-slate-900'
                           ]"
                         >
                           <span
@@ -93,7 +91,7 @@
                           }}</span>
                           <ChevronRightIcon
                             v-if="active"
-                            class="ml-3 h-5 w-5 flex-none text-gray-400"
+                            class="ml-3 h-5 w-5 flex-none text-slate-400"
                             aria-hidden="true"
                           />
                         </div>
@@ -104,37 +102,40 @@
                       class="w-full flex justify-center mt-5"
                     >
                       <div
-                        class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"
+                        class="p-2 bg-slate-100 hover:bg-slate-200 rounded-full cursor-pointer"
                         @click="loadMore"
                       >
-                        <ChevronDoubleDownIcon class="h-5 w-5 text-gray-400" />
+                        <ChevronDoubleDownIcon class="h-5 w-5 text-slate-400" />
                       </div>
                     </div>
                   </div>
                   <!-- right side -> user viewer -->
                   <div
                     v-if="activeOption"
-                    class="w-full sm:w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sflex"
+                    class="w-full sm:w-1/2 flex-none flex-col divide-y divide-slate-100 overflow-y-auto sflex"
                   >
                     <!-- name -->
                     <div class="flex-none p-6 text-center">
                       <h2
                         v-if="!activeOption.title"
-                        class="mt-3 font-semibold text-gray-900"
+                        class="mt-3 font-display font-bold text-slate-900"
                       >
                         Nicht Angegeben
                       </h2>
-                      <h2 v-else class="mt-3 font-semibold text-gray-900">
+                      <h2
+                        v-else
+                        class="mt-3 font-display font-bold text-slate-900"
+                      >
                         {{ activeOption.title }}
                       </h2>
                     </div>
                     <!-- user info -->
                     <div class="flex flex-auto flex-col justify-between p-6">
                       <dl
-                        class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-700"
+                        class="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-slate-600"
                       >
                         <!-- phone -->
-                        <dt class="col-end-1 font-semibold text-gray-900">
+                        <dt class="col-end-1 font-semibold text-slate-900">
                           Beschreibung
                         </dt>
                         <dd class="whitespace-pre-wrap">
@@ -150,7 +151,7 @@
                       >
                         <button
                           @click="onSelect(activeOption)"
-                          class="px-5 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-900 text-white"
+                          class="rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700"
                         >
                           Auswählen
                         </button>
@@ -163,13 +164,13 @@
                   class="py-14 px-6 text-center text-sm sm:px-14"
                 >
                   <UsersIcon
-                    class="mx-auto h-6 w-6 text-gray-400"
+                    class="mx-auto h-6 w-6 text-slate-400"
                     aria-hidden="true"
                   />
-                  <p class="mt-4 font-semibold text-gray-900">
+                  <p class="mt-4 font-display font-bold text-slate-900">
                     Keine Kalender gefunden
                   </p>
-                  <p class="mt-2 text-gray-500">
+                  <p class="mt-2 text-slate-500">
                     Wir konnten leider keine Kalender mit diesem Titel finden.
                   </p>
                 </div>
