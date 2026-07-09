@@ -511,7 +511,29 @@ export function listTimesheets() {
 }
 
 export function listFiles() {
-  return []
+  // Demo-Dateien für die Sharebox (Roh-S3-Form: Key mit 3 Segmenten + Size in
+  // Bytes; ShareboxTiles leitet Name/Typ/Größe daraus ab), damit „Dateien" im
+  // Demo nicht leer ist.
+  return [
+    {
+      Key: 'sharebox/demo/Elterninformation_Schuljahr.pdf',
+      Size: 1480000,
+      demoBody:
+        'Liebe Eltern, zu Beginn des Schuljahres informieren wir Sie über Abläufe der Schulbegleitung, Ansprechpartner und wichtige Termine. Bei Fragen wenden Sie sich gern an die zuständige Fachkraft.'
+    },
+    {
+      Key: 'sharebox/demo/Konzept_Schulbegleitung.pdf',
+      Size: 920000,
+      demoBody:
+        'Das pädagogische Konzept der Schulbegleitung beschreibt Ziele, Haltung und Methoden der Begleitung im schulischen Alltag gemäß §35a SGB VIII.'
+    },
+    {
+      Key: 'sharebox/demo/Notfallkontakte.docx',
+      Size: 240000,
+      demoBody:
+        'Übersicht der Notfallkontakte: Leitung, zuständige Fachkraft sowie ärztliche Erreichbarkeit. Bitte im Betreuungsordner griffbereit halten.'
+    }
+  ]
 }
 
 export function listCalendars() {
