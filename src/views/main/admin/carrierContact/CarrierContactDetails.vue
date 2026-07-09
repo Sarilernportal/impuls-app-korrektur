@@ -55,6 +55,30 @@ Carrier Contact Details
     >
       <main class="flex-1 focus:outline-none">
         <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <!-- Profil-Header -->
+          <header class="mb-6 flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+            <button
+              type="button"
+              @click="goBack"
+              title="Zurück zur Übersicht"
+              class="shrink-0 rounded-lg border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-50 hover:text-slate-800"
+            >
+              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+            </button>
+            <InitialsAvatar :name="fullName" size-class="h-14 w-14 text-lg" />
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">{{ fullName }}</h1>
+              </div>
+              <div v-if="chips.length" class="mt-2 flex flex-wrap gap-2">
+                <span
+                  v-for="chip in chips"
+                  :key="chip"
+                  class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600"
+                >{{ chip }}</span>
+              </div>
+            </div>
+          </header>
           <div class="grid gap-6 lg:grid-cols-2">
             <!-- Profil -->
             <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
@@ -109,10 +133,12 @@ Carrier Contact Details
 
 <script>
 // Vue imports
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
 // Component imports
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import CarrierContactDataInfo from '@/components/Main/Admin/CarrierContact/CarrierContactDataInfo.vue'
 import CarrierContactDetailChildrenList from '@/components/Main/Admin/CarrierContact/CarrierContactDetailChildrenList.vue'
 import CarrierContactDetailAccountInfo from '@/components/Main/Admin/CarrierContact/CarrierContactDetailAccountInfo.vue'
@@ -136,7 +162,9 @@ export default {
     LoadingSpinner,
     SuccessWindow,
     ErrorWindow,
-    CarrierSelection
+    CarrierSelection,
+    InitialsAvatar,
+    ArrowLeftIcon
   },
   props: ['id'],
   setup() {
@@ -167,6 +195,24 @@ export default {
     const router = useRouter()
     // Initialze Store
     const store = useStore()
+
+    // --- Profil-Header (Anzeige) ---
+    const fullName = computed(() => {
+      const c = carrierContact.value
+      if (!c) return ''
+      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'Kostenträger-Kontakt'
+    })
+    const chips = computed(() => {
+      const c = carrierContact.value || {}
+      const list = []
+      if (c.carrier?.name) list.push(c.carrier.name)
+      if (c.email) list.push(c.email)
+      if (c.phone) list.push(c.phone)
+      return list
+    })
+    function goBack() {
+      router.push({ name: 'CarrierContactOverview' })
+    }
 
     // Mounted Hook
     onMounted(async () => {
@@ -344,6 +390,9 @@ export default {
       deleteIsLoading,
       propertyIsLoading,
       carrierContact,
+      fullName,
+      chips,
+      goBack,
       deleteSelected,
       customError,
       customSuccess,

@@ -34,6 +34,31 @@ Children Details
     <div v-else class="flex-1 flex flex-col">
       <main class="flex-1 focus:outline-none">
         <div class="relative mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+          <!-- Profil-Header -->
+          <header class="mb-6 flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-6">
+            <button
+              type="button"
+              @click="goBack"
+              title="Zurück zur Übersicht"
+              class="shrink-0 rounded-lg border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-50 hover:text-slate-800"
+            >
+              <ArrowLeftIcon class="h-5 w-5" aria-hidden="true" />
+            </button>
+            <InitialsAvatar :name="fullName" size-class="h-14 w-14 text-lg" />
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <h1 class="font-display text-2xl font-black tracking-tight text-slate-900">{{ fullName }}</h1>
+                <span :class="['rounded-full px-2.5 py-0.5 text-xs font-semibold', statusClass]">{{ statusLabel }}</span>
+              </div>
+              <div v-if="chips.length" class="mt-2 flex flex-wrap gap-2">
+                <span
+                  v-for="chip in chips"
+                  :key="chip"
+                  class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600"
+                >{{ chip }}</span>
+              </div>
+            </div>
+          </header>
           <div class="grid gap-6 lg:grid-cols-2">
             <!-- Profil -->
             <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
@@ -99,10 +124,12 @@ Children Details
 
 <script>
 // Vue imports
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
 // Component imports
+import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import ChildrenDetailDataInfo from '@/components/Main/Admin/Children/ChildrenDetailDataInfo.vue'
 import ChildrenDetailAccountInfo from '@/components/Main/Admin/Children/ChildrenDetailAccountInfo.vue'
 import ChildrenDetailConnectionsInfo from '@/components/Main/Admin/Children/ChildrenDetailConnectionsInfo.vue'
@@ -126,7 +153,9 @@ export default {
     CriticalAction,
     LoadingSpinner,
     SuccessWindow,
-    ErrorWindow
+    ErrorWindow,
+    InitialsAvatar,
+    ArrowLeftIcon
   },
   props: ['id'],
   setup() {
@@ -161,6 +190,40 @@ export default {
     const router = useRouter()
     // Initialze Store
     const store = useStore()
+
+    // --- Profil-Header (Anzeige) ---
+    const fullName = computed(() => {
+      const c = child.value
+      if (!c) return ''
+      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'Klient'
+    })
+    const age = computed(() => {
+      const dob = child.value?.dateOfBirth
+      if (!dob) return null
+      const d = new Date(dob)
+      if (Number.isNaN(d.getTime())) return null
+      return Math.floor((Date.now() - d.getTime()) / (365.25 * 24 * 3600 * 1000))
+    })
+    const chips = computed(() => {
+      const c = child.value || {}
+      const list = []
+      if (c.recordNumber) list.push(`Az. ${c.recordNumber}`)
+      if (c.school) list.push(c.school)
+      if (c.weeklyHours) list.push(`${c.weeklyHours} Std./Woche`)
+      if (age.value) list.push(`${age.value} Jahre`)
+      return list
+    })
+    const statusLabel = computed(() =>
+      child.value?.archiveStatus === 'archived' ? 'Archiviert' : 'Aktiv'
+    )
+    const statusClass = computed(() =>
+      child.value?.archiveStatus === 'archived'
+        ? 'bg-amber-100 text-amber-700'
+        : 'bg-emerald-100 text-emerald-700'
+    )
+    function goBack() {
+      router.push({ name: 'ChildrenOverview' })
+    }
 
     // Mounted Hook
     onMounted(() => {
@@ -376,6 +439,11 @@ export default {
       propertyIsLoading,
       contactPropertyIsLoading,
       child,
+      fullName,
+      chips,
+      statusLabel,
+      statusClass,
+      goBack,
       archiveSelected,
       customError,
       customSuccess,

@@ -42,7 +42,7 @@ Critical Action Component
           leave-to="opacity-0"
         >
           <DialogOverlay
-            class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
           />
         </TransitionChild>
         <!-- This element is to trick the browser into centering the modal contents. -->
@@ -65,16 +65,14 @@ Critical Action Component
               inline-block
               align-bottom
               bg-white
-              rounded-lg
-              px-4
-              pt-5
-              pb-4
+              rounded-2xl
+              p-6
               text-left
               overflow-hidden
               shadow-xl
               transform
               transition-all
-              sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6
+              sm:my-8 sm:align-middle sm:max-w-lg sm:w-full
             "
           >
             <!-- Header section -->
@@ -107,12 +105,12 @@ Critical Action Component
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <DialogTitle
                   as="h3"
-                  class="text-lg leading-6 font-medium text-gray-900"
+                  class="text-lg leading-6 font-display font-bold text-slate-900"
                 >
                   {{ title }}
                 </DialogTitle>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">
+                  <p class="text-sm text-slate-500">
                     {{ message }}
                   </p>
                 </div>
@@ -127,21 +125,19 @@ Critical Action Component
                     w-full
                     inline-flex
                     justify-center
-                    rounded-md
-                    border border-transparent
-                    shadow-sm
+                    rounded-lg
                     px-4
                     py-2
                     bg-red-600
-                    text-base
-                    font-medium
+                    text-sm
+                    font-semibold
                     text-white
                     hover:bg-red-700
                     focus:outline-none
                     focus:ring-2
                     focus:ring-offset-2
                     focus:ring-red-500
-                    sm:ml-3 sm:w-auto sm:text-sm
+                    sm:ml-3 sm:w-auto
                   "
                   @click="$emit('confirmed')"
                 >
@@ -155,21 +151,20 @@ Critical Action Component
                   w-full
                   inline-flex
                   justify-center
-                  rounded-md
-                  border border-gray-300
-                  shadow-sm
+                  rounded-lg
+                  border border-slate-200
                   px-4
                   py-2
                   bg-white
-                  text-base
-                  font-medium
-                  text-gray-700
-                  hover:bg-gray-50
+                  text-sm
+                  font-semibold
+                  text-slate-700
+                  hover:bg-slate-50
                   focus:outline-none
                   focus:ring-2
                   focus:ring-offset-2
-                  focus:ring-indigo-500
-                  sm:mt-0 sm:w-auto sm:text-sm
+                  focus:ring-slate-400
+                  sm:mt-0 sm:w-auto
                 "
                 @click="$emit('close')"
                 ref="cancelButtonRef"
