@@ -78,8 +78,8 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
       </section>
 
       <div class="mt-6 space-y-6">
-        <!-- Stammdaten & Funktion (nebeneinander) -->
-        <div class="grid gap-6 lg:grid-cols-2">
+        <!-- Stammdaten & Funktion (nebeneinander nur wenn Funktions-Sektion existiert) -->
+        <div :class="isGuardian ? 'grid gap-6 lg:grid-cols-2' : ''">
         <!-- Stammdaten -->
         <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
           <h3 class="font-display text-lg font-bold text-slate-900">Stammdaten</h3>
