@@ -6,20 +6,20 @@
       <div class="flex gap-2">
         <!-- special report flag -->
         <div
-          :class="['flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5', reportType === 'special' ? 'bg-impuls-blue text-gray-100' : 'bg-emerald-100 text-emerald-700']"
+          :class="['flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5', reportType === 'special' ? 'bg-impuls-blue text-slate-100' : 'bg-emerald-100 text-emerald-700']"
         >
           <p>{{ reportType === 'special' ? 'Sonderzeiten' : 'Dokumentation' }}</p>
         </div>
         <!-- report count -->
         <p
-          class="flex flex-wrap rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600">
+          class="flex flex-wrap rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-slate-700 hover:text-slate-800 border-2 border-indigo-400 hover:border-indigo-600">
           {{ 'Anzahl: ' + reports.length }}
         </p>
       </div>
       <!-- timeframe -->
-      <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+      <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
         <CalendarIcon
-          class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+          class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
           aria-hidden="true"
         />
         <p>
@@ -30,7 +30,7 @@
     </div>
     <!-- chevron button -->
     <button @click="goToFlaggedDetails">
-      <ChevronRightIcon class="h-8 w-8 text-gray-400" />
+      <ChevronRightIcon class="h-8 w-8 text-slate-400" />
     </button>
   </div>
 </template>

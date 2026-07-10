@@ -4,14 +4,14 @@
     v-slot="{ open }"
   >
     <PopoverButton :class="[
-      open ? 'text-gray-900' : 'text-gray-500',
-      'group inline-flex px-4 py-2 items-center rounded-lg bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+      open ? 'text-slate-900' : 'text-slate-500',
+      'group inline-flex px-4 py-2 items-center rounded-lg bg-white text-base font-medium hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
     ]">
       <span>Zeitraum</span>
       <ChevronDownIcon
         :class="[
-          open ? 'text-gray-600' : 'text-gray-400',
-          'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-gray-500'
+          open ? 'text-slate-600' : 'text-slate-400',
+          'ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-slate-500'
         ]"
         aria-hidden="true"
       />
@@ -33,7 +33,7 @@
           <div class="relative p-4">
             <!-- title -->
             <div>
-              <h1 class="text-left text-gray-600 text-xl font-bold">
+              <h1 class="text-left text-slate-600 text-xl font-bold">
                 Auswahl des Zeitraums
               </h1>
             </div>

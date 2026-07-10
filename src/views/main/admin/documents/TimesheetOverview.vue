@@ -52,7 +52,7 @@
       </section>
 
       <!-- Filter (Klient/Betreuer/Zeitraum) -->
-      <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
         <div class="grid gap-4 xl:grid-cols-3">
           <div class="flex items-center gap-2">
             <DocumentChildSelection class="w-full" :enableAddButton="true" :selectedChild="child" @child-selected="childSelected" />
@@ -136,14 +136,14 @@
                     <button
                       v-if="canReleaseRow(timeSheet)"
                       data-testid="release-btn"
-                      class="inline-flex items-center gap-1 rounded-md border border-emerald-300 px-2 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-50"
+                      class="inline-flex items-center gap-1 rounded-lg border border-emerald-300 px-2 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-50"
                       @click="release(timeSheet)"
                     >
                       <CheckIcon class="h-3.5 w-3.5" aria-hidden="true" /> Freigeben
                     </button>
                     <button
                       v-if="statusFor(timeSheet) !== 'freigegeben'"
-                      class="inline-flex items-center gap-1 rounded-md border border-slate-300 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                      class="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50"
                       @click="query(timeSheet)"
                     >
                       <ChatBubbleLeftRightIcon class="h-3.5 w-3.5" aria-hidden="true" /> Rückfrage

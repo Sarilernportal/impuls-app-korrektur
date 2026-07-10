@@ -18,7 +18,7 @@
         </div>
         <!-- address -->
         <div class="lg:px-0 py-2 lg:py-4 col-span-2 whitespace-nowrap">
-          <div class="lg:hidden text-base text-gray-500">
+          <div class="lg:hidden text-base text-slate-500">
             <span>Anschrift:</span>
           </div>
           <div
@@ -52,7 +52,7 @@
         >
           <button
             @click="showDetailsTapped"
-            class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+            class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
           >
             <Cog6ToothIcon class="h-8 w-8" />
           </button>
@@ -70,7 +70,7 @@
           />
           <router-link
             :to="{ name: 'NewCarrierContact', query: { carrierID: carrier.id } }"
-            class="flex gap-1 text-primaryText hover:text-gray-400 break-words border-2 border-indigo-400 hover:border-indigo-600 leading-5 rounded-full text-xs"
+            class="flex gap-1 text-primaryText hover:text-slate-400 break-words border-2 border-indigo-400 hover:border-indigo-600 leading-5 rounded-full text-xs"
           >
             <PlusIcon class="h-5 w-5 text-secondaryText stroke-2" />
           </router-link>
@@ -81,7 +81,7 @@
     <div class="lg:hidden flex py-2 whitespace-nowrap items-start">
       <button
         @click="showDetailsTapped"
-        class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+        class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
       >
         <Cog6ToothIcon class="h-8 w-8" />
       </button>

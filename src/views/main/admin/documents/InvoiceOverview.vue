@@ -51,7 +51,7 @@
         </button>
       </section>
 
-      <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
         <div class="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)]">
           <div class="flex items-center gap-2">
             <DocumentChildSelection
@@ -116,7 +116,7 @@
       </section>
 
       <div class="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.55fr)]">
-        <section class="rounded-lg border border-slate-200 bg-white shadow-sm">
+        <section class="rounded-2xl border border-slate-200 bg-white shadow-card">
           <div class="border-b border-slate-200 px-5 py-4">
             <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
@@ -188,7 +188,7 @@
                 </button>
                 <button
                   data-testid="invoice-view-btn"
-                  class="rounded-lg bg-impuls-blue px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                  class="rounded-lg bg-impuls-blue px-3 py-2 text-sm font-semibold text-white hover:bg-brand-700"
                   @click="openPreview(invoice, index)"
                 >
                   Ansicht
@@ -211,7 +211,7 @@
         </section>
 
         <aside class="grid gap-5">
-          <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
             <h2 class="text-lg font-semibold text-slate-900">GF-Ansicht</h2>
             <div class="mt-4 grid gap-3">
               <div
@@ -234,7 +234,7 @@
             </div>
           </section>
 
-          <section class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
             <h2 class="text-lg font-semibold text-slate-900">Leistung im Blick</h2>
             <div class="mt-4 rounded-lg bg-slate-50 p-4">
               <p class="text-3xl font-bold text-slate-900">{{ totalHours }}</p>

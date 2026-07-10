@@ -33,7 +33,7 @@
           <div class="relative p-4">
             <!-- title -->
             <div>
-              <h1 class="text-left text-gray-600 text-xl font-bold">
+              <h1 class="text-left text-slate-600 text-xl font-bold">
                 Auswahl des Zeitraums
               </h1>
             </div>

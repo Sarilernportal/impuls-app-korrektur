@@ -16,7 +16,7 @@ Input Label Component
     <slot name="label">
       <label
         :for="elementID"
-        :class="['block text-sm font-medium', useLightText ? 'text-gray-100' : 'text-primaryText']"
+        :class="['block text-sm font-medium', useLightText ? 'text-slate-100' : 'text-primaryText']"
       >
         {{ labelText }}
       </label>

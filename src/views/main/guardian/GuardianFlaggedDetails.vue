@@ -140,7 +140,7 @@
           <div class="flex my-2 text-primaryText gap-2 items-center">
             <input
               @click="thruthfullButtonTapped"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+              class="w-4 h-4 text-impuls-blue bg-white border-gray-300 rounded focus:ring-brand-200 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
               type="checkbox"
               id="truthfull"
               value="truthfull"
@@ -152,7 +152,7 @@
           <div class="flex my-2 text-primaryText gap-2 items-center">
             <input
               @click="gdprConfirmButtonTapped"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
+              class="w-4 h-4 text-impuls-blue bg-white border-gray-300 rounded focus:ring-brand-200 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2"
               type="checkbox"
               id="gdprConfirm"
               value="gdprConfirm"
@@ -180,7 +180,7 @@
       v-if="!isLoading && reportList.length <= 0"
       class="w-full"
     >
-      <p class="mt-1 max-w-2xl text-gray-200 text-center">
+      <p class="mt-1 max-w-2xl text-slate-500 text-center">
         Keine offenen Dokumente
       </p>
     </div>

@@ -54,12 +54,12 @@ Report List Item Flag Update
       >
         <ExclamationTriangleIcon :class="[
           reportFlagTextSaved === 'none'
-            ? 'text-gray-600 hover:text-gray-400'
+            ? 'text-slate-600 hover:text-slate-400'
             : reportFlagTextSaved === 'unsaved'
               ? 'text-red-600 hover:text-red-400'
               : reportFlagTextSaved === 'saved'
                 ? 'text-green-600 hover:text-green-400'
-                : 'text-gray-600 hover:text-gray-400',
+                : 'text-slate-600 hover:text-slate-400',
           !reportFlagTextValidation ||
             reportFlagTextSaved === 'saved' ||
             reportFlagTextSaved === 'none'
@@ -76,7 +76,7 @@ Report List Item Flag Update
         <CalendarDaysIcon :class="[
           reportFlagDaySelectionAllowed
             ? 'text-green-600 hover:text-green-400'
-            : 'text-gray-600 hover:text-gray-400',
+            : 'text-slate-600 hover:text-slate-400',
           'h-6 w-6'
         ]" />
       </button>

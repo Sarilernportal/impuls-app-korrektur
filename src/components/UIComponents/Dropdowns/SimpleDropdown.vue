@@ -3,7 +3,7 @@
     <label
       v-if="displayTitle"
       for="Property"
-      class="block text-sm font-medium text-gray-500 sm:mt-px"
+      class="block text-sm font-medium text-slate-500 sm:mt-px"
       >{{ title }}</label
     >
     <div class="mt-1 sm:mt-0">

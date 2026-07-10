@@ -5,7 +5,7 @@
       <button
         @click="goToUser"
         :class="[
-          'text-gray-300 text-xs md:text-base px-3 bg-gray-700 rounded-l-full overflow-clip hover:bg-gray-500 print:border print:border-gray-400',
+          'text-slate-300 text-xs md:text-base px-3 bg-gray-700 rounded-l-full overflow-clip hover:bg-gray-500 print:border print:border-gray-400',
           allowDelete ? 'rounded-r-none' : 'rounded-r-full pr-3'
         ]"
       >

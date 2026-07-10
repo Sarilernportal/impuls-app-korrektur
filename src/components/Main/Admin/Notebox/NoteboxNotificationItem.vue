@@ -17,7 +17,7 @@ Notebox Notification Item
       <div class="flex gap-2">
         <!-- close button -->
         <button @click="closeClicked">
-          <XMarkIcon class="h-5 w-5 text-gray-600 hover:text-gray-400" />
+          <XMarkIcon class="h-5 w-5 text-slate-600 hover:text-slate-400" />
         </button>
         <!-- info text -->
         <p class="text-sm md:text-base">Sie haben noch ungelesene Notizen</p>

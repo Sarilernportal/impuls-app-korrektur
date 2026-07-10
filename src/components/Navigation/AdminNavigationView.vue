@@ -33,7 +33,7 @@ TODO HTML DOCUMENTATION
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          <div class="fixed inset-0 bg-slate-600 bg-opacity-75" />
         </TransitionChild>
         <div class="fixed inset-0 z-40 flex">
           <TransitionChild
@@ -149,7 +149,7 @@ TODO HTML DOCUMENTATION
           />
         </button>
         <nav
-          class="pt-5 flex flex-1 flex-col divide-y divide-gray-200 overflow-y-auto"
+          class="pt-5 flex flex-1 flex-col divide-y divide-stone-300/70 overflow-y-auto"
           aria-label="Sidebar"
         >
           <!-- Navbar Sections -->

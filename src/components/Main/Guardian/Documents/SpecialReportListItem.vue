@@ -49,9 +49,9 @@ Guardian Report List Item
       </div>
       <div class="mt-2 sm:flex sm:justify-between">
         <!-- Created at date -->
-        <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+        <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
           <CalendarIcon
-            class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+            class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
             aria-hidden="true"
           />
           <p>
@@ -62,10 +62,10 @@ Guardian Report List Item
         <!-- Created for Time -->
         <div
           v-if="displayActivityTimes"
-          class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0"
+          class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0"
         >
           <ClockIcon
-            class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+            class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
             aria-hidden="true"
           />
           <p>
@@ -89,7 +89,7 @@ Guardian Report List Item
       <button
         @click="editClicked"
         type="button"
-        :class="['inline-flex h-10 w-10 items-center justify-center rounded-full', report.retrospectively ? 'text-gray-600 hover:text-gray-700' : 'text-gray-400 hover:text-gray-500']"
+        :class="['inline-flex h-10 w-10 items-center justify-center rounded-full', report.retrospectively ? 'text-slate-600 hover:text-slate-700' : 'text-slate-400 hover:text-slate-500']"
       >
         <Cog6ToothIcon
           class="h-8 w-8"

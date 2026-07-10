@@ -28,7 +28,7 @@ Report List Item
           <div
             v-if="displaySpecialTimesInfo"
             title="Dokumentation für internes Ereignis"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-gray-100"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-slate-100"
           >
             <p>Sonderzeit</p>
           </div>
@@ -36,14 +36,14 @@ Report List Item
           <div
             v-if="displaySubstitute"
             title="Dokumentation wurde in Vertretung erstellt"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-gray-100"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-slate-100"
           >
             <p>Vertretung</p>
           </div>
           <!-- total worked hours of all reports combined -->
           <div
             v-if="displayActivityTimes"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
           >
             <p>Gesamtzeit:</p>
             <p>{{ hoursWorked }}</p>
@@ -51,7 +51,7 @@ Report List Item
           <!-- start and end time -->
           <div
             v-if="displayActivityTimes"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
           >
             <p>Arbeitszeit:</p>
             <p>{{ workedTimeSpan }}</p>
@@ -59,21 +59,21 @@ Report List Item
           <!-- display sickness and sickOnTime text -->
           <div
             v-if="displaySick"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
           >
             <p>{{ displaySick }}</p>
           </div>
           <!-- connected child -->
           <button
             v-if="!displaySpecialTimesInfo"
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-slate-700 hover:text-slate-800 border-2 border-indigo-400 hover:border-indigo-600"
             @click="goToChild"
           >
             <p>{{ 'Klient: ' + childName }}</p>
           </button>
           <!-- connected guardian -->
           <button
-            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
+            class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-slate-700 hover:text-slate-800 border-2 border-indigo-400 hover:border-indigo-600"
             @click="goToGuardian"
           >
             <p>{{ 'Betreuer: ' + guardianName }}</p>
@@ -82,7 +82,7 @@ Report List Item
         <!-- open file button -->
         <div class="w-12">
           <button
-            class="w-12 h-1/2 self-center text-gray-500 hover:text-gray-600"
+            class="w-12 h-1/2 self-center text-slate-500 hover:text-slate-600"
             @click="entryTapped()"
           >
             <DocumentIcon class="p-2" />
@@ -91,9 +91,9 @@ Report List Item
       </div>
       <div class="mt-2 sm:flex sm:justify-between">
         <!-- Created at data -->
-        <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+        <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
           <CalendarIcon
-            class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+            class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
             aria-hidden="true"
           />
           <p>
@@ -104,7 +104,7 @@ Report List Item
         <!-- revise date -->
         <div
           v-if="reviseDate"
-          class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0"
+          class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0"
         >
           <CalendarIcon
             class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-600"

@@ -190,12 +190,12 @@ Proof View
                 :key="doc.name"
                 class="flex flex-1 items-center justify-between p-4 truncate rounded-lg border border-slate-200 bg-white overflow-hidden"
               >
-                <p class="text-gray-600">{{ doc.name }}</p>
+                <p class="text-slate-600">{{ doc.name }}</p>
                 <button
                   @click="downloadClicked(doc)"
                   type="button"
                   aria-label="Dokument herunterladen"
-                  class="inline-flex h-11 w-11 items-center justify-center rounded-full text-gray-500 hover:text-secondaryText"
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-400 hover:text-secondaryText"
                 >
                   <ArrowDownTrayIcon
                     class="h-6 w-6"

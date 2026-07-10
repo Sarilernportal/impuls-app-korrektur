@@ -35,9 +35,9 @@ Guardian Report List Item
       </div>
       <div class="mt-2 sm:flex sm:justify-between">
         <!-- Created at data -->
-        <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+        <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
           <CalendarIcon
-            class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+            class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
             aria-hidden="true"
           />
           <p>
