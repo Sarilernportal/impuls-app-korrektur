@@ -142,34 +142,62 @@ Datenmodell erweitert ist (siehe Info-Banner).
         </div>
         <p class="mt-1 text-xs text-amber-800">
           Diese Regeln gelten PRO BEHÖRDE und steuern die Abrechnungszentrale
-          (Stundensätze, Krankheit/Terminabsage, Pool, Soll-Berechnung).
-          Jede Behörde hinterlegt immer zwei Stundensätze: mit und ohne Fachkraft.
+          (Stundensätze, Krankmeldung, Pooling, Soll-Berechnung).
+          Jede Behörde hinterlegt immer zwei Stundensätze: mit und ohne Fachkraft
+          (Beispiel Groß-Gerau, SGB VIII + IX: Fachkraft 55,51 € / Hilfskraft 38,75 €).
         </p>
         <div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <div>
             <label class="block text-xs font-medium text-amber-900" for="hourlyRateSpecialist">Stundensatz mit Fachkraft (€)</label>
-            <input id="hourlyRateSpecialist" type="number" min="0" step="0.01" v-model.number="extra.hourlyRateSpecialist" class="input-base mt-1" placeholder="45.50" />
+            <input id="hourlyRateSpecialist" type="number" min="0" step="0.01" v-model.number="extra.hourlyRateSpecialist" class="input-base mt-1" placeholder="55.51" />
             <p class="mt-1 text-xs text-amber-700">für Päd. Fachkräfte</p>
           </div>
           <div>
             <label class="block text-xs font-medium text-amber-900" for="hourlyRateAssistant">Stundensatz ohne Fachkraft (€)</label>
-            <input id="hourlyRateAssistant" type="number" min="0" step="0.01" v-model.number="extra.hourlyRateAssistant" class="input-base mt-1" placeholder="38.00" />
+            <input id="hourlyRateAssistant" type="number" min="0" step="0.01" v-model.number="extra.hourlyRateAssistant" class="input-base mt-1" placeholder="38.75" />
             <p class="mt-1 text-xs text-amber-700">für Päd. Hilfskräfte</p>
           </div>
           <div>
-            <label class="block text-xs font-medium text-amber-900" for="sicknessRule">Krankheit Kind / Terminabsage</label>
+            <label class="block text-xs font-medium text-amber-900" for="sicknessRule">Krankheit Kind / Krankmeldung</label>
             <select id="sicknessRule" v-model="extra.sicknessRule" class="input-base mt-1">
               <option value="">Regel wählen…</option>
               <option value="none">nicht vergütet</option>
-              <option value="partial">teilweise (%-Satz)</option>
+              <option value="partial">teilweise (eigener Satz oder %)</option>
               <option value="full">voll vergütet</option>
             </select>
+            <p class="mt-1 text-xs text-amber-700">Allgemein: max. 3×/Monat à 30&nbsp;%, nur Meldungen &lt; 24&nbsp;Std.; rechtzeitige Meldungen &amp; Folgetage nie abrechenbar</p>
           </div>
-          <div v-if="extra.sicknessRule === 'partial'">
+          <div>
+            <label class="block text-xs font-medium text-amber-900" for="sollRule">Soll-Berechnung</label>
+            <select id="sollRule" v-model="extra.sollRule" class="input-base mt-1">
+              <option value="schooldays">Schultage-basiert (Ferienkalender)</option>
+            </select>
+          </div>
+        </div>
+        <!-- Krankmeldung < 24 Std.: eigener Behörden-Satz ODER %-Regel + Monatslimit -->
+        <div v-if="extra.sicknessRule === 'partial'" class="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div>
+            <label class="block text-xs font-medium text-amber-900" for="sickRateSpecialist">Krankmeldung Fachkraft (€)</label>
+            <input id="sickRateSpecialist" type="number" min="0" step="0.01" v-model.number="extra.sickRateSpecialist" class="input-base mt-1" placeholder="42.91" />
+            <p class="mt-1 text-xs text-amber-700">eigener Satz der Behörde (z.&nbsp;B. Groß-Gerau)</p>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-amber-900" for="sickRateAssistant">Krankmeldung ohne Fachkraft (€)</label>
+            <input id="sickRateAssistant" type="number" min="0" step="0.01" v-model.number="extra.sickRateAssistant" class="input-base mt-1" placeholder="29.71" />
+          </div>
+          <div>
             <label class="block text-xs font-medium text-amber-900" for="sicknessPercent">Vergütung Absage (%)</label>
             <input id="sicknessPercent" type="number" min="1" max="100" step="1" v-model.number="extra.sicknessPercent" class="input-base mt-1" placeholder="30" />
-            <p class="mt-1 text-xs text-amber-700">Anteil des Stundensatzes (THA-Standard: 30&nbsp;%)</p>
+            <p class="mt-1 text-xs text-amber-700">nur ohne eigenen Satz (THA-Standard: 30&nbsp;%)</p>
           </div>
+          <div>
+            <label class="block text-xs font-medium text-amber-900" for="sicknessMaxPerMonth">max. Krankmeldungen / Monat</label>
+            <input id="sicknessMaxPerMonth" type="number" min="1" step="1" v-model.number="extra.sicknessMaxPerMonth" class="input-base mt-1" placeholder="3" />
+            <p class="mt-1 text-xs text-amber-700">leer = 3 (allgemeine Regel); mit eigenem Satz: jede Meldung abrechenbar</p>
+          </div>
+        </div>
+        <!-- Pooling (1:2-Betreuung) je Behörde -->
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <div>
             <label class="block text-xs font-medium text-amber-900" for="poolRule">Stundenpool</label>
             <select id="poolRule" v-model="extra.poolRule" class="input-base mt-1">
@@ -178,10 +206,13 @@ Datenmodell erweitert ist (siehe Info-Banner).
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-amber-900" for="sollRule">Soll-Berechnung</label>
-            <select id="sollRule" v-model="extra.sollRule" class="input-base mt-1">
-              <option value="schooldays">Schultage-basiert (Ferienkalender)</option>
-            </select>
+            <label class="block text-xs font-medium text-amber-900" for="poolRateSpecialist">Pooling 1:2 Fachkraft (€)</label>
+            <input id="poolRateSpecialist" type="number" min="0" step="0.01" v-model.number="extra.poolRateSpecialist" class="input-base mt-1" placeholder="75.49" />
+            <p class="mt-1 text-xs text-amber-700">Satz je Std. bei 1:2-Betreuung</p>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-amber-900" for="poolRateAssistant">Pooling 1:2 ohne Fachkraft (€)</label>
+            <input id="poolRateAssistant" type="number" min="0" step="0.01" v-model.number="extra.poolRateAssistant" class="input-base mt-1" placeholder="52.70" />
           </div>
         </div>
       </section>
@@ -260,6 +291,14 @@ export default {
       sicknessRule: '',
       // Prozentsatz bei „teilweise" – je Behörde unterschiedlich (Default 30 %).
       sicknessPercent: null,
+      // Eigener Krankmeldungs-Satz (< 24 Std.) der Behörde, z. B. Groß-Gerau.
+      sickRateSpecialist: null,
+      sickRateAssistant: null,
+      // Abrechenbare Krankmeldungen pro Monat (leer = allgemeine Regel: 3).
+      sicknessMaxPerMonth: null,
+      // Pooling-Sätze (1:2-Betreuung) je Fachkraft-Status.
+      poolRateSpecialist: null,
+      poolRateAssistant: null,
       poolRule: 'none',
       sollRule: 'schooldays'
     })
