@@ -17,7 +17,7 @@ Invoice Creation Modal
       <!-- close button -->
       <div class="self-end md:self-center">
         <button @click="closeClicked">
-          <XMarkIcon class="h-5 w-5 text-gray-600 hover:text-gray-400" />
+          <XMarkIcon class="h-5 w-5 text-slate-600 hover:text-slate-400" />
         </button>
       </div>
       <!-- main section -->

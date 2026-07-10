@@ -21,7 +21,7 @@ Admin Report List Item
             <div
               v-if="displaySubstitute"
               title="Dokumentation wurde in Vertretung erstellt"
-              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-gray-100"
+              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-slate-100"
             >
               <p>Vertretung</p>
             </div>
@@ -29,13 +29,13 @@ Admin Report List Item
             <div
               v-if="report.reportType === 'special'"
               title="Dokumentation für internes Ereignis"
-              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-gray-100"
+              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-impuls-blue text-slate-100"
             >
               <p>{{ activityName }}</p>
             </div>
             <!-- Total worked hours   -->
             <div
-              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
             >
               <p>Gesamtzeit:</p>
               <p>{{ hoursWorked }}</p>
@@ -43,7 +43,7 @@ Admin Report List Item
             <!-- start and end time -->
             <div
               v-if="report.reportType !== 'special'"
-              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
             >
               <p>Arbeitszeit:</p>
               <p>{{ workedTimeSpan }}</p>
@@ -51,7 +51,7 @@ Admin Report List Item
             <!-- display sickness and sickOnTime text -->
             <div
               v-if="displaySick"
-              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+              class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
             >
               <p>{{ displaySick }}</p>
             </div>
@@ -59,9 +59,9 @@ Admin Report List Item
         </div>
         <div class="mt-2 sm:flex sm:justify-between">
           <!-- Created at data -->
-          <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+          <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
             <CalendarIcon
-              class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+              class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
               aria-hidden="true"
             />
             <p>

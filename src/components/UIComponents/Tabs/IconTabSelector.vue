@@ -12,7 +12,7 @@ Icon Tab Selector Component
 -->
 <template>
   <div class="w-full flex justify-around">
-    <div class="w-full mx-4 border-b border-gray-100">
+    <div class="w-full mx-4 border-b border-slate-100">
       <div class="-mb-px flex justify-between" aria-label="Tabs">
         <button
           type="button"
@@ -22,7 +22,7 @@ Icon Tab Selector Component
           :class="[
             tab.current
               ? 'border-indigo-500 text-indigo-600'
-              : 'border-transparent text-gray-300 hover:text-gray-500 hover:border-gray-100',
+              : 'border-transparent text-slate-300 hover:text-slate-500 hover:border-slate-100',
             'group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm',
           ]"
           :aria-current="tab.current ? 'page' : undefined"
@@ -32,7 +32,7 @@ Icon Tab Selector Component
             :class="[
               tab.current
                 ? 'text-indigo-500'
-                : 'text-gray-200 group-hover:text-gray-300',
+                : 'text-slate-200 group-hover:text-slate-300',
               '-ml-0.5 mr-2 h-5 w-5',
             ]"
             aria-hidden="true"

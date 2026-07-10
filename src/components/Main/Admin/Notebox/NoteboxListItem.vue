@@ -27,7 +27,7 @@ Notebox List Item
           />
         </div>
         <!-- createdAt date -->
-        <div class="text-gray-500 text-sm whitespace-nowrap">{{ createdAt }}</div>
+        <div class="text-slate-500 text-sm whitespace-nowrap">{{ createdAt }}</div>
       </div>
       <!-- note interaction buttons -->
       <div>

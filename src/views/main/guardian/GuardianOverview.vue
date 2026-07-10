@@ -44,7 +44,7 @@
 
     <div class="grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
       <div class="grid gap-5">
-        <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-display text-lg font-bold text-slate-900">Priorität</h3>
@@ -80,7 +80,7 @@
           </div>
         </section>
 
-        <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-display text-lg font-bold text-slate-900">Heute</h3>
@@ -108,7 +108,7 @@
           </div>
         </section>
 
-        <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-display text-lg font-bold text-slate-900">Meine Klienten</h3>
@@ -141,7 +141,7 @@
       </div>
 
       <aside class="grid gap-5">
-        <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
           <h3 class="font-display text-lg font-bold text-slate-900">Schnell starten</h3>
           <div class="mt-4 grid gap-3">
             <button
@@ -165,7 +165,7 @@
           </div>
         </section>
 
-        <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
           <h3 class="font-display text-lg font-bold text-slate-900">Rückgaben</h3>
           <div class="mt-4 rounded-lg bg-emerald-50 p-4 text-emerald-800">
             <CheckCircleIcon
@@ -179,7 +179,7 @@
           </div>
         </section>
 
-        <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
           <h3 class="font-display text-lg font-bold text-slate-900">Arbeitsstand</h3>
           <div class="mt-4 space-y-4">
             <div

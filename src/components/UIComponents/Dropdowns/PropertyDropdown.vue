@@ -18,7 +18,7 @@
             </div>
             <ListboxButton
               v-if="!userIsCurrentUser"
-              class="relative inline-flex items-center bg-indigo-500 p-2 rounded-l-none rounded-r-md text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:z-10 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+              class="relative inline-flex items-center bg-indigo-500 p-2 rounded-l-none rounded-r-md text-sm font-medium text-white hover:bg-indigo-600 focus:outline-none focus:z-10 focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-indigo-500"
             >
               <span class="sr-only">Change group</span>
               <ChevronDownIcon class="h-5 w-5 text-white" aria-hidden="true" />
@@ -36,7 +36,7 @@
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="origin-top-right absolute right-0 mt-2 -mr-1 w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-auto sm:right-0"
+            class="origin-top-right absolute right-0 mt-2 -mr-1 w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-slate-200 ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-auto sm:right-0"
           >
             <ListboxOption
               as="template"
@@ -48,7 +48,7 @@
             >
               <li
                 :class="[
-                  active ? 'text-white bg-indigo-500' : 'text-gray-900',
+                  active ? 'text-white bg-indigo-500' : 'text-slate-900',
                   'cursor-default select-none relative p-4 text-sm'
                 ]"
               >
@@ -66,7 +66,7 @@
                   </div>
                   <p
                     :class="[
-                      active ? 'text-indigo-200' : 'text-gray-500',
+                      active ? 'text-indigo-200' : 'text-slate-500',
                       'mt-2'
                     ]"
                   >

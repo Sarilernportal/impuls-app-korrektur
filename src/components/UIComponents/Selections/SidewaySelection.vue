@@ -1,15 +1,15 @@
 <template>
   <div class="sm:items-start sm:gap-4">
-    <label class="block text-sm font-medium text-gray-500 sm:mt-px">{{
+    <label class="block text-sm font-medium text-slate-500 sm:mt-px">{{
       title
     }}</label>
     <div class="mt-1 sm:mt-0">
-      <div class="flex h-10 items-center rounded-md border border-gray-300">
+      <div class="flex h-10 items-center rounded-md border border-slate-300">
         <!-- previous arrow -->
         <button>
           <ChevronLeftIcon
             @click="prevPressed"
-            class="w-6 h-6 text-gray-400 hover:text-gray-500"
+            class="w-6 h-6 text-slate-400 hover:text-slate-500"
           />
         </button>
         <!-- selected value -->
@@ -20,7 +20,7 @@
         <button>
           <ChevronRightIcon
             @click="nextPressed"
-            class="w-6 h-6 text-gray-400 hover:text-gray-500"
+            class="w-6 h-6 text-slate-400 hover:text-slate-500"
           />
         </button>
       </div>

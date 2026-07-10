@@ -2,7 +2,7 @@
   <!-- button with child name -->
   <button
     @click="goToChild"
-    class="flex gap-1 text-primaryText hover:text-gray-400 break-words border-2 border-indigo-400 hover:border-indigo-600 px-2 leading-5 rounded-full text-xs"
+    class="flex gap-1 text-primaryText hover:text-slate-400 break-words border-2 border-indigo-400 hover:border-indigo-600 px-2 leading-5 rounded-full text-xs"
   >
     <span v-if="childName">{{ childName }}</span>
     <span v-if="childFamilyName">{{ childFamilyName }}</span>

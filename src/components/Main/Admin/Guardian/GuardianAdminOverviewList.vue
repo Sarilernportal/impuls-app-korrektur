@@ -21,7 +21,7 @@ Guardian Overview List
     />
     <!-- Search Bar -->
     <div class="flex justify-center items-center w-full lg:w-1/2 mx-auto h-12">
-      <MagnifyingGlassIcon class="h-6 w-6 mt-2 mr-2 text-gray-400" />
+      <MagnifyingGlassIcon class="h-6 w-6 mt-2 mr-2 text-slate-400" />
       <text-textfield
         class="w-2/3 h-10 rounded-2xl"
         v-bind:elementID="elementId"

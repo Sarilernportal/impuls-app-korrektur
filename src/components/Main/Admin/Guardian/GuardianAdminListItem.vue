@@ -90,13 +90,13 @@ Guardian List Item
       </div>
       <!-- timesheet status -->
       <div class="order-4 lg:px-0 py-2 lg:py-4 col-span-2 whitespace-nowrap">
-        <div class="lg:hidden text-base text-gray-500 mb-2 lg:mb-0">
+        <div class="lg:hidden text-base text-slate-500 mb-2 lg:mb-0">
           <span>Abgabestatus:</span>
         </div>
-        <div class="flex gap-2 text-base text-gray-200 items-center">
+        <div class="flex gap-2 text-base text-slate-200 items-center">
           <span :class="[
             'inline-flex leading-5 font-medium rounded-full',
-            timeSheetStatus === 2 ? 'text-green-500' : timeSheetStatus === 1 ? 'text-orange-400' : timeSheetStatus === 0 ? 'text-red-500' : 'text-gray-500'
+            timeSheetStatus === 2 ? 'text-green-500' : timeSheetStatus === 1 ? 'text-orange-400' : timeSheetStatus === 0 ? 'text-red-500' : 'text-slate-500'
           ]">Abgegeben für:</span>
           <span class="text-primaryText">
             {{ timeSheetDate }}
@@ -109,7 +109,7 @@ Guardian List Item
       >
         <button
           @click="showDetailsTapped"
-          class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+          class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
         >
           <Cog6ToothIcon class="h-8 w-8" />
         </button>
@@ -139,7 +139,7 @@ Guardian List Item
     <div class="lg:hidden flex py-2 whitespace-nowrap items-start">
       <button
         @click="showDetailsTapped"
-        class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+        class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
       >
         <Cog6ToothIcon class="h-8 w-8" />
       </button>

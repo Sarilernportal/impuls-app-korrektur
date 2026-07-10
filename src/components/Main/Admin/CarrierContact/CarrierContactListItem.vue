@@ -53,12 +53,12 @@
         <div class="lg:px-0 py-2 lg:py-4 col-span-2 whitespace-nowrap">
           <div class="flex items-center">
             <div>
-              <div class="lg:hidden text-base text-gray-500">
+              <div class="lg:hidden text-base text-slate-500">
                 <span>Kostenträger:</span>
               </div>
               <button
                 @click="showCarrierDetailsTapped(carrierId)"
-                class="flex-wrap text-secondaryText hover:text-gray-400 break-words border-2 border-indigo-400 hover:border-indigo-600 px-4 py-1 inline-flex leading-5 rounded-full text-xl lg:text-base"
+                class="flex-wrap text-secondaryText hover:text-slate-400 break-words border-2 border-indigo-400 hover:border-indigo-600 px-4 py-1 inline-flex leading-5 rounded-full text-xl lg:text-base"
               >
                 <span
                   v-if="carrierName"
@@ -79,7 +79,7 @@
         >
           <button
             @click="showDetailsTapped"
-            class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+            class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
           >
             <Cog6ToothIcon class="h-8 w-8" />
           </button>
@@ -102,7 +102,7 @@
     <div class="lg:hidden flex py-2 whitespace-nowrap items-start">
       <button
         @click="showDetailsTapped"
-        class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+        class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
       >
         <Cog6ToothIcon class="h-8 w-8" />
       </button>

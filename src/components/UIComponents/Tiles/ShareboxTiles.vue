@@ -59,7 +59,7 @@
               @click="downloadClicked(file)"
               type="button"
               aria-label="Datei herunterladen"
-              class="inline-flex h-11 w-11 items-center justify-center rounded-full text-gray-400 hover:text-slate-500"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-400 hover:text-slate-500"
             >
               <ArrowDownTrayIcon class="h-6 w-6" aria-hidden="true" />
             </button>

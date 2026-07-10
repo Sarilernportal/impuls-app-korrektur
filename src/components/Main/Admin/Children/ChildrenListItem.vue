@@ -20,7 +20,7 @@
           <!-- child name -->
           <div class="mt-2 sm:flex sm:justify-between">
             <div class="sm:flex">
-              <div class="flex flex-wrap items-center text-sm text-gray-300">
+              <div class="flex flex-wrap items-center text-sm text-slate-300">
                 <UserIcon
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
@@ -34,7 +34,7 @@
           <div class="mt-2 sm:flex sm:justify-between"
           :class="{'bg-red-100 border border-red-500 rounded-lg p-1': !childWeeklyHours}">
             <div class="sm:flex">
-              <div class="flex flex-wrap items-center text-sm text-gray-300">
+              <div class="flex flex-wrap items-center text-sm text-slate-300">
                 <UserIcon
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
@@ -49,7 +49,7 @@
         <div class="flex md:hidden h-full self-start justify-self-end">
           <button
             @click="showDetailsTapped"
-            class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+            class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
           >
             <Cog6ToothIcon class="h-8 w-8" />
           </button>
@@ -61,7 +61,7 @@
           <!-- carrier contact name -->
           <div class="mt-2 sm:flex sm:justify-between">
             <div class="sm:flex">
-              <div class="flex flex-wrap items-center text-sm text-gray-300">
+              <div class="flex flex-wrap items-center text-sm text-slate-300">
                 <UserIcon
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
@@ -93,7 +93,7 @@
           <!-- carrier name -->
           <div class="mt-2 sm:flex sm:justify-between">
             <div class="sm:flex">
-              <div class="flex flex-wrap items-center text-sm text-gray-300">
+              <div class="flex flex-wrap items-center text-sm text-slate-300">
                 <UserIcon
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
@@ -123,7 +123,7 @@
         <!-- school contact -->
         <div class="mt-2 flex flex-col sm:justify-between">
           <div class="sm:flex">
-            <div class="flex items-center text-sm text-gray-300">
+            <div class="flex items-center text-sm text-slate-300">
               <UserIcon
                 class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                 aria-hidden="true"
@@ -132,7 +132,7 @@
             </div>
           </div>
           <div
-            class="flex flex-col items-start text-sm text-gray-500 sm:mt-0 pl-6"
+            class="flex flex-col items-start text-sm text-slate-500 sm:mt-0 pl-6"
           >
             <div
               class="flex-wrap text-primaryText break-words px-1 inline-flex leading-5 rounded-full"
@@ -182,7 +182,7 @@
           <!-- mother -->
           <div class="mt-2 flex flex-col sm:justify-between">
             <div class="sm:flex">
-              <div class="flex items-center text-sm text-gray-300">
+              <div class="flex items-center text-sm text-slate-300">
                 <UserIcon
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
@@ -191,7 +191,7 @@
               </div>
             </div>
             <div
-              class="flex flex-col items-start text-sm text-gray-500 sm:mt-0 pl-6"
+              class="flex flex-col items-start text-sm text-slate-500 sm:mt-0 pl-6"
             >
               <div
                 class="flex-wrap text-primaryText break-words px-1 inline-flex leading-5 rounded-full"
@@ -239,7 +239,7 @@
           <!-- father -->
           <div class="mt-2 flex flex-col sm:justify-between">
             <div class="sm:flex">
-              <div class="flex items-center text-sm text-gray-300">
+              <div class="flex items-center text-sm text-slate-300">
                 <UserIcon
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-secondaryText"
                   aria-hidden="true"
@@ -248,7 +248,7 @@
               </div>
             </div>
             <div
-              class="flex flex-col items-start text-sm text-gray-500 sm:mt-0 pl-6"
+              class="flex flex-col items-start text-sm text-slate-500 sm:mt-0 pl-6"
             >
               <div
                 class="flex-wrap text-primaryText break-words px-1 inline-flex leading-5 rounded-full"
@@ -296,7 +296,7 @@
       <div class="hidden md:flex h-full self-start justify-self-end">
         <button
           @click="showDetailsTapped"
-          class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+          class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
         >
           <Cog6ToothIcon class="h-8 w-8" />
         </button>

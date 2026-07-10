@@ -47,28 +47,28 @@ Invoice Item
             <div class="ml-2 flex flex-wrap gap-2">
               <!-- total worked hours of all reports combined -->
               <div
-                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-gray-100"
+                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 bg-indigo-400 text-slate-100"
               >
                 <p>Gesamtzeit:</p>
                 <p>{{ hoursWorked }}</p>
               </div>
               <!-- connected child -->
               <button
-                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
+                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-slate-700 hover:text-slate-800 border-2 border-indigo-400 hover:border-indigo-600"
                 @click="goToChild"
               >
                 <p>{{ 'Klient: ' + childName }}</p>
               </button>
               <!-- connected guardian -->
               <button
-                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
+                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-slate-700 hover:text-slate-800 border-2 border-indigo-400 hover:border-indigo-600"
                 @click="goToGuardian"
               >
                 <p>{{ 'Betreuer: ' + guardianName }}</p>
               </button>
               <!-- connected carrier -->
               <button
-                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-gray-700 hover:text-gray-800 border-2 border-indigo-400 hover:border-indigo-600"
+                class="flex flex-wrap justify-center rounded-full gap-1 px-2 text-xs font-semibold leading-5 text-slate-700 hover:text-slate-800 border-2 border-indigo-400 hover:border-indigo-600"
                 @click="goToCarrier"
               >
                 <p>{{ 'Kostenträger: ' + carrierName }}</p>
@@ -77,9 +77,9 @@ Invoice Item
           </div>
           <div class="mt-2 sm:flex sm:justify-between">
             <!-- Created at data -->
-            <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+            <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
               <CalendarIcon
-                class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+                class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
                 aria-hidden="true"
               />
               <p>
@@ -88,9 +88,9 @@ Invoice Item
               </p>
             </div>
             <!-- timeframe -->
-            <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+            <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
               <CalendarIcon
-                class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-600"
+                class="mr-1.5 h-5 w-5 flex-shrink-0 text-slate-600"
                 aria-hidden="true"
               />
               <p>
@@ -104,7 +104,7 @@ Invoice Item
             v-if="reviseDate"
             class="mt-2 sm:flex sm:justify-between"
           >
-            <div class="mt-2 flex items-center text-sm text-gray-700 sm:mt-0">
+            <div class="mt-2 flex items-center text-sm text-slate-700 sm:mt-0">
               <CalendarIcon
                 class="mr-1.5 h-5 w-5 flex-shrink-0 text-green-600"
                 aria-hidden="true"
@@ -121,14 +121,14 @@ Invoice Item
       <div class="flex flex-col items-center">
         <!-- open file button -->
         <button
-          class="w-12 h-1/2 self-center text-gray-500 hover:text-gray-600"
+          class="w-12 h-1/2 self-center text-slate-500 hover:text-slate-600"
           @click="entryTapped(report.key, report.carrier.id)"
         >
           <DocumentIcon class="p-2" />
         </button>
         <!-- open report button -->
         <button
-          class="relative w-12 h-1/2 self-center text-gray-500 hover:text-gray-600"
+          class="relative w-12 h-1/2 self-center text-slate-500 hover:text-slate-600"
           @click="open = !open"
         >
           <ChevronRightIcon :class="[open ? 'rotate-90' : 'rotate-0', 'transition-all']" />

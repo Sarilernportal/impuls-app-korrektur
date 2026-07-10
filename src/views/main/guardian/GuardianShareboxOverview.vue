@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto max-w-4xl px-4 py-4 sm:px-6">
-    <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <section class="rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
       <p class="text-sm font-medium text-impuls-blue">Dateien</p>
       <h2 class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">Sharebox</h2>
       <p class="mt-2 text-sm text-slate-600">
@@ -8,7 +8,7 @@
       </p>
     </section>
 
-    <section class="mt-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <section class="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-card sm:p-5">
       <div
         v-if="isLoading"
         class="flex w-full justify-center p-6"

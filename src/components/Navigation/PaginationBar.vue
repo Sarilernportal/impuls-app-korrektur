@@ -11,7 +11,7 @@ Pagination Bar
 
 <template>
   <!-- Nav container -->
-  <nav class="border-t border-gray-200 px-6 flex items-center justify-between">
+  <nav class="border-t border-slate-200 px-6 flex items-center justify-between">
     <!-- Previous button -->
     <div
       v-if="page != 0"
@@ -19,7 +19,7 @@ Pagination Bar
     >
       <button
         @click="toPreviousTapped"
-        class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-md font-medium text-primaryText hover:text-secondaryText hover:border-gray-300"
+        class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-md font-medium text-primaryText hover:text-secondaryText hover:border-slate-300"
       >
         <ArrowSmallLeftIcon
           class="mr-3 h-5 w-5 text-secondaryText"
@@ -35,7 +35,7 @@ Pagination Bar
     >
       <button
         @click="toNextTapped"
-        class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-md font-medium text-primaryText hover:text-secondaryText hover:border-gray-300"
+        class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-md font-medium text-primaryText hover:text-secondaryText hover:border-slate-300"
       >
         Nächste
         <ArrowSmallRightIcon

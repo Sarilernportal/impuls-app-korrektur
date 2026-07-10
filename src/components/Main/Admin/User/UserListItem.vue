@@ -67,7 +67,7 @@
       >
         <button
           @click="showDetailsTapped"
-          class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+          class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
         >
           <Cog6ToothIcon class="h-8 w-8" />
         </button>
@@ -77,7 +77,7 @@
     <div class="lg:hidden flex py-2 whitespace-nowrap items-start">
       <button
         @click="showDetailsTapped"
-        class="cursor-pointer text-base text-secondaryText hover:text-gray-600"
+        class="cursor-pointer text-base text-secondaryText hover:text-slate-600"
       >
         <Cog6ToothIcon class="h-8 w-8" />
       </button>

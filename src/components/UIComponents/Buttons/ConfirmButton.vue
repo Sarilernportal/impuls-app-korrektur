@@ -41,7 +41,7 @@ Confirm Button Component
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <svg
             v-if="!isLoading"
-            class="h-5 w-5 text-gray-100 group-hover:text-white"
+            class="h-5 w-5 text-slate-100 group-hover:text-white"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
