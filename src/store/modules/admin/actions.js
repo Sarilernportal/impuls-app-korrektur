@@ -37,6 +37,9 @@ import {
   listCarrierContacts as listLocalCarrierContacts,
   listCarriers as listLocalCarriers,
   listChildren as listLocalChildren,
+  createCareAssignmentLocal as createLocalCareAssignment,
+  deleteCareAssignmentLocal as deleteLocalCareAssignment,
+  updateChildLocal as updateLocalChild,
   listDocuments as listLocalDocuments,
   listEvents as listLocalEvents,
   listEventsByCalendar as listLocalEventsByCalendar,
@@ -917,6 +920,10 @@ export default {
     const changeValuePlain = JSON.parse(JSON.stringify(changeValue))
     delete changeValuePlain.__typename
 
+    if (isLocalAuthMode) {
+      return updateLocalChild(child.id, changeKey, changeValuePlain, changeObject)
+    }
+
     // create update object
     const updateObject = {
       id: child.id,
@@ -931,6 +938,9 @@ export default {
     return childResponse
   },
   async createCareAssignment(_, payload) {
+    if (isLocalAuthMode) {
+      return createLocalCareAssignment(payload.childID, payload.guardianID)
+    }
     // get data from paylaod
     const { childID, guardianID } = payload
     // setup create-object
@@ -946,6 +956,9 @@ export default {
     return careResponse
   },
   async deleteCareAssignment(_, payload) {
+    if (isLocalAuthMode) {
+      return deleteLocalCareAssignment(payload.id)
+    }
     // get data from payload
     const { id } = payload
     // delete care assignment via API call
@@ -966,6 +979,9 @@ export default {
     return careResponse.data.getCareAssignment
   },
   async getCareAssignmentByGuardian(_, payload) {
+    if (isLocalAuthMode) {
+      return getLocalGuardian(payload.id)?.careAssignments?.items || []
+    }
     // get data from payload
     const { id } = payload
     // delete care assignment via API call
@@ -976,6 +992,9 @@ export default {
     return careResponse.data.careAssignmentsByGuardian.items
   },
   async getCareAssignmentByChild(_, payload) {
+    if (isLocalAuthMode) {
+      return getLocalChild(payload.id)?.careAssignments?.items || []
+    }
     // get data from payload
     const { id } = payload
     // delete care assignment via API call

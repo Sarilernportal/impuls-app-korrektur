@@ -185,23 +185,41 @@ const events = [
   }
 ]
 
-guardians[0].careAssignments.items = [
-  {
-    id: 'demo-care-1',
-    child: children[0],
-    childCareAssignmentsId: children[0].id,
-    guardianCareAssignmentsId: guardians[0].id
-  }
-]
-guardians[0].children = {
-  items: children
-}
-guardians[1].children = {
-  items: []
-}
-
-carriers[0].children.items = children
-carriers[0].carrierContacts.items = carrierContacts
+// Rückverknüpfungen beidseitig aus den children ableiten (Demo-Konsistenz):
+// Betreuer, Kostenträger und ASD-Fachkräfte zeigen genau ihre zugeordneten Klienten.
+guardians.forEach((g) => {
+  g.careAssignments = { items: [] }
+  g.children = { items: [] }
+})
+carriers.forEach((c) => {
+  c.children = { items: [] }
+  c.carrierContacts = { items: [] }
+})
+carrierContacts.forEach((cc) => {
+  cc.children = { items: [] }
+})
+children.forEach((child) => {
+  const cas = (child.careAssignments && child.careAssignments.items) || []
+  cas.forEach((ca) => {
+    const g = guardians.find((x) => x.id === ca.guardianCareAssignmentsId)
+    if (!g) return
+    g.careAssignments.items.push({
+      id: ca.id,
+      child,
+      childCareAssignmentsId: child.id,
+      guardianCareAssignmentsId: g.id
+    })
+    if (!g.children.items.some((c) => c.id === child.id)) g.children.items.push(child)
+  })
+  const carrier = child.carrier && carriers.find((x) => x.id === child.carrier.id)
+  if (carrier && !carrier.children.items.some((c) => c.id === child.id)) carrier.children.items.push(child)
+  const contact = child.carrierContact && carrierContacts.find((x) => x.id === child.carrierContact.id)
+  if (contact && !contact.children.items.some((c) => c.id === child.id)) contact.children.items.push(child)
+})
+carrierContacts.forEach((cc) => {
+  const carrier = cc.carrier && carriers.find((x) => x.id === cc.carrier.id)
+  if (carrier && !carrier.carrierContacts.items.some((x) => x.id === cc.id)) carrier.carrierContacts.items.push(cc)
+})
 
 const users = [
   {
@@ -290,6 +308,62 @@ export function getCarrier(id) {
 
 export function getCarrierContact(id) {
   return carrierContacts.find((contact) => contact.id === id) || carrierContacts[0]
+}
+
+// --- Verknüpfungen im Demo schreiben (beidseitig spiegeln) ---
+export function createCareAssignmentLocal(childID, guardianID) {
+  const child = children.find((c) => c.id === childID)
+  const guardian = guardians.find((g) => g.id === guardianID)
+  if (!child || !guardian) return { data: { createCareAssignment: null } }
+  const id = demoId('demo-care')
+  child.careAssignments = child.careAssignments || { items: [] }
+  child.careAssignments.items.push({ id, guardian, guardianCareAssignmentsId: guardianID, childCareAssignmentsId: childID })
+  guardian.careAssignments = guardian.careAssignments || { items: [] }
+  guardian.careAssignments.items.push({ id, child, childCareAssignmentsId: childID, guardianCareAssignmentsId: guardianID })
+  guardian.children = guardian.children || { items: [] }
+  if (!guardian.children.items.some((c) => c.id === childID)) guardian.children.items.push(child)
+  return { data: { createCareAssignment: { id, guardian, guardianCareAssignmentsId: guardianID, childCareAssignmentsId: childID } } }
+}
+
+export function deleteCareAssignmentLocal(id) {
+  children.forEach((child) => {
+    if (child.careAssignments) child.careAssignments.items = child.careAssignments.items.filter((ca) => ca.id !== id)
+  })
+  guardians.forEach((g) => {
+    if (!g.careAssignments) return
+    const removed = g.careAssignments.items.find((ca) => ca.id === id)
+    g.careAssignments.items = g.careAssignments.items.filter((ca) => ca.id !== id)
+    if (removed && g.children) {
+      const childId = removed.childCareAssignmentsId
+      const still = g.careAssignments.items.some((ca) => ca.childCareAssignmentsId === childId)
+      if (!still) g.children.items = g.children.items.filter((c) => c.id !== childId)
+    }
+  })
+  return { data: { deleteCareAssignment: { id } } }
+}
+
+export function updateChildLocal(childID, changeKey, changeValue, changeObject) {
+  const child = children.find((c) => c.id === childID)
+  if (!child) return { data: { updateChild: null } }
+  if (changeKey === 'carrierContactChildrenId') {
+    // aus altem Kontakt entfernen
+    if (child.carrierContact) {
+      const old = carrierContacts.find((cc) => cc.id === child.carrierContact.id)
+      if (old && old.children) old.children.items = old.children.items.filter((c) => c.id !== childID)
+    }
+    const newContact = (changeObject && changeObject.data) || carrierContacts.find((cc) => cc.id === changeValue) || null
+    child.carrierContact = newContact
+    if (newContact) {
+      const cc = carrierContacts.find((x) => x.id === newContact.id) || newContact
+      cc.children = cc.children || { items: [] }
+      if (!cc.children.items.some((c) => c.id === childID)) cc.children.items.push(child)
+    }
+  } else if (changeKey === 'carrierChildrenId') {
+    child.carrier = (changeObject && changeObject.data) || child.carrier
+  } else {
+    child[changeKey] = changeValue
+  }
+  return { data: { updateChild: { ...child } } }
 }
 
 export function getChild(id) {
