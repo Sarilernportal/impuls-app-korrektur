@@ -63,57 +63,60 @@ Children Details
             <!-- Hauptinhalt: gestapelte Sektionen -->
             <div class="min-w-0 space-y-6">
             <!-- Stammdaten -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
               <h3 class="font-display text-lg font-bold text-slate-900">Stammdaten</h3>
               <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Klienten.</p>
-              <div class="mt-5">
+              <div class="mt-3">
                 <children-detail-data-info :child="child" :isLoading="propertyIsLoading"
                   @change-submit="changeSubmitted" />
               </div>
             </section>
 
+            <!-- Angehörige & Kontakte (nebeneinander) -->
+            <div class="grid gap-5 sm:grid-cols-2">
             <!-- Mutter -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
               <h3 class="font-display text-lg font-bold text-slate-900">Mutter</h3>
               <p class="mt-1 text-sm text-slate-500">Informationen über die Mutter des Klienten.</p>
-              <div class="mt-5">
+              <div class="mt-3">
                 <ChildrenDetailContactInfo :child="child" contactType="mother" :isLoading="contactPropertyIsLoading"
                   @change-submit="contactChangeSubmitted" />
               </div>
             </section>
 
             <!-- Vater -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
               <h3 class="font-display text-lg font-bold text-slate-900">Vater</h3>
               <p class="mt-1 text-sm text-slate-500">Informationen über den Vater des Klienten.</p>
-              <div class="mt-5">
+              <div class="mt-3">
                 <ChildrenDetailContactInfo :child="child" contactType="father" :isLoading="contactPropertyIsLoading"
                   @change-submit="contactChangeSubmitted" />
               </div>
             </section>
 
             <!-- Schulkontakt -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
               <h3 class="font-display text-lg font-bold text-slate-900">Schulkontakt</h3>
               <p class="mt-1 text-sm text-slate-500">Informationen über den Schulkontakt des Klienten.</p>
-              <div class="mt-5">
+              <div class="mt-3">
                 <ChildrenDetailContactInfo :child="child" contactType="schoolContact"
                   :isLoading="contactPropertyIsLoading" @change-submit="contactChangeSubmitted" />
               </div>
             </section>
 
-            <!-- Verbindungen (volle Breite) -->
+            <!-- Verbindungen -->
             <section
               v-if="child.archiveStatus === 'unarchived' || !child.archiveStatus"
-              class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2"
+              class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card"
             >
               <ChildrenDetailConnectionsInfo :child="child" :isLoading="propertyIsLoading"
                 @connection-selected="changeSubmitted" @guardian-connection-selected="guardianSelected"
                 @delete-care-asignment="DeleteCareAssignment" />
             </section>
+            </div>
 
             <!-- Konto -->
-            <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
               <children-detail-account-info :child="child" :archiveIsLoading="archiveIsLoading"
                 :userStateIsLoading="userStateIsLoading" @archive-child-tapped="archiveChildTapped" />
             </section>
