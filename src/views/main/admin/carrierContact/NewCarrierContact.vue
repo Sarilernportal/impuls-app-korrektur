@@ -12,7 +12,7 @@ Add new carrier
 -->
 
 <template>
-  <div class="min-h-full bg-app-bg px-4 pb-24 pt-5 sm:px-6 lg:px-8">
+  <div class="min-h-full bg-slate-50 px-4 pb-24 pt-5 sm:px-6 lg:px-8">
     <div>
       <success-window
         v-if="createSuccess"
