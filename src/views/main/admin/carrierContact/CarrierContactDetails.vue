@@ -15,10 +15,10 @@ Carrier Contact Details
   <!-- Critical action modal for carrier delete operation -->
   <critical-action
     :open="deleteSelected"
-    title="Kostenträger-Kontakt löschen"
-    message="Möchten Sie den Kostenträger-Kontakt wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
+    title="ASD-Fachkraft löschen"
+    message="Möchten Sie die ASD-Fachkraft wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
     buttonCancelTitle="Abbrechen"
-    buttonConfirmTitle="Kostenträger-Kontakt löschen"
+    buttonConfirmTitle="ASD-Fachkraft löschen"
     @close="deleteSelected = false"
     @confirmed="confirmedDelete"
   >
@@ -87,7 +87,7 @@ Carrier Contact Details
                 <!-- Profil -->
                 <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
                   <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
-                  <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
+                  <p class="mt-1 text-sm text-slate-500">Persönliche Daten der ASD-Fachkraft (Jugendamt).</p>
                   <div class="mt-3">
                     <carrier-contact-data-info
                       :carrierContact="carrierContact"
@@ -174,7 +174,7 @@ Carrier Contact Details
               </div>
               <!-- Kontext -->
               <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <h3 class="font-display text-base font-bold text-slate-900">Ansprechpartner Kostenträger</h3>
+                <h3 class="font-display text-base font-bold text-slate-900">ASD-Fachkraft (Jugendamt)</h3>
                 <p class="mt-2 text-sm font-medium text-slate-700">{{ fullName }}</p>
                 <p class="text-xs text-slate-400">{{ carrierContact.carrier?.name || 'Kein Kostenträger zugeordnet' }}</p>
               </div>
@@ -258,7 +258,7 @@ export default {
     const fullName = computed(() => {
       const c = carrierContact.value
       if (!c) return ''
-      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'Kostenträger-Kontakt'
+      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'ASD-Fachkraft'
     })
     const chips = computed(() => {
       const c = carrierContact.value || {}
@@ -340,7 +340,7 @@ export default {
         customSuccess.isPresent = true
         customSuccess.title = 'Erfolgreich gelöscht'
         customSuccess.message =
-          'Sie haben den Kostenträger-Kontakt erfolgreich gelöscht!'
+          'Sie haben die ASD-Fachkraft erfolgreich gelöscht!'
       } catch (err) {
         console.log(err)
         // Show error window when user couldn't be removed

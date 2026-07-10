@@ -26,7 +26,7 @@ New carrier contact form
             Kontaktperson
           </h3>
           <p class="max-w-2xl text-sm text-secondaryText">
-            Informationen über die Kontaktperson einer Kostenträger.
+            Informationen über die ASD-Fachkraft (Jugendamt).
           </p>
         </div>
       </div>

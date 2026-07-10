@@ -111,7 +111,7 @@ Carrier Details
                 </section>
               </div>
 
-              <!-- Kostenträger-Kontakte -->
+              <!-- ASD-Fachkräfte -->
               <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
                 <CarrierDetailContactList
                   @contact-selected="addContact"

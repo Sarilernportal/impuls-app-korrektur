@@ -13,7 +13,7 @@
     <div class="w-full flex gap-8 items-center">
       <!-- selected carrier contact -->
       <div class="w-1/2 flex flex-col md:flex-row gap-2">
-        <p class="text-primaryText font-medium align-middle">Kostenträger-Kontakt:</p>
+        <p class="text-primaryText font-medium align-middle">ASD-Fachkraft:</p>
         <div
           v-if="selectedCarrierContact !== null"
           class="text-primaryText flex gap-2"
@@ -48,7 +48,7 @@
           @click="openCarrierContacts"
           class="w-full text-sm text-center flex justify-center font-medium text-white rounded-xl bg-indigo-600 hover:bg-indigo-700 cursor-pointer py-2 px-4"
         >
-          <div class="self-center">Kostenträger-Kontakt auswählen</div>
+          <div class="self-center">ASD-Fachkraft auswählen</div>
         </div>
       </div>
     </div>

@@ -34,9 +34,9 @@ Add new carrier
     <div class="flex w-full flex-col gap-5">
       <section class="rounded-xl bg-gradient-to-br from-impuls-blue via-brand-700 to-brand-900 p-5 text-white shadow-soft">
         <p class="text-sm font-semibold text-blue-100">Verwaltung</p>
-        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">Kostenträger-Kontakt hinzufügen</h1>
+        <h1 class="mt-1 font-display text-2xl font-black tracking-tight sm:text-3xl">ASD-Fachkraft hinzufügen</h1>
         <p class="mt-2 max-w-3xl text-sm text-blue-50">
-          Ansprechpartner einem Kostenträger zuordnen, damit Rückfragen, Freigaben und Abrechnung schneller geklärt werden.
+          ASD-Fachkraft einem Kostenträger zuordnen, damit Rückfragen, Freigaben und Abrechnung schneller geklärt werden.
         </p>
       </section>
 
@@ -89,7 +89,7 @@ export default {
     const customError = computed(() => {
       const errorObject = {
         title: 'Fehlgeschlagen',
-        message: `Das Erstellen des Kostenträger-Kontakts ist fehlgeschlagen. ${errorTitle.value} `
+        message: `Das Anlegen der ASD-Fachkraft ist fehlgeschlagen. ${errorTitle.value} `
       }
       return errorObject
     })
@@ -98,7 +98,7 @@ export default {
     const customSuccess = computed(() => {
       const successObject = {
         title: 'Erfolgreich angelegt',
-        message: `Kostenträger-Kontakt erfolgreich angelegt.`
+        message: `ASD-Fachkraft erfolgreich angelegt.`
       }
       return successObject
     })

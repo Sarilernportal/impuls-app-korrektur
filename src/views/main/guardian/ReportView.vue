@@ -90,8 +90,8 @@ Report View
                 Bitte an Admin wenden!
               </h2>
               <p class="text-red-700 p-2">
-                Der ausgewählte Klient ist mit keinem Kostenträger-Kontakt oder der
-                Kostenträger-Kontakt ist mit keinem Kostenträger verbunden!
+                Der ausgewählte Klient ist mit keiner ASD-Fachkraft oder die
+                ASD-Fachkraft ist mit keinem Kostenträger verbunden!
               </p>
             </div>
           </div>

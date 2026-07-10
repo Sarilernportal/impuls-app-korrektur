@@ -269,7 +269,7 @@ export default {
         route: 'CarrierOverview'
       },
       {
-        title: 'Kostenträger-Kontakte',
+        title: 'ASD-Fachkräfte',
         description: 'Ansprechpartner verwalten',
         route: 'CarrierContactOverview'
       }

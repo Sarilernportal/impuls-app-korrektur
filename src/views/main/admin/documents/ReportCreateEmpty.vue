@@ -69,7 +69,7 @@
               </p>
               <div v-if="carrierErrorStatus">
                 <p class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
-                  Klient ist mit keinem Kostenträger-Kontakt verbunden oder der verbundene Kostenträger-Kontakt ist keinem Kostenträger zugewiesen.
+                  Klient ist mit keiner ASD-Fachkraft verbunden oder die verbundene ASD-Fachkraft ist keinem Kostenträger zugewiesen.
                 </p>
               </div>
             </div>
