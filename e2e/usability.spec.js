@@ -54,6 +54,14 @@ test.describe('Nutzbarkeit – alle Hauptseiten', () => {
     expect(pageErrors, `Unbehandelte JS-Fehler: ${pageErrors.join(' | ')}`).toEqual([])
   })
 
+  test('Dokumentationszentrale bietet die PDF-Ausgabe der Tages-Doku', async ({ page }) => {
+    await loginDemo(page)
+    await page.goto('/admin/documents/reports')
+    await expect(page.getByRole('heading', { name: 'Dokumentationen', exact: true })).toBeVisible()
+    // "Als PDF" in der Detailspalte (Druckvordruck mit Impuls-Kopf)
+    await expect(page.getByTestId('report-pdf-btn')).toBeVisible()
+  })
+
   test('Anlege-Formulare laden ohne Absturz', async ({ page }) => {
     const pageErrors = []
     page.on('pageerror', (error) => pageErrors.push(error.message))
