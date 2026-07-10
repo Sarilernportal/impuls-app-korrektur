@@ -1,7 +1,7 @@
 <template>
   <SwitchGroup
     as="div"
-    class="group grid gap-1 py-3.5 sm:grid-cols-3 sm:gap-4"
+    class="group py-1.5"
   >
     <SwitchLabel
       as="dt"

@@ -350,7 +350,7 @@ export default {
         'Status',
         'Bearbeiten',
         'Angemeldet',
-        'Kostenträger-Kontakt',
+        'ASD-Fachkraft',
         'Betreuer'
       ]
       const contentProp = props.content.menuItems

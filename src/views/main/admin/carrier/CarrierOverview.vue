@@ -283,7 +283,7 @@ export default {
         route: 'ChildrenOverview'
       },
       {
-        title: 'Kostenträger-Kontakte',
+        title: 'ASD-Fachkräfte',
         description: 'Ansprechpartner verwalten',
         route: 'CarrierContactOverview'
       },

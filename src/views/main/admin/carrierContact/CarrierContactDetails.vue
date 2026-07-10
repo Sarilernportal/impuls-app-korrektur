@@ -15,10 +15,10 @@ Carrier Contact Details
   <!-- Critical action modal for carrier delete operation -->
   <critical-action
     :open="deleteSelected"
-    title="Kostenträger-Kontakt löschen"
-    message="Möchten Sie den Kostenträger-Kontakt wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
+    title="ASD-Fachkraft löschen"
+    message="Möchten Sie die ASD-Fachkraft wirklich löschen? Dieser Vorgang ist nicht mehr umzukehren."
     buttonCancelTitle="Abbrechen"
-    buttonConfirmTitle="Kostenträger-Kontakt löschen"
+    buttonConfirmTitle="ASD-Fachkraft löschen"
     @close="deleteSelected = false"
     @confirmed="confirmedDelete"
   >
@@ -82,34 +82,37 @@ Carrier Contact Details
           <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
             <!-- Hauptinhalt: gestapelte Sektionen -->
             <div class="min-w-0 space-y-6">
-              <!-- Profil -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-                <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
-                <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträger-Kontaktes.</p>
-                <div class="mt-5">
-                  <carrier-contact-data-info
-                    :carrierContact="carrierContact"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
-              </section>
+              <!-- Profil & Kostenträger-Zuordnung (nebeneinander) -->
+              <div class="grid gap-5 sm:grid-cols-2">
+                <!-- Profil -->
+                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                  <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+                  <p class="mt-1 text-sm text-slate-500">Persönliche Daten der ASD-Fachkraft (Jugendamt).</p>
+                  <div class="mt-3">
+                    <carrier-contact-data-info
+                      :carrierContact="carrierContact"
+                      :isLoading="propertyIsLoading"
+                      @change-submit="changeSubmitted"
+                    />
+                  </div>
+                </section>
 
-              <!-- Kostenträger-Zuordnung -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-                <h3 class="font-display text-lg font-bold text-slate-900">Kostenträger</h3>
-                <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
-                <div class="mt-5">
-                  <CarrierSelection
-                    :preSelected="carrierContact.carrier"
-                    @carrier-selected="setCarrier"
-                    @carrier-removed="removeCarrier"
-                  />
-                </div>
-              </section>
+                <!-- Kostenträger-Zuordnung -->
+                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                  <h3 class="font-display text-lg font-bold text-slate-900">Kostenträger</h3>
+                  <p class="mt-1 text-sm text-slate-500">Zugeordneter Kostenträger dieses Kontaktes.</p>
+                  <div class="mt-3">
+                    <CarrierSelection
+                      :preSelected="carrierContact.carrier"
+                      @carrier-selected="setCarrier"
+                      @carrier-removed="removeCarrier"
+                    />
+                  </div>
+                </section>
+              </div>
 
               <!-- Verknüpfte Klienten -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
                 <CarrierContactDetailChildrenList
                   @child-selected="addChild"
                   @remove-child="removeChild"
@@ -118,7 +121,7 @@ Carrier Contact Details
               </section>
 
               <!-- Konto -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
                 <carrier-contact-detail-account-info
                   :carrier="carrierContact"
                   :deleteIsLoading="deleteIsLoading"
@@ -171,7 +174,7 @@ Carrier Contact Details
               </div>
               <!-- Kontext -->
               <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <h3 class="font-display text-base font-bold text-slate-900">Ansprechpartner Kostenträger</h3>
+                <h3 class="font-display text-base font-bold text-slate-900">ASD-Fachkraft (Jugendamt)</h3>
                 <p class="mt-2 text-sm font-medium text-slate-700">{{ fullName }}</p>
                 <p class="text-xs text-slate-400">{{ carrierContact.carrier?.name || 'Kein Kostenträger zugeordnet' }}</p>
               </div>
@@ -255,7 +258,7 @@ export default {
     const fullName = computed(() => {
       const c = carrierContact.value
       if (!c) return ''
-      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'Kostenträger-Kontakt'
+      return `${c.name || ''} ${c.familyName || ''}`.trim() || 'ASD-Fachkraft'
     })
     const chips = computed(() => {
       const c = carrierContact.value || {}
@@ -337,7 +340,7 @@ export default {
         customSuccess.isPresent = true
         customSuccess.title = 'Erfolgreich gelöscht'
         customSuccess.message =
-          'Sie haben den Kostenträger-Kontakt erfolgreich gelöscht!'
+          'Sie haben die ASD-Fachkraft erfolgreich gelöscht!'
       } catch (err) {
         console.log(err)
         // Show error window when user couldn't be removed

@@ -25,7 +25,7 @@ const FORMS = [
   { path: '/admin/children/add-child', heading: 'Klient hinzufügen' },
   { path: '/admin/carrier/add-carrier', heading: 'Kostenträger / Jugendamt hinzufügen' },
   { path: '/admin/user/add-guardian', heading: 'Betreuer hinzufügen' },
-  { path: '/admin/carrier-contact/add-carrier-contact', heading: 'Kostenträger-Kontakt hinzufügen' }
+  { path: '/admin/carrier-contact/add-carrier-contact', heading: 'ASD-Fachkraft hinzufügen' }
 ]
 
 async function loginDemo(page) {

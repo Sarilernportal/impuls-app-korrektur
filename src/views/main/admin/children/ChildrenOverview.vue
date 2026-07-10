@@ -96,7 +96,7 @@
               <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ guardianNames(selectedChild) }}</p>
             </div>
             <div class="bg-white px-4 py-4">
-              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Kostenträger-Kontakt</p>
+              <p class="text-xs font-medium uppercase tracking-wide text-slate-400">ASD-Fachkraft</p>
               <p class="mt-1 break-words text-sm font-semibold text-slate-800">{{ carrierLine(selectedChild) }}</p>
             </div>
           </div>
@@ -315,7 +315,7 @@ export default {
       if (contact) {
         return `${[contact.name, contact.familyName].filter(Boolean).join(' ')} · ${carrier?.shortName || carrier?.name || 'Kostenträger'}`
       }
-      return carrier?.name || 'kein Kostenträger-Kontakt'
+      return carrier?.name || 'keine ASD-Fachkraft'
     }
 
     function childStatus(child) {

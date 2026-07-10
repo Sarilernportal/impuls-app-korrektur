@@ -82,34 +82,37 @@ Carrier Details
           <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
             <!-- Hauptinhalt: gestapelte Sektionen -->
             <div class="min-w-0 space-y-6">
-              <!-- Profil -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-                <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
-                <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträgers.</p>
-                <div class="mt-5">
-                  <carrier-detail-data-info
-                    :carrier="carrier"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
-              </section>
+              <!-- Profil & Rechnungsadresse (nebeneinander) -->
+              <div class="grid gap-5 sm:grid-cols-2">
+                <!-- Profil -->
+                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                  <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+                  <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträgers.</p>
+                  <div class="mt-3">
+                    <carrier-detail-data-info
+                      :carrier="carrier"
+                      :isLoading="propertyIsLoading"
+                      @change-submit="changeSubmitted"
+                    />
+                  </div>
+                </section>
 
-              <!-- Rechnungsadresse -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
-                <h3 class="font-display text-lg font-bold text-slate-900">Rechnungsadresse</h3>
-                <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Kostenträgers.</p>
-                <div class="mt-5">
-                  <CarrierBillingInfo
-                    :carrier="carrier"
-                    :isLoading="propertyIsLoading"
-                    @change-submit="changeSubmitted"
-                  />
-                </div>
-              </section>
+                <!-- Rechnungsadresse -->
+                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+                  <h3 class="font-display text-lg font-bold text-slate-900">Rechnungsadresse</h3>
+                  <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Kostenträgers.</p>
+                  <div class="mt-3">
+                    <CarrierBillingInfo
+                      :carrier="carrier"
+                      :isLoading="propertyIsLoading"
+                      @change-submit="changeSubmitted"
+                    />
+                  </div>
+                </section>
+              </div>
 
-              <!-- Kostenträger-Kontakte -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <!-- ASD-Fachkräfte -->
+              <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
                 <CarrierDetailContactList
                   @contact-selected="addContact"
                   @remove-contact="removeContact"
@@ -118,7 +121,7 @@ Carrier Details
               </section>
 
               <!-- Konto -->
-              <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
+              <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
                 <carrier-detail-account-info
                   :carrier="carrier"
                   :deleteIsLoading="deleteIsLoading"

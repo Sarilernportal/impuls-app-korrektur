@@ -12,9 +12,9 @@ Editable User Info Phone Row
 -->
 
 <template>
-  <div class="group grid gap-1 py-3.5 sm:grid-cols-3 sm:gap-4">
+  <div class="group py-1.5">
     <!-- Title -->
-    <dt class="text-sm text-slate-500">{{ title }}</dt>
+    <dt class="text-xs font-medium text-slate-500">{{ title }}</dt>
     <!-- Value and Editing Section -->
     <dd class="flex items-center justify-between gap-3 text-sm sm:col-span-2">
       <!-- Read mode -->
