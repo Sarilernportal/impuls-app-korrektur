@@ -77,9 +77,9 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </div>
       </section>
 
-      <div class="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <!-- Hauptinhalt: gestapelte Sektionen -->
-        <div class="min-w-0 space-y-6">
+      <div class="mt-6 space-y-6">
+        <!-- Stammdaten & Funktion (nebeneinander) -->
+        <div class="grid gap-6 lg:grid-cols-2">
         <!-- Stammdaten -->
         <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
           <h3 class="font-display text-lg font-bold text-slate-900">Stammdaten</h3>
@@ -153,9 +153,10 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
             </field>
           </dl>
         </section>
+        </div>
 
         <!-- Führungszeugnis (§ 72a) -->
-        <section v-if="isGuardian" :class="['rounded-2xl border p-6 shadow-card lg:col-span-2', certificateBox.boxClass]">
+        <section v-if="isGuardian" :class="['rounded-2xl border p-6 shadow-card', certificateBox.boxClass]">
           <div class="flex items-center gap-2">
             <ShieldCheckIcon class="h-5 w-5 flex-shrink-0" :class="certificateBox.iconClass" aria-hidden="true" />
             <h3 class="font-display text-lg font-bold text-slate-900">Erweitertes Führungszeugnis (§ 72a SGB VIII)</h3>
@@ -183,7 +184,7 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </section>
 
         <!-- Zuständige Klienten -->
-        <section v-if="isGuardian" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+        <section v-if="isGuardian" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-display text-lg font-bold text-slate-900">Zuständige Klienten</h3>
@@ -230,7 +231,7 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         </section>
 
         <!-- Account -->
-        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card lg:col-span-2">
+        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
           <user-detail-account-info
             :user="user"
             :deleteIsLoading="deleteIsLoading"
@@ -239,60 +240,6 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
             @delete-user-tapped="deleteUserTapped"
           />
         </section>
-        </div>
-        <!-- Schnellzugriff (rechts, sticky) -->
-        <aside class="space-y-6 lg:sticky lg:top-8 lg:self-start">
-          <!-- Aktionen -->
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-            <h3 class="font-display text-base font-bold text-slate-900">Schnellzugriff</h3>
-            <div class="mt-4 space-y-2">
-              <button type="button" @click="goToDocs"
-                class="flex w-full items-center gap-3 rounded-xl bg-impuls-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">
-                <DocumentTextIcon class="h-5 w-5" aria-hidden="true" /> Dokumentationen
-              </button>
-              <button type="button" @click="goToProofs"
-                class="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                <ClipboardDocumentCheckIcon class="h-5 w-5 text-slate-400" aria-hidden="true" /> Nachweise
-              </button>
-              <button type="button" @click="goToCalendar"
-                class="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                <CalendarDaysIcon class="h-5 w-5 text-slate-400" aria-hidden="true" /> Kalender
-              </button>
-              <button type="button" @click="deleteUserTapped"
-                class="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50">
-                <TrashIcon class="h-5 w-5" aria-hidden="true" /> Nutzer löschen
-              </button>
-            </div>
-          </div>
-          <!-- Kennzahlen -->
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-            <h3 class="font-display text-base font-bold text-slate-900">Kennzahlen</h3>
-            <dl class="mt-4 space-y-3 text-sm">
-              <div class="flex items-center justify-between gap-3">
-                <dt class="text-slate-500">E-Mail</dt>
-                <dd class="truncate font-semibold text-slate-900">{{ form.email || displayEmail }}</dd>
-              </div>
-              <div v-if="isGuardian" class="flex items-center justify-between gap-3">
-                <dt class="text-slate-500">Funktion</dt>
-                <dd class="font-semibold text-slate-900">{{ form.professional ? 'Fachkraft' : 'Nicht-Fachkraft' }}</dd>
-              </div>
-              <div v-if="isGuardian" class="flex items-center justify-between gap-3">
-                <dt class="text-slate-500">Geschlecht</dt>
-                <dd class="font-semibold text-slate-900">{{ displayGender }}</dd>
-              </div>
-              <div class="flex items-center justify-between gap-3">
-                <dt class="text-slate-500">Telefon</dt>
-                <dd class="font-semibold tabular-nums text-slate-900">{{ displayPhone || '—' }}</dd>
-              </div>
-            </dl>
-          </div>
-          <!-- Kontext (Leistung) -->
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-            <h3 class="font-display text-base font-bold text-slate-900">Betreuer</h3>
-            <p class="mt-2 text-sm font-medium text-slate-700">Schulbegleitung / Teilhabeassistenz</p>
-            <p class="text-xs text-slate-400">§35a SGB VIII</p>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
@@ -309,8 +256,7 @@ import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import LoadingSpinner from '@/components/UIComponents/Utilities/LoadingSpinner.vue'
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import {
-  PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, ArrowLeftIcon,
-  DocumentTextIcon, ClipboardDocumentCheckIcon, CalendarDaysIcon, TrashIcon
+  PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, ArrowLeftIcon
 } from '@heroicons/vue/24/outline'
 import { createErrorMessage, createErrorTitle } from '@/utilities/auth/errorCreator.js'
 
@@ -332,8 +278,7 @@ export default {
   components: {
     UserDetailAccountInfo, CriticalAction, LoadingSpinner, SuccessWindow, ErrorWindow,
     InitialsAvatar, Field,
-    PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, ArrowLeftIcon,
-    DocumentTextIcon, ClipboardDocumentCheckIcon, CalendarDaysIcon, TrashIcon
+    PencilSquareIcon, CheckIcon, XMarkIcon, ShieldCheckIcon, ArrowLeftIcon
   },
   props: ['id'],
   setup() {
@@ -402,17 +347,6 @@ export default {
     })
     function goBack() {
       router.push({ name: 'UserOverview' })
-    }
-
-    // Schnellzugriff-Navigation
-    function goToDocs() {
-      router.push('/admin/documents/reports')
-    }
-    function goToProofs() {
-      router.push('/admin/documents/timesheets')
-    }
-    function goToCalendar() {
-      router.push('/admin/calendar')
     }
 
     // § 72a-Status mit Warnfarben
@@ -662,7 +596,6 @@ export default {
       childRemoveSelected, children, editing, savingEdit, form,
       customError, customSuccess,
       isGuardian, isActive, fullName, chips, statusLabel, statusClass, goBack,
-      goToDocs, goToProofs, goToCalendar,
       displayName, displayFamilyName, displayEmail, displayPhone, displayGender,
       displayQualification, displayJobFunction, certificateBox, clientRows,
       startEdit, cancelEdit, saveEdit, openChild,
