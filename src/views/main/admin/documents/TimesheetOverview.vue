@@ -134,6 +134,13 @@
                       Öffnen
                     </button>
                     <button
+                      data-testid="timesheet-pdf-btn"
+                      class="rounded-lg px-2.5 py-1 text-xs font-semibold text-impuls-blue hover:bg-blue-50"
+                      @click="printTimeSheet(timeSheet)"
+                    >
+                      PDF
+                    </button>
+                    <button
                       v-if="canReleaseRow(timeSheet)"
                       data-testid="release-btn"
                       class="inline-flex items-center gap-1 rounded-md border border-emerald-300 px-2 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-50"
@@ -178,6 +185,7 @@
       @release="releaseFromDialog"
       @query="queryFromDialog"
       @open-details="openDetailsFromDialog"
+      @print="printFromDialog"
     />
 
     <success-window
@@ -202,6 +210,7 @@ import PaginationBar from '@/components/Navigation/PaginationBar.vue'
 import SuccessWindow from '@/components/UIComponents/Modals/SuccessWindow.vue'
 import SignatureTrafficLight from '@/components/Main/Admin/Billing/SignatureTrafficLight.vue'
 import TimeSheetReviewDialog from '@/components/Main/Admin/Documents/TimeSheetReviewDialog.vue'
+import { openTimesheetPdf } from '@/utilities/documents/timesheetPrint.js'
 import {
   XMarkIcon,
   CheckCircleIcon,
@@ -449,6 +458,46 @@ export default {
       reviewDialogOpen.value = true
     }
 
+    // Stundennachweis als PDF (Drucken → „Als PDF speichern") – arbeitet auf
+    // dem geladenen Objekt und funktioniert damit im Demo UND live.
+    function printTimeSheet(timeSheet) {
+      if (!timeSheet) return
+      const created = timeSheet.createdAt ? new Date(timeSheet.createdAt) : null
+      openTimesheetPdf({
+        preview: false,
+        child: {
+          data: {
+            name: timeSheet.child?.name || '',
+            familyName: timeSheet.child?.familyName || '',
+            weeklyHours: timeSheet.weeklyHours || timeSheet.child?.weeklyHours || 0,
+            weeklyHoursByPlan: false
+          },
+          guardian: {
+            name: timeSheet.guardian?.name || '',
+            familyName: timeSheet.guardian?.familyName || ''
+          },
+          dateOfRegistration: timeSheet.dateOfRegistration || ''
+        },
+        month: timeSheet.month || (created ? created.toLocaleString('de-DE', { month: 'long' }) : ''),
+        documentYear: timeSheet.year || (created ? created.getFullYear() : ''),
+        documents: (timeSheet.dailyReport?.items || []).map((report) => ({
+          documentDate: report.documentDate,
+          hourFrom: report.hourFrom,
+          minuteFrom: report.minuteFrom,
+          hourTo: report.hourTo,
+          minuteTo: report.minuteTo,
+          sick: report.sick,
+          sickOnTime: report.sickOnTime,
+          reportActivity: report.reportActivity
+        })),
+        signatureImage: null
+      })
+    }
+
+    function printFromDialog() {
+      printTimeSheet(reviewTimeSheet.value)
+    }
+
     function openTimeSheetDetails(timeSheet) {
       router.push({
         name: 'TimeSheetDetails',
@@ -522,6 +571,7 @@ export default {
       setFilter, statusFor, metaFor, signaturesFor, docMatchFor, canReleaseRow,
       release, releaseAll, query,
       reviewDialogOpen, reviewTimeSheet, releaseFromDialog, queryFromDialog, openDetailsFromDialog,
+      printTimeSheet, printFromDialog,
       childName, guardianName, carrierName, hoursWorked, timeSheetPeriod,
       childSelected, guardianSelected, clearChild, clearGuardian, setDateFilter,
       nextPageTapped, previousPageTapped, openTimeSheet

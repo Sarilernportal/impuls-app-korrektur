@@ -103,6 +103,13 @@ und funktioniert damit im Demo- UND Live-Betrieb.
             <div class="flex flex-col-reverse gap-2 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:justify-between">
               <button class="btn-secondary" @click="$emit('close')">Schließen</button>
               <div class="flex flex-col-reverse gap-2 sm:flex-row">
+                <button
+                  data-testid="dialog-pdf-btn"
+                  class="btn-secondary"
+                  @click="$emit('print')"
+                >
+                  Als PDF
+                </button>
                 <button v-if="showDetailsLink" class="btn-secondary" @click="$emit('open-details')">Detailseite öffnen</button>
                 <button
                   v-if="!isReleased"
@@ -181,7 +188,7 @@ export default {
     releasable: { type: Boolean, default: false },
     showDetailsLink: { type: Boolean, default: false }
   },
-  emits: ['close', 'release', 'query', 'open-details'],
+  emits: ['close', 'release', 'query', 'open-details', 'print'],
   setup(props) {
     const reports = computed(() => props.timeSheet?.dailyReport?.items || [])
     const meta = computed(() => reviewMeta(props.status))

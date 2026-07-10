@@ -63,8 +63,15 @@ test.describe('Nachweiszentrale', () => {
     // Tages-Doku mit Zeit und Tätigkeit sichtbar
     await expect(page.getByTestId('review-reports')).toBeVisible()
     await expect(dialog.getByText('Schulbegleitung').first()).toBeVisible()
-    // Freigabe direkt aus dem Dialog (Lina ist freigebbar)
+    // Freigabe und PDF-Ausgabe direkt aus dem Dialog (Lina ist freigebbar)
     await expect(page.getByTestId('dialog-release-btn')).toBeVisible()
+    await expect(page.getByTestId('dialog-pdf-btn')).toBeVisible()
+  })
+
+  test('Stundennachweis lässt sich je Zeile als PDF ausgeben', async ({ page }) => {
+    await openReviewCenter(page)
+    // PDF-Button je Nachweis-Zeile (öffnet den Druckvordruck mit Impuls-Kopf)
+    await expect(page.getByTestId('timesheet-pdf-btn').first()).toBeVisible()
   })
 
   test('Unterschriften-Ampel zeigt E/S/F je Zeile', async ({ page }) => {

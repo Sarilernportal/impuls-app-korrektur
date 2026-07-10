@@ -163,6 +163,13 @@
 
           <div class="mt-5 flex flex-wrap gap-2">
             <button class="rounded-lg bg-impuls-blue px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700" @click="openReport(selectedReport, selectedReportIndex)">Doku prüfen</button>
+            <button
+              data-testid="report-pdf-btn"
+              class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              @click="printReport(selectedReport)"
+            >
+              Als PDF
+            </button>
             <button class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" @click="openTimesheets(selectedReport)">Nachweis</button>
           </div>
 
@@ -192,6 +199,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { isLocalAuthMode } from '@/services/authService.js'
+import { openReportPdf } from '@/utilities/documents/reportPrint.js'
 import DocumentChildSelection from '@/components/Main/Admin/Documents/DocumentChildSelection.vue'
 import DocumentGuardianSelection from '@/components/Main/Admin/Documents/DocumentGuardianSelection.vue'
 import DocumentTimespanFilter from '@/components/Main/Admin/Documents/DocumentTimespanFilter.vue'
@@ -583,6 +591,7 @@ export default {
 
     function activityLabel(report) {
       const labels = {
+        school: 'Schule',
         escort: 'Begleitung',
         support: 'Unterstützung',
         holiday: 'Feiertag',
@@ -594,6 +603,13 @@ export default {
       }
 
       return labels[report.reportActivity] || 'Tagesdoku'
+    }
+
+    // Tages-Doku als PDF (Drucken → „Als PDF speichern") – nutzt das geladene
+    // Objekt und funktioniert damit im Demo UND live.
+    function printReport(report) {
+      if (!report) return
+      openReportPdf(report)
     }
 
     function reportDate(report) {
@@ -630,7 +646,7 @@ export default {
       return {
         id: options.id,
         type: 'dailyReport',
-        reportActivity: 'support',
+        reportActivity: 'school',
         documentDate: new Date().toISOString(),
         flag: options.flag,
         charged: options.charged,
@@ -638,6 +654,13 @@ export default {
         minuteFrom: 0,
         hourTo: options.hourTo,
         minuteTo: 0,
+        // Inhalte für die PDF-Ausgabe (Druckvorlage der Tages-Doku)
+        mood: 'happy',
+        school: 'Grundschule Groß-Gerau · Klasse 3b',
+        report: 'Ruhiger Schultag. Im Unterricht gut mitgearbeitet, in der Pause Konflikt mit Mitschüler selbstständig gelöst.',
+        exchange: 'Kurze Abstimmung mit der Klassenlehrerin: Sitzplatz bleibt vorne, Lob für die Mitarbeit.',
+        parentreport: 'Mutter berichtet von einem entspannten Nachmittag, Hausaufgaben ohne Unterstützung erledigt.',
+        homework: { german: 'Leseübung S. 42', maths: 'AB Einmaleins', english: '–' },
         child: {
           id: `${options.id}-child`,
           name: options.childName,
@@ -671,6 +694,7 @@ export default {
       nextPageTapped,
       nextToken,
       openReport,
+      printReport,
       openTimesheets,
       previousPageTapped,
       quickLinks,
