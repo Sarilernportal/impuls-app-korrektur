@@ -45,6 +45,19 @@ const carriers = [
     children: {
       items: []
     }
+  },
+  {
+    id: 'demo-carrier-2',
+    name: 'Jugendamt Groß-Gerau',
+    shortName: 'JA Groß-Gerau',
+    street: 'Wilhelm-Seipp-Straße',
+    houseNumber: '4',
+    postalCode: '64521',
+    city: 'Groß-Gerau',
+    phone: '+49 6152 0000',
+    email: 'jugendamt@gross-gerau.test',
+    carrierContacts: { items: [] },
+    children: { items: [] }
   }
 ]
 
@@ -56,35 +69,72 @@ const carrierContacts = [
     email: 'samira.yilmaz@example.test',
     phone: '+49 30 222222',
     carrier: carriers[0]
+  },
+  {
+    id: 'demo-contact-2',
+    name: 'Peter',
+    familyName: 'Kern',
+    email: 'peter.kern@gross-gerau.test',
+    phone: '+49 6152 1111',
+    carrier: carriers[1]
   }
 ]
 
+const careItem = (id, guardian, childId) => ({
+  id,
+  guardian,
+  guardianCareAssignmentsId: guardian.id,
+  childCareAssignmentsId: childId
+})
+const mkChild = (o) => ({
+  weeklyHoursByPlan: false,
+  dataComplete: true,
+  archiveStatus: 'unarchived',
+  carrier: carriers[0],
+  carrierContact: carrierContacts[0],
+  careAssignments: { items: [] },
+  ...o
+})
 const children = [
-  {
-    id: 'demo-child-1',
-    name: 'Lina',
-    familyName: 'Beispiel',
-    dateOfBirth: '2016-04-18',
-    dateOfRegistration: '2025-09-01',
-    weeklyHours: 12,
-    weeklyHoursByPlan: 12,
-    recordNumber: 'DEMO-001',
-    dataComplete: true,
-    school: 'Demo Schule',
-    archiveStatus: 'unarchived',
-    carrier: carriers[0],
-    carrierContact: carrierContacts[0],
-    careAssignments: {
-      items: [
-        {
-          id: 'demo-care-1',
-          guardian: guardians[0],
-          guardianCareAssignmentsId: guardians[0].id,
-          childCareAssignmentsId: 'demo-child-1'
-        }
-      ]
-    }
-  }
+  mkChild({
+    id: 'demo-child-1', name: 'Lina', familyName: 'Beispiel',
+    dateOfBirth: '2016-04-18', dateOfRegistration: '2025-09-01',
+    weeklyHours: 12, recordNumber: 'DEMO-001', school: 'Goetheschule · 3b',
+    careAssignments: { items: [careItem('demo-care-1', guardians[0], 'demo-child-1')] }
+  }),
+  mkChild({
+    id: 'demo-child-2', name: 'Max', familyName: 'Muster',
+    dateOfBirth: '2014-02-09', dateOfRegistration: '2025-08-15',
+    weeklyHours: 15, recordNumber: 'DEMO-002', school: 'Pestalozzischule · 5a',
+    carrier: carriers[1], carrierContact: carrierContacts[1],
+    careAssignments: { items: [careItem('demo-care-2', guardians[1], 'demo-child-2')] }
+  }),
+  mkChild({
+    id: 'demo-child-3', name: 'Sara', familyName: 'Yildiz',
+    dateOfBirth: '2017-06-30', dateOfRegistration: '2026-01-10',
+    weeklyHours: 10, recordNumber: 'DEMO-003', school: 'Grundschule Nord · 2c',
+    dataComplete: false,
+    careAssignments: { items: [careItem('demo-care-3', guardians[0], 'demo-child-3')] }
+  }),
+  mkChild({
+    id: 'demo-child-4', name: 'Tom', familyName: 'Berger',
+    dateOfBirth: '2013-11-22', dateOfRegistration: '2025-10-01',
+    weeklyHours: 8, recordNumber: 'DEMO-004', school: 'Gesamtschule Süd · 6b',
+    carrier: carriers[1], carrierContact: carrierContacts[1]
+  }),
+  mkChild({
+    id: 'demo-child-5', name: 'Emma', familyName: 'Klein',
+    dateOfBirth: '2015-03-14', dateOfRegistration: '2025-09-01',
+    weeklyHours: 20, recordNumber: 'DEMO-005', school: 'Goetheschule · 4a',
+    careAssignments: { items: [careItem('demo-care-5', guardians[0], 'demo-child-5')] }
+  }),
+  mkChild({
+    id: 'demo-child-6', name: 'Noah', familyName: 'Weber',
+    dateOfBirth: '2016-09-05', dateOfRegistration: '2026-02-01',
+    weeklyHours: 6, recordNumber: 'DEMO-006', school: 'Grundschule Nord · 3a',
+    carrier: carriers[1], carrierContact: carrierContacts[1],
+    careAssignments: { items: [careItem('demo-care-6', guardians[1], 'demo-child-6')] }
+  })
 ]
 
 const calendars = [
