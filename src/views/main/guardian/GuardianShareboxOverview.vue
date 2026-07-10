@@ -23,7 +23,7 @@
           class="mx-auto h-10 w-10 text-slate-400"
           aria-hidden="true"
         />
-        <h3 class="mt-3 font-display font-semibold text-slate-900">Keine Dateien vorhanden</h3>
+        <h3 class="mt-3 font-display text-base font-bold text-slate-900">Keine Dateien vorhanden</h3>
         <p class="mt-1 text-sm text-slate-600">
           Sobald die Verwaltung Dokumente bereitstellt, erscheinen sie hier.
         </p>

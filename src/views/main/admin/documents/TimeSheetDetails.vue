@@ -21,7 +21,7 @@ TimeSheet Details
       >
         <ArrowLeftIcon class="h-6 w-6" />
       </button>
-      <h2 class="font-display text-xl font-bold tracking-tight text-primaryText">
+      <h2 class="font-display text-lg font-bold text-slate-900">
         Nachweis Details
       </h2>
       <button

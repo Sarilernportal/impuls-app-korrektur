@@ -79,106 +79,63 @@ Carrier Details
               </div>
             </div>
           </header>
-          <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-            <!-- Hauptinhalt: gestapelte Sektionen -->
-            <div class="min-w-0 space-y-6">
-              <!-- Profil & Rechnungsadresse (nebeneinander) -->
-              <div class="grid gap-5 sm:grid-cols-2">
-                <!-- Profil -->
-                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                  <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
-                  <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträgers.</p>
-                  <div class="mt-3">
-                    <carrier-detail-data-info
-                      :carrier="carrier"
-                      :isLoading="propertyIsLoading"
-                      @change-submit="changeSubmitted"
-                    />
-                  </div>
-                </section>
-
-                <!-- Rechnungsadresse -->
-                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                  <h3 class="font-display text-lg font-bold text-slate-900">Rechnungsadresse</h3>
-                  <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Kostenträgers.</p>
-                  <div class="mt-3">
-                    <CarrierBillingInfo
-                      :carrier="carrier"
-                      :isLoading="propertyIsLoading"
-                      @change-submit="changeSubmitted"
-                    />
-                  </div>
-                </section>
-              </div>
-
-              <!-- ASD-Fachkräfte -->
+          <div class="space-y-6">
+            <!-- Profil & Rechnungsadresse (nebeneinander) -->
+            <div class="grid gap-5 lg:grid-cols-2">
+              <!-- Profil -->
               <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <CarrierDetailContactList
-                  @contact-selected="addContact"
-                  @remove-contact="removeContact"
-                  :carrier="carrier"
-                />
+                <h3 class="font-display text-lg font-bold text-slate-900">Profil</h3>
+                <p class="mt-1 text-sm text-slate-500">Persönliche Daten des Kostenträgers.</p>
+                <div class="mt-3">
+                  <carrier-detail-data-info
+                    :carrier="carrier"
+                    :isLoading="propertyIsLoading"
+                    @change-submit="changeSubmitted"
+                  />
+                </div>
               </section>
 
-              <!-- Konto -->
+              <!-- Rechnungsadresse -->
               <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <carrier-detail-account-info
-                  :carrier="carrier"
-                  :deleteIsLoading="deleteIsLoading"
-                  :userStateIsLoading="userStateIsLoading"
-                  @delete-carrier-tapped="deleteCarrierTapped"
-                />
+                <h3 class="font-display text-lg font-bold text-slate-900">Rechnungsadresse</h3>
+                <p class="mt-1 text-sm text-slate-500">Informationen über die Rechnungsadresse des Kostenträgers.</p>
+                <div class="mt-3">
+                  <CarrierBillingInfo
+                    :carrier="carrier"
+                    :isLoading="propertyIsLoading"
+                    @change-submit="changeSubmitted"
+                  />
+                </div>
               </section>
             </div>
-            <!-- Schnellzugriff (rechts, sticky) -->
-            <aside class="space-y-6 lg:sticky lg:top-8 lg:self-start">
-              <!-- Aktionen -->
-              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <h3 class="font-display text-base font-bold text-slate-900">Schnellzugriff</h3>
-                <div class="mt-4 space-y-2">
-                  <button type="button" @click="goToInvoices"
-                    class="flex w-full items-center gap-3 rounded-xl bg-impuls-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">
-                    <DocumentTextIcon class="h-5 w-5" aria-hidden="true" /> Rechnungen
-                  </button>
-                  <button type="button" @click="goToBilling"
-                    class="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                    <BanknotesIcon class="h-5 w-5 text-slate-400" aria-hidden="true" /> Abrechnung
-                  </button>
-                  <button type="button" @click="deleteCarrierTapped"
-                    class="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50">
-                    <TrashIcon class="h-5 w-5" aria-hidden="true" /> Kostenträger löschen
-                  </button>
-                </div>
+
+            <!-- ASD-Fachkräfte (volle Breite) -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+              <CarrierDetailContactList
+                @contact-selected="addContact"
+                @remove-contact="removeContact"
+                :carrier="carrier"
+              />
+            </section>
+
+            <!-- Konto (volle Breite) -->
+            <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+              <carrier-detail-account-info
+                :carrier="carrier"
+                :deleteIsLoading="deleteIsLoading"
+                :userStateIsLoading="userStateIsLoading"
+                @delete-carrier-tapped="deleteCarrierTapped"
+              />
+              <div class="mt-6 border-t border-slate-200 pt-4">
+                <button
+                  type="button"
+                  @click="deleteCarrierTapped"
+                  class="rounded-lg px-3 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                >
+                  Kostenträger löschen
+                </button>
               </div>
-              <!-- Kennzahlen -->
-              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <h3 class="font-display text-base font-bold text-slate-900">Kennzahlen</h3>
-                <dl class="mt-4 space-y-3 text-sm">
-                  <div class="flex items-center justify-between">
-                    <dt class="text-slate-500">Abkürzung</dt>
-                    <dd class="font-semibold text-slate-900">{{ carrier.shortName || '—' }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <dt class="text-slate-500">Ort</dt>
-                    <dd class="font-semibold text-slate-900">{{ carrier.city || '—' }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <dt class="text-slate-500">E-Mail</dt>
-                    <dd class="truncate pl-3 font-semibold text-slate-900">{{ carrier.email || '—' }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <dt class="text-slate-500">Kontakte</dt>
-                    <dd class="font-semibold tabular-nums text-slate-900">{{ contactCount }}</dd>
-                  </div>
-                </dl>
-              </div>
-              <!-- Einordnung -->
-              <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-                <h3 class="font-display text-base font-bold text-slate-900">Einordnung</h3>
-                <p class="mt-2 text-sm font-medium text-slate-700">Kostenträger</p>
-                <p class="text-xs text-slate-400">Leistungsträger §35a SGB VIII</p>
-              </div>
-            </aside>
+            </section>
           </div>
         </div>
       </main>
@@ -191,7 +148,7 @@ Carrier Details
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ArrowLeftIcon, DocumentTextIcon, BanknotesIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
 // Component imports
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import CarrierDetailDataInfo from '@/components/Main/Admin/Carrier/CarrierDetailDataInfo.vue'
@@ -219,10 +176,7 @@ export default {
     SuccessWindow,
     ErrorWindow,
     InitialsAvatar,
-    ArrowLeftIcon,
-    DocumentTextIcon,
-    BanknotesIcon,
-    TrashIcon
+    ArrowLeftIcon
   },
   props: ['id'],
   setup() {
@@ -269,18 +223,8 @@ export default {
       if (c.phone) list.push(c.phone)
       return list
     })
-    const contactCount = computed(
-      () => carrier.value?.carrierContacts?.items?.length ?? 0
-    )
     function goBack() {
       router.push({ name: 'CarrierOverview' })
-    }
-    // Schnellzugriff-Navigation
-    function goToInvoices() {
-      router.push('/admin/documents/invoices')
-    }
-    function goToBilling() {
-      router.push('/admin/documents/billing')
     }
 
     // Mounted Hook
@@ -443,10 +387,7 @@ export default {
       carrier,
       fullName,
       chips,
-      contactCount,
       goBack,
-      goToInvoices,
-      goToBilling,
       deleteSelected,
       customError,
       customSuccess,

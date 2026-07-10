@@ -49,7 +49,7 @@
   <div class="w-full h-full flex flex-col">
     <div class="px-4 py-2">
       <!-- Title  -->
-      <h3 class="text-lg font-medium leading-6 text-primaryText">
+      <h3 class="font-display text-lg font-bold text-slate-900">
         Markierte Berichte
       </h3>
       <!-- description -->

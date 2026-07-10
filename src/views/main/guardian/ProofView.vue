@@ -65,7 +65,7 @@ Proof View
           <!-- Header -->
           <div v-if="transmitted">
             <!-- timesheet header -->
-            <h3 class="text-lg font-medium leading-6 text-primaryText">
+            <h3 class="font-display text-lg font-bold text-slate-900">
               Stundennachweise
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-secondaryText">
@@ -75,7 +75,7 @@ Proof View
           </div>
           <div v-else>
             <!-- reports header -->
-            <h3 class="text-lg font-medium leading-6 text-primaryText">
+            <h3 class="font-display text-lg font-bold text-slate-900">
               Stundennachweis erstellen
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-secondaryText">
@@ -167,7 +167,7 @@ Proof View
             v-if="!isLoading && !transmitted && (!showSpecialTimes || isLocalAuthMode)"
             class="w-full"
           >
-            <h3 class="text-lg font-medium leading-6 text-primaryText">
+            <h3 class="font-display text-lg font-bold text-slate-900">
               Dokumentenvorschau
             </h3>
             <div
