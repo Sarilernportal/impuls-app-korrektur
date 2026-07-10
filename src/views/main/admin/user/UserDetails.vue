@@ -83,7 +83,7 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         <!-- Stammdaten -->
         <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
           <h3 class="font-display text-lg font-bold text-slate-900">Stammdaten</h3>
-          <dl class="mt-4 space-y-3">
+          <dl class="mt-4 grid gap-x-8 sm:grid-cols-2">
             <field label="Vorname">
               <input v-if="editing" v-model="form.name" class="input-base" />
               <span v-else>{{ displayName }}</span>
@@ -114,7 +114,7 @@ werden frontend-first angezeigt/erfasst und nach Schema-Erweiterung angebunden.
         <!-- Funktion & Qualifikation -->
         <section v-if="isGuardian" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card">
           <h3 class="font-display text-lg font-bold text-slate-900">Funktion &amp; Qualifikation</h3>
-          <dl class="mt-4 space-y-3">
+          <dl class="mt-4 grid gap-x-8 sm:grid-cols-2">
             <field label="Funktion / Tätigkeit">
               <select v-if="editing" v-model="form.jobFunction" class="input-base">
                 <option value="">Bitte wählen</option>
@@ -321,9 +321,9 @@ const Field = {
   props: { label: { type: String, required: true } },
   setup(props, { slots }) {
     return () =>
-      h('div', { class: 'flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4' }, [
-        h('dt', { class: 'text-sm text-slate-500 sm:w-44 sm:flex-shrink-0' }, props.label),
-        h('dd', { class: 'text-sm font-medium text-slate-900 sm:flex-1' }, slots.default ? slots.default() : [])
+      h('div', { class: 'py-1.5' }, [
+        h('dt', { class: 'text-xs font-medium text-slate-500' }, props.label),
+        h('dd', { class: 'mt-0.5 text-sm font-medium text-slate-900' }, slots.default ? slots.default() : [])
       ])
   }
 }
