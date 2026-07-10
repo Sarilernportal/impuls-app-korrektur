@@ -51,7 +51,7 @@ Guardian Details
       <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <!-- Hauptinhalt: Dokumente -->
         <div class="min-w-0 space-y-6">
-          <h3 class="text-lg leading-6 font-semibold text-slate-900">Dokumente</h3>
+          <h3 class="font-display text-lg font-bold text-slate-900">Dokumente</h3>
           <div v-if="isLoading" class="flex w-full h-full justify-center">
             <LoadingSpinner size="h-12 w-12" />
           </div>

@@ -100,7 +100,7 @@ Invoice Details
       <div class="flex w-full flex-col gap-4 md:w-1/3 mt-4 md:mt-0">
         <!-- Carrier section -->
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-          <h2 class="font-display font-bold text-primaryText">
+          <h2 class="font-display text-lg font-bold text-slate-900">
             Kostenträgerinformation
           </h2>
           <!-- carrier information -->
@@ -142,7 +142,7 @@ Invoice Details
         </div>
         <!-- invoice section -->
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-          <h2 class="font-display font-bold text-primaryText">
+          <h2 class="font-display text-lg font-bold text-slate-900">
             Freigabe der Rechnung
           </h2>
           <!-- confirm section-->
@@ -191,7 +191,7 @@ Invoice Details
         </div>
         <!-- regenerate section -->
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-          <h2 class="font-display font-bold text-primaryText">
+          <h2 class="font-display text-lg font-bold text-slate-900">
             Rechnung anpassen
           </h2>
           <div class="flex flex-col w-full gap-4 pt-3">

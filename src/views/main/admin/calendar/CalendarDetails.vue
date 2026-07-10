@@ -141,7 +141,7 @@ Calendar Details
     <div
       class="w-full space-y-1 rounded-2xl border border-slate-200 bg-white p-6 shadow-card"
     >
-      <h2 class="font-display text-lg leading-6 font-bold text-slate-900">Teilnehmer</h2>
+      <h2 class="font-display text-lg font-bold text-slate-900">Teilnehmer</h2>
       <p class="max-w-2xl text-sm text-secondaryText">
         Liste der verbundenen Teilnehmer
       </p>

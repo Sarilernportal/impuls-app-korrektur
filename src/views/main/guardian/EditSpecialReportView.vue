@@ -47,7 +47,7 @@ Edit Report View
         <div class="space-y-6 sm:space-y-5">
           <!-- Header -->
           <div>
-            <h3 class="font-display text-xl font-bold leading-6 text-slate-900">
+            <h3 class="font-display text-lg font-bold text-slate-900">
               Sonderzeitenbericht überarbeiten
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-secondaryText">

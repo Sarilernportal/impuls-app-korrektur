@@ -2,7 +2,7 @@
   <div class="divide-y divide-slate-200">
     <!-- Header section -->
     <div class="space-y-1 mb-6">
-      <h3 class="text-lg leading-6 font-medium text-primaryText">Verknüpfungen</h3>
+      <h3 class="font-display text-lg font-bold text-slate-900">Verknüpfungen</h3>
       <p class="max-w-2xl text-sm text-secondaryText">
         Informationen über Verknüpfungen zum Klienten.
       </p>

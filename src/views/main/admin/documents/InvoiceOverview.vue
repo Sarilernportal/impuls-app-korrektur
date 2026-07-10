@@ -212,7 +212,7 @@
 
         <aside class="grid gap-5">
           <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-            <h2 class="text-lg font-semibold text-slate-900">GF-Ansicht</h2>
+            <h2 class="font-display text-lg font-bold text-slate-900">GF-Ansicht</h2>
             <div class="mt-4 grid gap-3">
               <div
                 v-for="step in workflow"
@@ -235,7 +235,7 @@
           </section>
 
           <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
-            <h2 class="text-lg font-semibold text-slate-900">Leistung im Blick</h2>
+            <h2 class="font-display text-lg font-bold text-slate-900">Leistung im Blick</h2>
             <div class="mt-4 rounded-lg bg-slate-50 p-4">
               <p class="text-3xl font-bold text-slate-900">{{ totalHours }}</p>
               <p class="mt-1 text-sm text-slate-600">Aus den aktuell geladenen Rechnungen berechnet.</p>

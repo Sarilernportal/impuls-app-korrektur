@@ -21,7 +21,7 @@ Report Details
       >
         <ArrowLeftIcon class="h-6 w-6" />
       </button>
-      <h2 class="font-display text-lg font-bold leading-6 text-primaryText">
+      <h2 class="font-display text-lg font-bold text-slate-900">
         Dokumentation Details
       </h2>
       <button
