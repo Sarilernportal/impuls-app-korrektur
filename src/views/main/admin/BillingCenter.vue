@@ -75,6 +75,36 @@
             </button>
           </div>
 
+          <!-- Sortier-Steuerung + Ergebnis-Zähler -->
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 bg-slate-50/50 px-4 py-2.5">
+            <div class="flex items-center gap-2">
+              <label for="billing-sort" class="text-xs font-semibold text-slate-500">Sortieren nach</label>
+              <select
+                id="billing-sort"
+                data-testid="sort-key"
+                :value="sortKey"
+                @change="setSortKey($event.target.value)"
+                class="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:border-impuls-blue focus:ring-brand-200"
+              >
+                <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+              </select>
+              <button
+                type="button"
+                data-testid="sort-dir"
+                :title="sortDir === 'asc' ? 'Aufsteigend' : 'Absteigend'"
+                :aria-label="sortDir === 'asc' ? 'Aufsteigend sortieren' : 'Absteigend sortieren'"
+                @click="toggleSortDir"
+                class="inline-flex h-8 w-8 flex-none items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:text-impuls-blue"
+              >
+                <ArrowUpIcon v-if="sortDir === 'asc'" class="h-4 w-4" aria-hidden="true" />
+                <ArrowDownIcon v-else class="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+            <span data-testid="result-count" class="text-xs font-semibold tabular-nums text-slate-400">
+              {{ filteredRows.length }} {{ filteredRows.length === 1 ? 'Eintrag' : 'Einträge' }}
+            </span>
+          </div>
+
           <!-- Ladezustand -->
           <div v-if="isLoading" class="divide-y divide-slate-100">
             <div v-for="n in 5" :key="n" class="flex items-center gap-3 px-4 py-3.5">
@@ -93,7 +123,7 @@
           <!-- Liste, gruppiert nach Status -->
           <div v-else data-testid="billing-list" class="max-h-[72vh] overflow-auto">
             <template v-for="section in listGroups" :key="section.label">
-              <p class="bg-slate-50/70 px-4 pt-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">{{ section.label }}</p>
+              <p class="sticky top-0 z-10 bg-slate-50 px-4 pt-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400 shadow-[0_1px_0_rgba(148,163,184,0.2)]">{{ section.label }}</p>
               <button
                 v-for="row in section.rows"
                 :key="row.id"
@@ -272,6 +302,7 @@ import {
   DocumentTextIcon,
   PencilSquareIcon
 } from '@heroicons/vue/24/outline'
+import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/vue/20/solid'
 import InitialsAvatar from '@/components/UIComponents/InitialsAvatar.vue'
 import SignatureTrafficLight from '@/components/Main/Admin/Billing/SignatureTrafficLight.vue'
 import OverhangCorrectionDialog from '@/components/Main/Admin/Billing/OverhangCorrectionDialog.vue'
@@ -285,6 +316,8 @@ export default {
     BanknotesIcon,
     DocumentTextIcon,
     PencilSquareIcon,
+    ArrowUpIcon,
+    ArrowDownIcon,
     InitialsAvatar,
     SignatureTrafficLight,
     OverhangCorrectionDialog,
@@ -302,6 +335,23 @@ export default {
 
     // Filter, Auswahl, Aufklapp- und Korrektur-Status
     const activeFilter = ref(null)
+
+    // Sortierung: Schlüssel + Richtung (Default: Name aufsteigend)
+    const sortKey = ref('name')
+    const sortDir = ref('asc')
+    const sortOptions = [
+      { value: 'name', label: 'Name (Klient)' },
+      { value: 'amount', label: 'Betrag' },
+      { value: 'hours', label: 'Stunden' },
+      { value: 'status', label: 'Status' },
+      { value: 'date', label: 'Monat/Datum' }
+    ]
+    function setSortKey(value) {
+      sortKey.value = value
+    }
+    function toggleSortDir() {
+      sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
+    }
     const selectedIds = reactive({})
     const corrections = reactive({})
     const collapsedKeys = reactive({})
@@ -423,6 +473,39 @@ export default {
       if (!child?.name) return 'Nicht angegeben'
       return `${child.name} ${child.familyName || ''}`.trim()
     }
+    // Sortierwert je Zeile aus Rohfeldern (robust, ohne formatierte Strings zu parsen)
+    function sortValue(row, key) {
+      switch (key) {
+        case 'amount':
+          return Number.isFinite(row.amount) ? row.amount : 0
+        case 'hours':
+          return Number.isFinite(row.workedHours) ? row.workedHours : 0
+        case 'status':
+          return row.statusMeta.label || ''
+        case 'date': {
+          const raw = row.document.documentDate || row.document.createdAt
+          const t = raw ? new Date(raw).getTime() : NaN
+          return Number.isFinite(t) ? t : 0
+        }
+        case 'name':
+        default:
+          return clientName(row)
+      }
+    }
+    // Vergleicht zwei Zeilen anhand sortKey/sortDir. Zahlen numerisch,
+    // Strings per localeCompare (case-insensitive).
+    function compareRows(a, b) {
+      const dir = sortDir.value === 'desc' ? -1 : 1
+      const va = sortValue(a, sortKey.value)
+      const vb = sortValue(b, sortKey.value)
+      let result
+      if (typeof va === 'number' && typeof vb === 'number') {
+        result = va - vb
+      } else {
+        result = String(va).localeCompare(String(vb), 'de', { sensitivity: 'base' })
+      }
+      return result * dir
+    }
     const listGroups = computed(() => {
       const map = new Map()
       filteredRows.value.forEach((row) => {
@@ -430,7 +513,11 @@ export default {
         if (!map.has(label)) map.set(label, [])
         map.get(label).push(row)
       })
-      return Array.from(map.entries()).map(([label, rows]) => ({ label, rows }))
+      // Zeilen INNERHALB jeder Gruppe sortieren (Kopie, damit filteredRows unverändert bleibt)
+      return Array.from(map.entries()).map(([label, rows]) => ({
+        label,
+        rows: [...rows].sort(compareRows)
+      }))
     })
     const selectedRowId = ref(null)
     const selectedRow = computed(() => {
@@ -678,6 +765,11 @@ export default {
       localAuthMode,
       hasOnlyDemoData,
       activeFilter,
+      sortKey,
+      sortDir,
+      sortOptions,
+      setSortKey,
+      toggleSortDir,
       statusCards,
       groupedRows,
       selectedIds,
