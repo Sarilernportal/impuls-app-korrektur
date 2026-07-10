@@ -21,6 +21,7 @@
         @carrier-contact-selected="carrierContactSelected"
         @carrier-contact-removed="carrierContactRemoved"
         :preSelected="selectedCarrierContact"
+        :carrier="child.carrier || null"
       />
       <div
         v-else
